@@ -1,0 +1,438 @@
+name: Update Mixed VPN Servers
+
+on:
+  schedule:
+    - cron: "45 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: update-mixed
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Generate services.json
+        shell: bash
+        run: |
+          set -e
+
+          mkdir -p /tmp/vpn_sources
+
+          echo "Downloading country subscription files..."
+
+          curl -fsSL \
+            "https://api.github.com/repos/Au1rxx/free-vpn-subscriptions/contents/output/by-country" \
+            -o /tmp/files.json
+
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          API_FILE = "/tmp/files.json"
+          OUT_DIR = "/tmp/vpn_sources"
+
+          with open(API_FILE, "r", encoding="utf-8") as f:
+              files = json.load(f)
+
+          count = 0
+
+          for item in files:
+              name = item.get("name", "")
+
+              if not name.startswith("v2ray-base64-"):
+                  continue
+
+              if not name.endswith(".txt"):
+                  continue
+
+              country = name[len("v2ray-base64-"):-len(".txt")].lower()
+
+              if not country:
+                  continue
+
+              url = item.get("download_url")
+
+              if not url:
+                  continue
+
+              output = os.path.join(
+                  OUT_DIR,
+                  f"{country}.txt"
+              )
+
+              print(f"Downloading {name} -> {output}")
+
+              urllib.request.urlretrieve(url, output)
+              count += 1
+
+          print(f"Downloaded {count} country files.")
+
+          if count == 0:
+              raise SystemExit("No country subscription files found.")
+          PY
+
+          python - <<'PY'
+          import base64
+          import json
+          import os
+          import re
+          import urllib.parse
+
+          SOURCE_DIR = "/tmp/vpn_sources"
+          OUTPUT = "services.json"
+
+          TARGETS = {
+              "ss": 20,
+              "hysteria2": 20,
+              "trojan": 20,
+              "vless": 20,
+          }
+
+          COUNTRY_NAMES = {
+              "us": "United States",
+              "gb": "United Kingdom",
+              "ca": "Canada",
+              "de": "Germany",
+              "fr": "France",
+              "nl": "Netherlands",
+              "jp": "Japan",
+              "sg": "Singapore",
+              "hk": "Hong Kong",
+              "kr": "South Korea",
+              "tw": "Taiwan",
+              "in": "India",
+              "ae": "United Arab Emirates",
+              "au": "Australia",
+              "es": "Spain",
+              "it": "Italy",
+              "pl": "Poland",
+              "se": "Sweden",
+              "fi": "Finland",
+              "ro": "Romania",
+              "id": "Indonesia",
+              "my": "Malaysia",
+              "th": "Thailand",
+              "vn": "Vietnam",
+              "br": "Brazil",
+              "mx": "Mexico",
+              "ch": "Switzerland",
+              "at": "Austria",
+              "be": "Belgium",
+              "dk": "Denmark",
+              "no": "Norway",
+              "cz": "Czech Republic",
+              "ua": "Ukraine",
+              "tr": "Turkey",
+              "ru": "Russia",
+              "il": "Israel",
+              "za": "South Africa",
+          }
+
+          def decode_subscription(text):
+              text = text.strip()
+
+              if not text:
+                  return []
+
+              # Remove whitespace/newlines.
+              compact = re.sub(r"\s+", "", text)
+
+              # Try normal Base64.
+              try:
+                  padding = "=" * (-len(compact) % 4)
+                  decoded = base64.b64decode(
+                      compact + padding,
+                      validate=False
+                  ).decode("utf-8", errors="ignore")
+
+                  if any(
+                      scheme in decoded
+                      for scheme in (
+                          "ss://",
+                          "hysteria2://",
+                          "hy2://",
+                          "trojan://",
+                          "vless://",
+                      )
+                  ):
+                      return decoded.splitlines()
+              except Exception:
+                  pass
+
+              # Try URL-safe Base64.
+              try:
+                  padding = "=" * (-len(compact) % 4)
+                  decoded = base64.urlsafe_b64decode(
+                      compact + padding
+                  ).decode("utf-8", errors="ignore")
+
+                  return decoded.splitlines()
+              except Exception:
+                  return []
+
+          def get_protocol(uri):
+              lower = uri.lower()
+
+              if lower.startswith("ss://"):
+                  return "ss"
+
+              if (
+                  lower.startswith("hysteria2://")
+                  or lower.startswith("hy2://")
+              ):
+                  return "hysteria2"
+
+              if lower.startswith("trojan://"):
+                  return "trojan"
+
+              if lower.startswith("vless://"):
+                  return "vless"
+
+              return None
+
+          def get_name(uri, country, number):
+              try:
+                  parsed = urllib.parse.urlsplit(uri)
+                  fragment = urllib.parse.unquote(parsed.fragment)
+
+                  if fragment:
+                      # Remove emojis/control characters from the end.
+                      fragment = fragment.strip()
+
+                      if fragment:
+                          return fragment
+              except Exception:
+                  pass
+
+              country_name = COUNTRY_NAMES.get(
+                  country,
+                  country.upper()
+              )
+
+              return f"{country_name} {number}"
+
+          # Store unique configs.
+          pools = {
+              "ss": [],
+              "hysteria2": [],
+              "trojan": [],
+              "vless": [],
+          }
+
+          seen = {
+              "ss": set(),
+              "hysteria2": set(),
+              "trojan": set(),
+              "vless": set(),
+          }
+
+          files = sorted(
+              f for f in os.listdir(SOURCE_DIR)
+              if f.endswith(".txt")
+          )
+
+          for filename in files:
+              country = filename[:-4].lower()
+
+              path = os.path.join(
+                  SOURCE_DIR,
+                  filename
+              )
+
+              try:
+                  with open(
+                      path,
+                      "r",
+                      encoding="utf-8",
+                      errors="ignore"
+                  ) as f:
+                      raw = f.read()
+              except Exception:
+                  continue
+
+              lines = decode_subscription(raw)
+
+              for line in lines:
+                  uri = line.strip()
+
+                  if not uri:
+                      continue
+
+                  protocol = get_protocol(uri)
+
+                  if protocol is None:
+                      continue
+
+                  # Remove accidental whitespace.
+                  uri = uri.replace("\r", "").replace("\n", "")
+
+                  if uri in seen[protocol]:
+                      continue
+
+                  seen[protocol].add(uri)
+
+                  pools[protocol].append({
+                      "config": uri,
+                      "countryCode": country,
+                  })
+
+          print("Available unique servers:")
+
+          for protocol in TARGETS:
+              print(
+                  f"{protocol}: {len(pools[protocol])}"
+              )
+
+          # Require exactly enough servers for 20 each.
+          for protocol, required in TARGETS.items():
+              available = len(pools[protocol])
+
+              if available < required:
+                  raise SystemExit(
+                      f"Not enough {protocol} servers: "
+                      f"{available}/{required}"
+                  )
+
+          result = []
+
+          # Keep a predictable order:
+          # 20 SS -> 20 HY2 -> 20 Trojan -> 20 VLESS
+          for protocol in (
+              "ss",
+              "hysteria2",
+              "trojan",
+              "vless",
+          ):
+              selected = pools[protocol][:20]
+
+              counters = {}
+
+              for item in selected:
+                  country = item["countryCode"]
+
+                  counters[country] = (
+                      counters.get(country, 0) + 1
+                  )
+
+                  number = counters[country]
+
+                  result.append({
+                      "name": get_name(
+                          item["config"],
+                          country,
+                          number
+                      ),
+                      "config": item["config"],
+                      "countryCode": country,
+                  })
+
+          if len(result) != 80:
+              raise SystemExit(
+                  f"Expected 80 servers, got {len(result)}"
+              )
+
+          # Final safety check.
+          protocol_counts = {
+              "ss": 0,
+              "hysteria2": 0,
+              "trojan": 0,
+              "vless": 0,
+          }
+
+          for item in result:
+              protocol = get_protocol(item["config"])
+
+              if protocol:
+                  protocol_counts[protocol] += 1
+
+          print("Final protocol distribution:")
+          print(json.dumps(
+              protocol_counts,
+              indent=2
+          ))
+
+          for protocol in TARGETS:
+              if protocol_counts[protocol] != 20:
+                  raise SystemExit(
+                      f"Invalid {protocol} count: "
+                      f"{protocol_counts[protocol]}"
+                  )
+
+          with open(
+              OUTPUT,
+              "w",
+              encoding="utf-8"
+          ) as f:
+              json.dump(
+                  result,
+                  f,
+                  ensure_ascii=False,
+                  indent=2
+              )
+              f.write("\n")
+
+          print(f"Created {OUTPUT}")
+          print(f"Total servers: {len(result)}")
+          PY
+
+      - name: Show result
+        run: |
+          echo "===== services.json ====="
+          cat services.json
+          echo "========================"
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add services.json
+
+          if git diff --cached --quiet; then
+            echo "No changes detected."
+            exit 0
+          fi
+
+          git commit -m "Update mixed VPN servers"
+
+      - name: Rebase and push
+        shell: bash
+        run: |
+          set -e
+
+          for i in {1..5}; do
+            echo "Push attempt $i..."
+
+            git fetch origin main
+
+            if git rebase origin/main; then
+              if git push origin HEAD:main; then
+                echo "Push successful."
+                exit 0
+              fi
+            else
+              git rebase --abort || true
+            fi
+
+            echo "Push failed. Retrying..."
+            sleep 5
+          done
+
+          echo "Failed to push after 5 attempts."
+          exit 1
