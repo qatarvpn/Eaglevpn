@@ -1,0 +1,7 @@
+[
+  {
+    "name": "Japan 1",
+    "countryCode": "JP",
+    "config": "hysteria2://example"
+  }
+]
