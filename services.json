@@ -49,11 +49,7 @@
     "config": "ss://YWVzLTEyOC1jZmI6c2hhZG93c29ja3M@109.201.152.181:443#shadowsocks-205",
     "countryCode": "nl"
   },
-  {
-    "name": "Singapore 1",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@128.199.172.224:8080#shadowsocks-125384",
-    "countryCode": "sg"
-  },
+  
   {
     "name": "AL 1",
     "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTptaFhZRHZhU2ZIekhaWEJzd0Mvem8vbzhWcWRVM1hTQnB3V3gwNTBZNk1VPQ@130.49.189.158:43558#shadowsocks-1633286302",
