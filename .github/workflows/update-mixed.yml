@@ -116,25 +116,49 @@ jobs:
             exit 1
           fi
 
-          i=0
+          SUCCESS=0
+          FAILED=0
 
           while read -r URL; do
 
-            i=$((i + 1))
-
             BASENAME=$(basename "$URL")
 
-            echo "Downloading $i/$COUNT: $BASENAME"
+            echo "Downloading: $BASENAME"
 
-            curl -L \
+            if curl -L \
               --fail \
               --silent \
               --show-error \
               --max-time 30 \
               "$URL" \
-              -o "/tmp/countries/$BASENAME" || true
+              -o "/tmp/countries/$BASENAME"; then
+
+              if [ -s "/tmp/countries/$BASENAME" ]; then
+                SUCCESS=$((SUCCESS + 1))
+              else
+                echo "WARNING: Empty file: $BASENAME"
+                rm -f "/tmp/countries/$BASENAME"
+                FAILED=$((FAILED + 1))
+              fi
+
+            else
+
+              echo "WARNING: Download failed: $BASENAME"
+              FAILED=$((FAILED + 1))
+
+            fi
 
           done < /tmp/country-urls.txt
+
+          echo ""
+          echo "Download summary:"
+          echo "Successful: $SUCCESS"
+          echo "Failed:     $FAILED"
+
+          if [ "$SUCCESS" -eq 0 ]; then
+            echo "ERROR: No country files downloaded."
+            exit 1
+          fi
 
           echo ""
           echo "Downloaded files:"
@@ -153,13 +177,11 @@ jobs:
           echo "======================================"
 
           python3 <<'PY'
-
           import os
           import re
           import json
           import base64
           import urllib.parse
-          import ipaddress
 
           ROOT = "/tmp/countries"
           OUTPUT = "/tmp/candidates.json"
@@ -282,7 +304,6 @@ jobs:
           )
 
           def normalize_host(host):
-
               if not host:
                   return None
 
@@ -293,16 +314,7 @@ jobs:
 
               return host
 
-          def get_host(uri):
-
-              try:
-                  p = urllib.parse.urlparse(uri)
-                  return normalize_host(p.hostname)
-              except Exception:
-                  return None
-
           def decode_base64(text):
-
               text = re.sub(r"\s+", "", text)
 
               if not text:
@@ -322,13 +334,11 @@ jobs:
                   return ""
 
           def decode_content(raw):
-
               raw = raw.strip()
 
               if not raw:
                   return ""
 
-              # Already contains URI
               if URI_RE.search(raw):
                   return raw
 
@@ -337,7 +347,6 @@ jobs:
               if URI_RE.search(decoded):
                   return decoded
 
-              # Some feeds contain one Base64 value per line
               output = []
 
               for line in raw.splitlines():
@@ -359,7 +368,6 @@ jobs:
               return "\n".join(output)
 
           def country_from_filename(filename):
-
               match = re.search(
                   r'v2ray-base64-([a-zA-Z]{2})\.txt$',
                   filename
@@ -370,10 +378,62 @@ jobs:
 
               code = match.group(1).lower()
 
-              return code, COUNTRY_NAMES.get(
+              return (
                   code,
-                  code.upper()
+                  COUNTRY_NAMES.get(
+                      code,
+                      code.upper()
+                  )
               )
+
+          def parse_ss_host(uri):
+              parsed = urllib.parse.urlparse(uri)
+
+              # SIP002:
+              # ss://BASE64(method:password)@host:port
+              # ss://method:password@host:port
+
+              if parsed.hostname:
+                  return normalize_host(
+                      parsed.hostname
+                  )
+
+              raw = uri[5:].split("#", 1)[0]
+
+              if "@" in raw:
+                  address = raw.rsplit("@", 1)[1]
+
+              else:
+                  decoded = decode_base64(raw)
+
+                  if "@" not in decoded:
+                      return None
+
+                  address = decoded.rsplit(
+                      "@",
+                      1
+                  )[1]
+
+              try:
+
+                  if address.startswith("["):
+                      end = address.find("]")
+
+                      if end == -1:
+                          return None
+
+                      host = address[1:end]
+
+                  else:
+                      host = address.rsplit(
+                          ":",
+                          1
+                      )[0]
+
+                  return normalize_host(host)
+
+              except Exception:
+                  return None
 
           candidates = []
 
@@ -410,16 +470,20 @@ jobs:
 
               decoded = decode_content(raw)
 
-              matches = URI_RE.findall(decoded)
-
-              for uri in matches:
+              for uri in URI_RE.findall(decoded):
 
                   uri = uri.strip()
 
                   try:
-                      parsed = urllib.parse.urlparse(uri)
+
+                      parsed = urllib.parse.urlparse(
+                          uri
+                      )
+
                       scheme = parsed.scheme.lower()
+
                   except Exception:
+
                       continue
 
                   protocol = PROTOCOLS.get(scheme)
@@ -427,15 +491,30 @@ jobs:
                   if not protocol:
                       continue
 
-                  host = get_host(uri)
+                  if scheme == "ss":
+
+                      host = parse_ss_host(uri)
+
+                  else:
+
+                      try:
+                          host = normalize_host(
+                              parsed.hostname
+                          )
+                      except Exception:
+                          host = None
 
                   if not host:
                       continue
 
-                  # Ignore malformed ports
+                  # Validate port where applicable.
                   try:
-                      parsed.port
+
+                      if scheme != "ss":
+                          _ = parsed.port
+
                   except Exception:
+
                       continue
 
                   candidates.append({
@@ -447,21 +526,29 @@ jobs:
                   })
 
           # =====================================================
-          # Remove exact duplicate configs
+          # Exact config deduplication only.
+          #
+          # IMPORTANT:
+          # Do NOT remove duplicate hosts here.
+          # Different protocols/ports may share the same host
+          # and only one of them may actually work.
           # =====================================================
 
           unique = {}
+
           for item in candidates:
 
               key = (
                   item["protocol"],
-                  item["host"],
                   item["config"]
               )
 
-              unique[key] = item
+              if key not in unique:
+                  unique[key] = item
 
-          candidates = list(unique.values())
+          candidates = list(
+              unique.values()
+          )
 
           with open(
               OUTPUT,
@@ -479,7 +566,14 @@ jobs:
               f"Candidates found: {len(candidates)}"
           )
 
-          for protocol in PROTOCOLS.values():
+          print("")
+
+          for protocol in (
+              "shadowsocks",
+              "hysteria2",
+              "trojan",
+              "vless"
+          ):
 
               count = sum(
                   1
@@ -506,14 +600,12 @@ jobs:
           echo "======================================"
 
           python3 <<'PY'
-
           import json
           import subprocess
           import tempfile
           import os
           import time
           import socket
-          import threading
           import urllib.parse
           import base64
 
@@ -538,30 +630,6 @@ jobs:
           )
 
           # =====================================================
-          # Global host deduplication BEFORE testing
-          # =====================================================
-
-          seen_hosts = set()
-          unique = []
-
-          for item in candidates:
-
-              host = item["host"]
-
-              if host in seen_hosts:
-                  continue
-
-              seen_hosts.add(host)
-              unique.append(item)
-
-          candidates = unique
-
-          print(
-              f"Unique hosts: {len(candidates)}",
-              flush=True
-          )
-
-          # =====================================================
           # Helpers
           # =====================================================
 
@@ -571,7 +639,7 @@ jobs:
 
                   value = qs.get(name)
 
-                  if value is not None:
+                  if value:
                       return value[0]
 
               return None
@@ -600,7 +668,37 @@ jobs:
                   "yes"
               )
 
-          def build_tls(qs, host):
+          def decode_b64(text):
+
+              try:
+
+                  text = text.strip()
+
+                  padded = (
+                      text +
+                      "=" * (-len(text) % 4)
+                  )
+
+                  return base64.urlsafe_b64decode(
+                      padded
+                  ).decode(
+                      "utf-8",
+                      errors="ignore"
+                  )
+
+              except Exception:
+
+                  return ""
+
+          # =====================================================
+          # TLS
+          # =====================================================
+
+          def build_tls(qs):
+
+              tls = {
+                  "enabled": True
+              }
 
               sni = query_value(
                   qs,
@@ -609,6 +707,11 @@ jobs:
                   "servername"
               )
 
+              if sni:
+                  tls["server_name"] = (
+                      urllib.parse.unquote(sni)
+                  )
+
               insecure = query_value(
                   qs,
                   "allowInsecure",
@@ -616,22 +719,15 @@ jobs:
                   "insecure"
               )
 
-              alpn = query_values(
-                  qs,
-                  "alpn"
-              )
-
-              tls = {
-                  "enabled": True
-              }
-
-              if sni:
-                  tls["server_name"] = sni
-
               if insecure is not None:
                   tls["insecure"] = bool_value(
                       insecure
                   )
+
+              alpn = query_values(
+                  qs,
+                  "alpn"
+              )
 
               if alpn:
                   tls["alpn"] = alpn
@@ -648,7 +744,46 @@ jobs:
                       "fingerprint": fingerprint
                   }
 
+              security = query_value(
+                  qs,
+                  "security"
+              )
+
+              if security == "reality":
+
+                  public_key = query_value(
+                      qs,
+                      "pbk",
+                      "publicKey",
+                      "public-key"
+                  )
+
+                  short_id = query_value(
+                      qs,
+                      "sid",
+                      "shortId",
+                      "short-id"
+                  )
+
+                  if public_key:
+
+                      reality = {
+                          "enabled": True,
+                          "public_key": public_key
+                      }
+
+                      if short_id:
+                          reality["short_id"] = (
+                              short_id
+                          )
+
+                      tls["reality"] = reality
+
               return tls
+
+          # =====================================================
+          # V2Ray transports
+          # =====================================================
 
           def build_transport(qs):
 
@@ -661,7 +796,12 @@ jobs:
               if not network:
                   return None
 
-              network = network.lower()
+              network = (
+                  urllib.parse.unquote(
+                      network
+                  )
+                  .lower()
+              )
 
               # WebSocket
               if network == "ws":
@@ -683,13 +823,47 @@ jobs:
 
                   if path:
                       transport["path"] = (
-                          urllib.parse.unquote(path)
+                          urllib.parse.unquote(
+                              path
+                          )
                       )
 
                   if host:
                       transport["headers"] = {
-                          "Host": host
+                          "Host": (
+                              urllib.parse.unquote(
+                                  host
+                              )
+                          )
                       }
+
+                  ed = query_value(
+                      qs,
+                      "ed"
+                  )
+
+                  if ed:
+
+                      try:
+                          transport[
+                              "max_early_data"
+                          ] = int(ed)
+                      except Exception:
+                          pass
+
+                  if query_value(
+                      qs,
+                      "eh",
+                      "early_data_header_name"
+                  ):
+
+                      transport[
+                          "early_data_header_name"
+                      ] = query_value(
+                          qs,
+                          "eh",
+                          "early_data_header_name"
+                      )
 
                   return transport
 
@@ -708,16 +882,12 @@ jobs:
                   )
 
                   if service:
-                      transport["service_name"] = service
-
-                  mode = query_value(
-                      qs,
-                      "mode"
-                  )
-
-                  if mode:
-                      transport["idle_session_check_interval"] = (
-                          "15s"
+                      transport[
+                          "service_name"
+                      ] = (
+                          urllib.parse.unquote(
+                              service
+                          )
                       )
 
                   return transport
@@ -744,86 +914,205 @@ jobs:
 
                   if path:
                       transport["path"] = (
-                          urllib.parse.unquote(path)
+                          urllib.parse.unquote(
+                              path
+                          )
                       )
 
                   if host:
-                      transport["host"] = host
+                      transport["host"] = (
+                          urllib.parse.unquote(
+                              host
+                          )
+                      )
 
                   return transport
 
+              # V2Ray HTTP
+              if network in (
+                  "http",
+                  "h2"
+              ):
+
+                  transport = {
+                      "type": "http"
+                  }
+
+                  path = query_value(
+                      qs,
+                      "path"
+                  )
+
+                  host = query_value(
+                      qs,
+                      "host"
+                  )
+
+                  if path:
+                      transport["path"] = (
+                          urllib.parse.unquote(
+                              path
+                          )
+                      )
+
+                  if host:
+                      transport["host"] = [
+                          urllib.parse.unquote(
+                              host
+                          )
+                      ]
+
+                  return transport
+
+              # QUIC transport
+              if network == "quic":
+
+                  return {
+                      "type": "quic"
+                  }
+
               return None
+
+          # =====================================================
+          # Shadowsocks
+          # =====================================================
 
           def parse_ss(uri):
 
-              data = uri[5:]
+              parsed = urllib.parse.urlparse(
+                  uri
+              )
 
-              # SIP002:
-              # ss://BASE64(method:password)@host:port
-              # or
+              host = parsed.hostname
+              port = parsed.port
+
+              # SIP002 raw:
               # ss://method:password@host:port
+              if host:
 
-              parsed = urllib.parse.urlparse(uri)
+                  username = (
+                      parsed.username or ""
+                  )
 
-              if parsed.hostname:
+                  password = (
+                      parsed.password or ""
+                  )
 
-                  userinfo = parsed.username or ""
+                  username = urllib.parse.unquote(
+                      username
+                  )
 
-                  if userinfo:
+                  password = urllib.parse.unquote(
+                      password
+                  )
 
-                      decoded_userinfo = (
-                          urllib.parse.unquote(
-                              userinfo
+                  if ":" in username:
+
+                      method, password2 = (
+                          username.split(
+                              ":",
+                              1
                           )
                       )
 
-                      if ":" in decoded_userinfo:
+                      if not password:
+                          password = password2
 
-                          method, password = (
-                              decoded_userinfo.split(
-                                  ":",
-                                  1
-                              )
+                  else:
+
+                      method = username
+
+                  if method and password:
+
+                      outbound = {
+                          "type": "shadowsocks",
+                          "tag": "proxy",
+                          "server": host,
+                          "server_port": port or 443,
+                          "method": method,
+                          "password": password
+                      }
+
+                  else:
+
+                      outbound = None
+
+                  # Plugin parameters
+                  qs = urllib.parse.parse_qs(
+                      parsed.query,
+                      keep_blank_values=True
+                  )
+
+                  plugin = query_value(
+                      qs,
+                      "plugin"
+                  )
+
+                  if (
+                      outbound
+                      and plugin
+                  ):
+
+                      plugin = (
+                          urllib.parse.unquote(
+                              plugin
                           )
+                      )
 
-                          return {
-                              "type": "shadowsocks",
-                              "tag": "proxy",
-                              "server": parsed.hostname,
-                              "server_port": parsed.port or 443,
-                              "method": method,
-                              "password": urllib.parse.unquote(
-                                  password
+                      parts = plugin.split(";")
+
+                      plugin_name = parts[0]
+
+                      if plugin_name in (
+                          "obfs-local",
+                          "v2ray-plugin"
+                      ):
+
+                          outbound[
+                              "plugin"
+                          ] = plugin_name
+
+                          if len(parts) > 1:
+                              outbound[
+                                  "plugin_opts"
+                              ] = ";".join(
+                                  parts[1:]
                               )
-                          }
 
-              # Legacy base64
-              raw = data.split("#", 1)[0]
+                  if outbound:
+                      return outbound
+
+              # Legacy/base64:
+              # ss://BASE64(method:password@host:port)
+              raw = uri[5:].split(
+                  "#",
+                  1
+              )[0]
 
               if "@" not in raw:
 
-                  decoded = ""
+                  raw = decode_b64(raw)
 
-                  try:
+              else:
 
-                      padding = "=" * (
-                          -len(raw) % 4
+                  # Sometimes userinfo itself is base64.
+                  left, right = raw.rsplit(
+                      "@",
+                      1
+                  )
+
+                  if ":" not in left:
+
+                      decoded_left = decode_b64(
+                          left
                       )
 
-                      decoded = (
-                          base64.urlsafe_b64decode(
-                              raw + padding
+                      if decoded_left:
+                          raw = (
+                              decoded_left +
+                              "@" +
+                              right
                           )
-                          .decode(
-                              "utf-8",
-                              errors="ignore"
-                          )
-                      )
-
-                  except Exception:
-                      pass
-
-                  raw = decoded
 
               if "@" not in raw:
                   return None
@@ -836,45 +1125,56 @@ jobs:
               if ":" not in userinfo:
                   return None
 
-              method, password = userinfo.split(
-                  ":",
-                  1
+              method, password = (
+                  userinfo.split(
+                      ":",
+                      1
+                  )
               )
 
-              if address.startswith("["):
+              method = urllib.parse.unquote(
+                  method
+              )
 
-                  end = address.find("]")
+              password = urllib.parse.unquote(
+                  password
+              )
 
-                  if end == -1:
-                      return None
+              try:
 
-                  host = address[
-                      1:end
-                  ]
+                  if address.startswith("["):
 
-                  rest = address[
-                      end + 1:
-                  ]
+                      end = address.find("]")
 
-                  if not rest.startswith(":"):
-                      return None
+                      if end == -1:
+                          return None
 
-                  port = int(
-                      rest[1:]
-                  )
+                      host = address[
+                          1:end
+                      ]
 
-              else:
-
-                  host, port_text = (
-                      address.rsplit(
-                          ":",
-                          1
+                      port = int(
+                          address[
+                              end + 2:
+                          ]
                       )
-                  )
 
-                  port = int(
-                      port_text
-                  )
+                  else:
+
+                      host, port_text = (
+                          address.rsplit(
+                              ":",
+                              1
+                          )
+                      )
+
+                      port = int(
+                          port_text
+                      )
+
+              except Exception:
+
+                  return None
 
               return {
                   "type": "shadowsocks",
@@ -885,13 +1185,19 @@ jobs:
                   "password": password
               }
 
+          # =====================================================
+          # URI parser
+          # =====================================================
+
           def parse_uri(uri):
 
               parsed = urllib.parse.urlparse(
                   uri
               )
 
-              scheme = parsed.scheme.lower()
+              scheme = (
+                  parsed.scheme.lower()
+              )
 
               qs = urllib.parse.parse_qs(
                   parsed.query,
@@ -900,10 +1206,22 @@ jobs:
 
               host = parsed.hostname
 
+              if not host and scheme == "ss":
+
+                  ss = parse_ss(uri)
+
+                  if ss:
+                      return ss
+
+                  return None
+
               if not host:
                   return None
 
-              port = parsed.port or 443
+              try:
+                  port = parsed.port or 443
+              except Exception:
+                  return None
 
               # =================================================
               # Shadowsocks
@@ -934,19 +1252,35 @@ jobs:
                       "password": password
                   }
 
-                  tls = build_tls(
+                  security = query_value(
                       qs,
-                      host
+                      "security"
                   )
 
-                  outbound["tls"] = tls
+                  if (
+                      security
+                      and security != "none"
+                  ):
+
+                      outbound["tls"] = (
+                          build_tls(qs)
+                      )
+
+                  else:
+
+                      # Trojan normally uses TLS.
+                      outbound["tls"] = (
+                          build_tls(qs)
+                      )
 
                   transport = build_transport(
                       qs
                   )
 
                   if transport:
-                      outbound["transport"] = transport
+                      outbound[
+                          "transport"
+                      ] = transport
 
                   return outbound
 
@@ -971,15 +1305,9 @@ jobs:
                       "tag": "proxy",
                       "server": host,
                       "server_port": port,
-                      "password": password
+                      "password": password,
+                      "tls": build_tls(qs)
                   }
-
-                  tls = build_tls(
-                      qs,
-                      host
-                  )
-
-                  outbound["tls"] = tls
 
                   obfs_type = query_value(
                       qs,
@@ -994,16 +1322,28 @@ jobs:
 
                   if obfs_type:
 
+                      obfs_type = (
+                          urllib.parse.unquote(
+                              obfs_type
+                          )
+                      )
+
                       obfs = {
                           "type": obfs_type
                       }
 
                       if obfs_password:
-                          obfs["password"] = (
-                              obfs_password
+                          obfs[
+                              "password"
+                          ] = (
+                              urllib.parse.unquote(
+                                  obfs_password
+                              )
                           )
 
-                      outbound["obfs"] = obfs
+                      outbound[
+                          "obfs"
+                      ] = obfs
 
                   hop_interval = query_value(
                       qs,
@@ -1014,6 +1354,26 @@ jobs:
                       outbound[
                           "hop_interval"
                       ] = hop_interval
+
+                  hop_interval_max = query_value(
+                      qs,
+                      "hop-interval-max"
+                  )
+
+                  if hop_interval_max:
+                      outbound[
+                          "hop_interval_max"
+                      ] = hop_interval_max
+
+                  bbr_profile = query_value(
+                      qs,
+                      "bbr-profile"
+                  )
+
+                  if bbr_profile:
+                      outbound[
+                          "bbr_profile"
+                      ] = bbr_profile
 
                   return outbound
 
@@ -1044,7 +1404,9 @@ jobs:
                   )
 
                   if flow:
-                      outbound["flow"] = flow
+                      outbound[
+                          "flow"
+                      ] = flow
 
                   packet_encoding = query_value(
                       qs,
@@ -1057,18 +1419,22 @@ jobs:
                           "packet_encoding"
                       ] = packet_encoding
 
+                  # IMPORTANT:
+                  # VLESS network only supports tcp/udp.
                   network = query_value(
                       qs,
-                      "type",
                       "network"
                   )
 
-                  if network:
+                  if network in (
+                      "tcp",
+                      "udp"
+                  ):
+
                       outbound[
                           "network"
                       ] = network
 
-                  # TLS
                   security = query_value(
                       qs,
                       "security"
@@ -1079,44 +1445,9 @@ jobs:
                       "reality"
                   ):
 
-                      tls = build_tls(
-                          qs,
-                          host
-                      )
-
-                      # Reality
-                      if security == "reality":
-
-                          public_key = query_value(
-                              qs,
-                              "pbk",
-                              "publicKey",
-                              "public-key"
-                          )
-
-                          short_id = query_value(
-                              qs,
-                              "sid",
-                              "shortId",
-                              "short-id"
-                          )
-
-                          reality = {}
-
-                          if public_key:
-                              reality[
-                                  "public_key"
-                              ] = public_key
-
-                          if short_id:
-                              reality[
-                                  "short_id"
-                              ] = short_id
-
-                          if reality:
-                              tls["reality"] = reality
-
-                      outbound["tls"] = tls
+                      outbound[
+                          "tls"
+                      ] = build_tls(qs)
 
                   transport = build_transport(
                       qs
@@ -1132,25 +1463,29 @@ jobs:
               return None
 
           # =====================================================
-          # Test one server
+          # Free TCP port
           # =====================================================
 
           def free_port():
 
-              s = socket.socket(
+              sock = socket.socket(
                   socket.AF_INET,
                   socket.SOCK_STREAM
               )
 
-              s.bind(
+              sock.bind(
                   ("127.0.0.1", 0)
               )
 
-              port = s.getsockname()[1]
+              port = sock.getsockname()[1]
 
-              s.close()
+              sock.close()
 
               return port
+
+          # =====================================================
+          # Test one server
+          # =====================================================
 
           def test(item):
 
@@ -1164,13 +1499,13 @@ jobs:
                   )
 
                   if not outbound:
-                      return None
+                      return None, "parse"
 
                   port = free_port()
 
                   config = {
                       "log": {
-                          "level": "error"
+                          "disabled": True
                       },
 
                       "dns": {
@@ -1210,7 +1545,11 @@ jobs:
 
                       conf_path = f.name
 
-                  # Validate configuration
+                  # -------------------------------------------------
+                  # Validate configuration.
+                  # sing-box explicitly supports `check`.
+                  # -------------------------------------------------
+
                   check = subprocess.run(
                       [
                           "sing-box",
@@ -1224,9 +1563,12 @@ jobs:
                   )
 
                   if check.returncode != 0:
-                      return None
+                      return None, "config"
 
-                  # Start sing-box
+                  # -------------------------------------------------
+                  # Start sing-box.
+                  # -------------------------------------------------
+
                   process = subprocess.Popen(
                       [
                           "sing-box",
@@ -1238,13 +1580,12 @@ jobs:
                       stderr=subprocess.DEVNULL
                   )
 
-                  # Wait for local proxy
                   ready = False
 
-                  for _ in range(20):
+                  for _ in range(30):
 
                       if process.poll() is not None:
-                          return None
+                          return None, "startup"
 
                       try:
 
@@ -1262,12 +1603,16 @@ jobs:
                           break
 
                       except Exception:
+
                           time.sleep(0.1)
 
                   if not ready:
-                      return None
+                      return None, "startup"
 
-                  # Real HTTPS request through proxy
+                  # -------------------------------------------------
+                  # Real HTTPS request through SOCKS5.
+                  # -------------------------------------------------
+
                   start = time.monotonic()
 
                   result = subprocess.run(
@@ -1290,7 +1635,7 @@ jobs:
                       stdout=subprocess.PIPE,
                       stderr=subprocess.DEVNULL,
                       text=True,
-                      timeout=6
+                      timeout=7
                   )
 
                   latency = int(
@@ -1311,13 +1656,17 @@ jobs:
                           "latency_ms"
                       ] = latency
 
-                      return result_item
+                      return result_item, "ok"
 
-                  return None
+                  return None, "request"
+
+              except subprocess.TimeoutExpired:
+
+                  return None, "timeout"
 
               except Exception:
 
-                  return None
+                  return None, "exception"
 
               finally:
 
@@ -1348,7 +1697,7 @@ jobs:
           # Parallel testing
           # =====================================================
 
-          MAX_WORKERS = 8
+          MAX_WORKERS = 12
 
           print(
               f"Starting {MAX_WORKERS} parallel tests...",
@@ -1357,8 +1706,16 @@ jobs:
 
           results = []
 
+          failures = {
+              "parse": 0,
+              "config": 0,
+              "startup": 0,
+              "request": 0,
+              "timeout": 0,
+              "exception": 0
+          }
+
           completed = 0
-          working = 0
           total = len(candidates)
 
           with ThreadPoolExecutor(
@@ -1380,9 +1737,12 @@ jobs:
                   completed += 1
 
                   try:
-                      result = future.result()
+                      result, reason = (
+                          future.result()
+                      )
                   except Exception:
                       result = None
+                      reason = "exception"
 
                   if result:
 
@@ -1390,23 +1750,57 @@ jobs:
                           result
                       )
 
-                      working += 1
+                  else:
+
+                      failures[
+                          reason
+                      ] = (
+                          failures.get(
+                              reason,
+                              0
+                          ) + 1
+                      )
 
                   if (
-                      completed % 5 == 0
+                      completed % 10 == 0
                       or completed == total
                   ):
 
                       print(
                           f"Progress: "
                           f"{completed}/{total} | "
-                          f"Working: {working}",
+                          f"Working: {len(results)}",
                           flush=True
                       )
 
           # =====================================================
-          # Sort fastest first
+          # Remove duplicate working configs.
+          # Keep fastest candidate for each
+          # (host, protocol).
           # =====================================================
+
+          best = {}
+
+          for item in results:
+
+              key = (
+                  item["host"],
+                  item["protocol"]
+              )
+
+              current = best.get(key)
+
+              if (
+                  current is None
+                  or item["latency_ms"]
+                  < current["latency_ms"]
+              ):
+
+                  best[key] = item
+
+          results = list(
+              best.values()
+          )
 
           results.sort(
               key=lambda x: x.get(
@@ -1429,10 +1823,13 @@ jobs:
               )
 
           print("")
+          print("Testing summary:")
           print(
-              f"Working servers: {len(results)}",
-              flush=True
+              f"Working unique host/protocol pairs: "
+              f"{len(results)}"
           )
+
+          print("")
 
           for protocol in (
               "shadowsocks",
@@ -1448,14 +1845,23 @@ jobs:
               )
 
               print(
-                  f"{protocol}: {count}",
-                  flush=True
+                  f"{protocol}: {count}"
+              )
+
+          print("")
+          print("Failure summary:")
+
+          for reason, count in failures.items():
+
+              print(
+                  f"{reason}: {count}"
               )
 
           PY
 
       # =========================================================
-      # 6. Select 20 per protocol
+      # 6. Select exactly 20 per protocol
+      #    using max-flow with global host uniqueness
       # =========================================================
       - name: Build final services.json
         shell: bash
@@ -1467,9 +1873,9 @@ jobs:
           echo "======================================"
 
           python3 <<'PY'
-
           import json
           import sys
+          from collections import defaultdict
 
           INPUT = "/tmp/working.json"
           OUTPUT = "services.json"
@@ -1481,6 +1887,13 @@ jobs:
               "vless": 20
           }
 
+          PROTOCOL_ORDER = [
+              "shadowsocks",
+              "hysteria2",
+              "trojan",
+              "vless"
+          ]
+
           with open(
               INPUT,
               "r",
@@ -1490,155 +1903,456 @@ jobs:
               servers = json.load(f)
 
           # =====================================================
-          # Group by protocol
+          # Group by host + protocol.
+          # Keep fastest candidate.
           # =====================================================
 
-          groups = {
-              protocol: []
-              for protocol in REQUIRED
-          }
+          best = {}
 
           for item in servers:
 
-              protocol = item["protocol"]
+              key = (
+                  item["host"],
+                  item["protocol"]
+              )
 
-              if protocol in groups:
+              old = best.get(key)
 
-                  groups[protocol].append(
-                      item
-                  )
-
-          # Fastest first
-          for protocol in groups:
-
-              groups[protocol].sort(
-                  key=lambda x: x.get(
+              if (
+                  old is None
+                  or item.get(
+                      "latency_ms",
+                      999999
+                  ) < old.get(
                       "latency_ms",
                       999999
                   )
-              )
+              ):
+
+                  best[key] = item
+
+          # host -> protocol -> candidate
+          host_map = defaultdict(dict)
+
+          for (
+              host,
+              protocol
+          ), item in best.items():
+
+              host_map[host][protocol] = item
 
           print("")
           print("Available working servers:")
-          print("")
 
-          for protocol in REQUIRED:
+          for protocol in PROTOCOL_ORDER:
 
-              print(
-                  f"{protocol}: "
-                  f"{len(groups[protocol])}"
+              count = sum(
+                  1
+                  for host in host_map
+                  if protocol in host_map[host]
               )
 
+              print(
+                  f"{protocol}: {count}"
+              )
+
+          # =====================================================
+          # Max-flow implementation.
+          #
+          # Source -> host       capacity 1
+          # Host -> protocol     capacity 1
+          # Protocol -> sink     capacity 20
+          #
+          # This guarantees:
+          # - one server per host
+          # - exactly 20 per protocol
+          # - no greedy dead-end
+          # =====================================================
+
+          class Edge:
+
+              def __init__(
+                  self,
+                  to,
+                  rev,
+                  cap
+              ):
+
+                  self.to = to
+                  self.rev = rev
+                  self.cap = cap
+
+          class Dinic:
+
+              def __init__(self, n):
+
+                  self.n = n
+                  self.graph = [
+                      []
+                      for _ in range(n)
+                  ]
+
+              def add_edge(
+                  self,
+                  u,
+                  v,
+                  cap
+              ):
+
+                  forward = Edge(
+                      v,
+                      len(
+                          self.graph[v]
+                      ),
+                      cap
+                  )
+
+                  backward = Edge(
+                      u,
+                      len(
+                          self.graph[u]
+                      ),
+                      0
+                  )
+
+                  self.graph[u].append(
+                      forward
+                  )
+
+                  self.graph[v].append(
+                      backward
+                  )
+
+              def bfs(
+                  self,
+                  source,
+                  sink
+              ):
+
+                  level = [
+                      -1
+                      for _ in range(self.n)
+                  ]
+
+                  queue = [source]
+
+                  level[source] = 0
+
+                  head = 0
+
+                  while head < len(queue):
+
+                      u = queue[head]
+                      head += 1
+
+                      for edge in self.graph[u]:
+
+                          if (
+                              edge.cap > 0
+                              and level[
+                                  edge.to
+                              ] < 0
+                          ):
+
+                              level[
+                                  edge.to
+                              ] = (
+                                  level[u] + 1
+                              )
+
+                              queue.append(
+                                  edge.to
+                              )
+
+                  return level
+
+              def dfs(
+                  self,
+                  u,
+                  sink,
+                  pushed,
+                  level,
+                  it
+              ):
+
+                  if u == sink:
+                      return pushed
+
+                  while (
+                      it[u]
+                      < len(
+                          self.graph[u]
+                      )
+                  ):
+
+                      edge = self.graph[u][
+                          it[u]
+                      ]
+
+                      if (
+                          edge.cap > 0
+                          and level[
+                              edge.to
+                          ] == level[u] + 1
+                      ):
+
+                          flow = self.dfs(
+                              edge.to,
+                              sink,
+                              min(
+                                  pushed,
+                                  edge.cap
+                              ),
+                              level,
+                              it
+                          )
+
+                          if flow:
+
+                              edge.cap -= flow
+
+                              self.graph[
+                                  edge.to
+                              ][
+                                  edge.rev
+                              ].cap += flow
+
+                              return flow
+
+                      it[u] += 1
+
+                  return 0
+
+              def max_flow(
+                  self,
+                  source,
+                  sink
+              ):
+
+                  flow = 0
+
+                  while True:
+
+                      level = self.bfs(
+                          source,
+                          sink
+                      )
+
+                      if level[sink] < 0:
+                          break
+
+                      it = [
+                          0
+                          for _ in range(self.n)
+                      ]
+
+                      while True:
+
+                          pushed = self.dfs(
+                              source,
+                              sink,
+                              10**9,
+                              level,
+                              it
+                          )
+
+                          if not pushed:
+                              break
+
+                          flow += pushed
+
+                  return flow
+
+          # =====================================================
+          # Create graph
+          # =====================================================
+
+          hosts = sorted(
+              host_map.keys()
+          )
+
+          host_index = {
+              host: i
+              for i, host in enumerate(
+                  hosts
+              )
+          }
+
+          host_count = len(hosts)
+
+          protocol_base = host_count
+
+          protocol_index = {
+              protocol: (
+                  protocol_base + i
+              )
+              for i, protocol in enumerate(
+                  PROTOCOL_ORDER
+              )
+          }
+
+          source = (
+              protocol_base +
+              len(PROTOCOL_ORDER)
+          )
+
+          sink = source + 1
+
+          graph = Dinic(
+              sink + 1
+          )
+
+          # Source -> host
+          for host in hosts:
+
+              graph.add_edge(
+                  source,
+                  host_index[host],
+                  1
+              )
+
+          # Host -> protocol
+          for host in hosts:
+
+              h = host_index[host]
+
+              for protocol in PROTOCOL_ORDER:
+
+                  if (
+                      protocol
+                      in host_map[host]
+                  ):
+
+                      graph.add_edge(
+                          h,
+                          protocol_index[
+                              protocol
+                          ],
+                          1
+                      )
+
+          # Protocol -> sink
+          for protocol in PROTOCOL_ORDER:
+
+              graph.add_edge(
+                  protocol_index[
+                      protocol
+                  ],
+                  sink,
+                  REQUIRED[protocol]
+              )
+
+          flow = graph.max_flow(
+              source,
+              sink
+          )
+
           print("")
+          print(
+              f"Maximum possible unique selection: "
+              f"{flow}/80"
+          )
+
+          if flow != 80:
+
+              print("")
+              print(
+                  "ERROR: There are not enough "
+                  "working unique hosts to build "
+                  "80 servers."
+              )
+
+              print(
+                  "The workflow will NOT publish "
+                  "an incomplete list."
+              )
+
+              sys.exit(1)
 
           # =====================================================
-          # Validate availability first
-          # =====================================================
-
-          for protocol, required in REQUIRED.items():
-
-              if len(
-                  groups[protocol]
-              ) < required:
-
-                  print(
-                      f"ERROR: Only "
-                      f"{len(groups[protocol])} "
-                      f"working {protocol} servers."
-                  )
-
-                  print(
-                      f"Required: {required}"
-                  )
-
-                  sys.exit(1)
-
-          # =====================================================
-          # Select with GLOBAL host deduplication
+          # Recover selected host/protocol pairs.
           # =====================================================
 
           selected = {
               protocol: []
-              for protocol in REQUIRED
+              for protocol in PROTOCOL_ORDER
           }
 
-          used_hosts = set()
+          for host in hosts:
 
-          # Round-robin protocols.
-          # This prevents one protocol from consuming
-          # too many shared hosts before the others.
-          remaining = True
+              h = host_index[host]
 
-          while remaining:
+              for edge in graph.graph[h]:
 
-              remaining = False
-
-              for protocol in REQUIRED:
-
-                  if len(
-                      selected[protocol]
-                  ) >= REQUIRED[protocol]:
-
+                  # Host -> protocol edge originally had cap=1.
+                  # If used by max-flow, its residual cap is 0.
+                  if edge.cap != 0:
                       continue
 
-                  for item in groups[protocol]:
+                  protocol = None
 
-                      host = item["host"]
+                  for candidate_protocol in (
+                      PROTOCOL_ORDER
+                  ):
 
-                      if host in used_hosts:
-                          continue
+                      if (
+                          edge.to
+                          == protocol_index[
+                              candidate_protocol
+                          ]
+                      ):
 
-                      used_hosts.add(host)
+                          protocol = (
+                              candidate_protocol
+                          )
 
-                      selected[protocol].append(
-                          item
-                      )
+                          break
 
-                      break
+                  if protocol is None:
+                      continue
 
-                  if len(
-                      selected[protocol]
-                  ) < REQUIRED[protocol]:
-
-                      remaining = True
+                  selected[
+                      protocol
+                  ].append(
+                      host_map[host][
+                          protocol
+                      ]
+                  )
 
           # =====================================================
-          # Final protocol validation
+          # Validate exact counts.
           # =====================================================
 
           print("")
           print("Final selection:")
-          print("")
 
           total = 0
 
-          for protocol, required in REQUIRED.items():
+          for protocol in PROTOCOL_ORDER:
 
               count = len(
                   selected[protocol]
               )
+
+              required = REQUIRED[
+                  protocol
+              ]
 
               print(
                   f"{protocol}: "
                   f"{count}/{required}"
               )
 
-              total += count
-
               if count != required:
 
-                  print("")
                   print(
-                      "ERROR: Could not build "
-                      "80 unique servers."
-                  )
-
-                  print(
-                      "The workflow will NOT publish "
-                      "an incomplete list."
+                      "ERROR: Invalid final "
+                      "protocol count."
                   )
 
                   sys.exit(1)
+
+              total += count
 
           if total != 80:
 
@@ -1649,49 +2363,91 @@ jobs:
               sys.exit(1)
 
           # =====================================================
-          # Build output
+          # Final host uniqueness validation.
+          # =====================================================
+
+          used_hosts = set()
+
+          for protocol in PROTOCOL_ORDER:
+
+              for item in selected[protocol]:
+
+                  host = item["host"]
+
+                  if host in used_hosts:
+
+                      print(
+                          "ERROR: Duplicate host:",
+                          host
+                      )
+
+                      sys.exit(1)
+
+                  used_hosts.add(host)
+
+          if len(used_hosts) != 80:
+
+              print(
+                  "ERROR: Final host count is not 80."
+              )
+
+              sys.exit(1)
+
+          # =====================================================
+          # Build internal records.
           # =====================================================
 
           final = []
 
-          for protocol in REQUIRED:
+          for protocol in PROTOCOL_ORDER:
 
               for item in selected[protocol]:
 
                   final.append({
                       "name": "",
                       "config": item["config"],
-                      "countryCode": item["countryCode"],
-                      "_country": item["country"],
+                      "countryCode": item[
+                          "countryCode"
+                      ],
+                      "_country": item[
+                          "country"
+                      ],
                       "_protocol": protocol,
                       "_latency": item.get(
                           "latency_ms",
                           999999
-                      )
+                      ),
+                      "_host": item[
+                          "host"
+                      ]
                   })
 
           # =====================================================
-          # Sort by country first
+          # Sort country first.
           # =====================================================
 
           final.sort(
               key=lambda x: (
                   x["_country"].lower(),
                   x["_latency"],
-                  x["_protocol"]
+                  PROTOCOL_ORDER.index(
+                      x["_protocol"]
+                  )
               )
           )
 
           # =====================================================
-          # Number sequentially INSIDE each country
-          # across ALL protocols
+          # Sequential numbering INSIDE country
+          # across ALL protocols.
           # =====================================================
 
           counters = {}
 
           for item in final:
 
-              country = item["_country"]
+              country = item[
+                  "_country"
+              ]
 
               counters[country] = (
                   counters.get(
@@ -1706,7 +2462,7 @@ jobs:
               )
 
           # =====================================================
-          # Remove internal fields
+          # Output only required fields.
           # =====================================================
 
           output = []
@@ -1716,32 +2472,36 @@ jobs:
               output.append({
                   "name": item["name"],
                   "config": item["config"],
-                  "countryCode": item["countryCode"]
+                  "countryCode": item[
+                      "countryCode"
+                  ]
               })
 
           # =====================================================
-          # Final duplicate check
+          # Final JSON validation.
           # =====================================================
 
-          hosts = set()
+          if len(output) != 80:
 
-          for item in final:
+              print(
+                  "ERROR: Output does not contain 80 servers."
+              )
 
-              host = item["host"]
+              sys.exit(1)
 
-              if host in hosts:
+          if len({
+              item["_host"]
+              for item in final
+          }) != 80:
 
-                  print(
-                      "ERROR: Duplicate host:",
-                      host
-                  )
+              print(
+                  "ERROR: Output contains duplicate hosts."
+              )
 
-                  sys.exit(1)
-
-              hosts.add(host)
+              sys.exit(1)
 
           # =====================================================
-          # Write JSON
+          # Write services.json
           # =====================================================
 
           with open(
@@ -1763,25 +2523,28 @@ jobs:
           )
 
           print(
-              f"Total servers: {len(output)}"
+              "Total servers: 80"
           )
 
           print("")
-          print("Final servers:")
+          print("Servers by country:")
           print("")
 
           current_country = None
 
           for item in output:
 
-              if item["countryCode"] != current_country:
+              country = item["name"].rsplit(
+                  " ",
+                  1
+              )[0]
 
-                  current_country = (
-                      item["countryCode"]
-                  )
+              if country != current_country:
+
+                  current_country = country
 
                   print(
-                      f"[{item['name'].rsplit(' ', 1)[0]}]"
+                      f"[{country}]"
                   )
 
               print(
@@ -1796,6 +2559,8 @@ jobs:
       - name: Show services.json
         shell: bash
         run: |
+          set -e
+
           echo "======================================"
           echo "FINAL services.json"
           echo "======================================"
@@ -1843,7 +2608,7 @@ jobs:
 
             git pull \
               --rebase \
-              origin main || true
+              origin main
 
             if git push \
               origin HEAD:main; then
