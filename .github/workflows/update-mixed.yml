@@ -648,63 +648,60 @@ jobs:
               return None
 
           def parse_ss(uri):
-              parsed = urlsplit(uri)
+              body = uri[len("ss://"):].split("#", 1)[0]
+              query = ""
 
-              host = parsed.hostname
+              if "?" in body:
+                  body, query = body.split("?", 1)
 
-              port = parsed.port
+              body = body.rstrip("/")
 
-              if not host or not port:
-                  raise ValueError(
-                      "Invalid Shadowsocks URI"
-                  )
+              if "@" in body:
+                  # SIP002: ss://BASE64(method:password)@host:port
+                  # or plain: ss://method:password@host:port
+                  userinfo, hostport = body.rsplit("@", 1)
+                  userinfo = unquote(userinfo)
 
-              username = (
-                  parsed.username or ""
-              )
+                  if ":" not in userinfo:
+                      userinfo = decode_b64(userinfo)
+              else:
+                  # Legacy: ss://BASE64(method:password@host:port)
+                  decoded = decode_b64(unquote(body))
 
-              password = (
-                  parsed.password or ""
-              )
-
-              if not username:
-                  # Legacy base64 form.
-                  encoded = parsed.netloc
-
-                  if "@" in encoded:
-                      encoded = (
-                          encoded.split("@", 1)[0]
+                  if "@" not in decoded:
+                      raise ValueError(
+                          "Invalid Shadowsocks URI"
                       )
 
-                  decoded = decode_b64(
-                      encoded
-                  )
+                  userinfo, hostport = decoded.rsplit("@", 1)
 
-                  if "@" in decoded:
-                      userinfo = decoded.rsplit(
-                          "@",
-                          1
-                      )[0]
-
-                      if ":" in userinfo:
-                          username, password = (
-                              userinfo.split(
-                                  ":",
-                                  1
-                              )
-                          )
-
-              if not username or not password:
+              if ":" not in userinfo:
                   raise ValueError(
                       "Missing Shadowsocks credentials"
+                  )
+
+              method, password = userinfo.split(":", 1)
+
+              host, _, port = hostport.rpartition(":")
+              host = host.strip("[]")
+
+              if not host or not port.isdigit():
+                  raise ValueError(
+                      "Invalid Shadowsocks host/port"
+                  )
+
+              # Plugin-based links need extra config; skip them.
+              if "plugin=" in query:
+                  raise ValueError(
+                      "Shadowsocks plugin not supported"
                   )
 
               return {
                   "type": "shadowsocks",
                   "server": host,
-                  "server_port": port,
-                  "method": unquote(username),
-                  "password": unquote(password),
+                  "server_port": int(port),
+                  "method": method,
+                  "password": password,
               }
 
           def parse_vless(uri):
