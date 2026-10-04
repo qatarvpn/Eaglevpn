@@ -99,9 +99,11 @@ jobs:
 
           python - <<'PY'
           import base64
+          import ipaddress
           import json
           import os
           import re
+          from urllib.parse import urlsplit
 
           SOURCE_DIR = "/tmp/vpn_sources"
           OUTPUT = "services.json"
@@ -114,7 +116,6 @@ jobs:
               "vless": 20,
           }
 
-          # Country names.
           COUNTRY_NAMES = {
               "us": "United States",
               "gb": "United Kingdom",
@@ -172,7 +173,6 @@ jobs:
               if not text:
                   return []
 
-              # First try plain lines.
               plain_lines = [
                   line.strip()
                   for line in text.splitlines()
@@ -193,14 +193,12 @@ jobs:
               ):
                   return plain_lines
 
-              # Remove whitespace for Base64.
               compact = re.sub(
                   r"\s+",
                   "",
                   text
               )
 
-              # Normal Base64.
               try:
                   padding = "=" * (-len(compact) % 4)
 
@@ -224,7 +222,6 @@ jobs:
               except Exception:
                   pass
 
-              # URL-safe Base64.
               try:
                   padding = "=" * (-len(compact) % 4)
 
@@ -264,6 +261,118 @@ jobs:
 
               return None
 
+          def normalize_host(host):
+              """
+              Normalize IPs and hostnames so the same server
+              cannot appear more than once.
+              """
+
+              if not host:
+                  return None
+
+              host = str(host).strip()
+
+              # Remove brackets around IPv6.
+              if (
+                  host.startswith("[")
+                  and host.endswith("]")
+              ):
+                  host = host[1:-1]
+
+              # Remove trailing dot from hostname.
+              host = host.rstrip(".")
+
+              if not host:
+                  return None
+
+              # Normalize IP addresses.
+              try:
+                  ip = ipaddress.ip_address(host)
+                  return str(ip)
+              except ValueError:
+                  pass
+
+              # Normalize hostname.
+              host = host.lower()
+
+              # Basic cleanup.
+              host = host.rstrip(".")
+
+              return host
+
+          def decode_ss_host(uri):
+              """
+              Handles common Shadowsocks URI formats.
+
+              Format:
+              ss://BASE64@host:port
+              """
+
+              try:
+                  parsed = urlsplit(uri)
+
+                  if parsed.hostname:
+                      return parsed.hostname
+
+                  # Some SS links may contain the entire
+                  # userinfo/endpoint inside Base64.
+                  netloc = parsed.netloc
+
+                  if "@" not in netloc:
+                      return None
+
+                  encoded = netloc.split("@", 1)[0]
+
+                  padding = "=" * (-len(encoded) % 4)
+
+                  decoded = base64.urlsafe_b64decode(
+                      encoded + padding
+                  ).decode(
+                      "utf-8",
+                      errors="ignore"
+                  )
+
+                  if "@" in decoded:
+                      endpoint = decoded.rsplit("@", 1)[1]
+
+                      if ":" in endpoint:
+                          host = endpoint.rsplit(":", 1)[0]
+                          return host
+
+              except Exception:
+                  pass
+
+              return None
+
+          def get_server_host(uri):
+              """
+              Extract the server IP/hostname from all
+              supported protocols.
+              """
+
+              protocol = get_protocol(uri)
+
+              if protocol == "ss":
+                  host = decode_ss_host(uri)
+
+                  if host:
+                      return normalize_host(host)
+
+                  return None
+
+              try:
+                  parsed = urlsplit(uri)
+
+                  host = parsed.hostname
+
+                  if host:
+                      return normalize_host(host)
+
+              except Exception:
+                  pass
+
+              return None
+
           # Pools for every protocol.
           pools = {
               "ss": [],
@@ -272,8 +381,9 @@ jobs:
               "vless": [],
           }
 
-          # Deduplication.
-          seen = {
+          # Prevent duplicate complete configurations
+          # inside each protocol.
+          seen_configs = {
               "ss": set(),
               "hysteria2": set(),
               "trojan": set(),
@@ -287,6 +397,9 @@ jobs:
           )
 
           print(f"Found {len(files)} country files.")
+
+          invalid_hosts = 0
+          duplicate_configs = 0
 
           for filename in files:
               country = filename[:-4].lower()
@@ -324,7 +437,6 @@ jobs:
                   if protocol is None:
                       continue
 
-                  # Remove accidental whitespace.
                   uri = uri.replace(
                       "\r",
                       ""
@@ -333,19 +445,31 @@ jobs:
                       ""
                   )
 
-                  # Remove duplicate configurations.
-                  if uri in seen[protocol]:
+                  # Remove exact duplicate configuration.
+                  if uri in seen_configs[protocol]:
+                      duplicate_configs += 1
                       continue
 
-                  seen[protocol].add(uri)
+                  host = get_server_host(uri)
+
+                  if not host:
+                      invalid_hosts += 1
+                      print(
+                          f"Skipping URI without valid host: {uri[:100]}"
+                      )
+                      continue
+
+                  seen_configs[protocol].add(uri)
 
                   pools[protocol].append({
                       "config": uri,
                       "countryCode": country,
+                      "host": host,
                   })
 
           print("")
-          print("Available unique servers:")
+          print("==============================")
+          print("Available configurations:")
           print(
               f"Shadowsocks : {len(pools['ss'])}"
           )
@@ -358,24 +482,68 @@ jobs:
           print(
               f"VLESS       : {len(pools['vless'])}"
           )
+          print(
+              f"Duplicate configs skipped: {duplicate_configs}"
+          )
+          print(
+              f"Invalid hosts skipped: {invalid_hosts}"
+          )
+          print("==============================")
           print("")
 
-          # Make sure every protocol has at least 20.
-          for protocol, required in TARGETS.items():
+          # -------------------------------------------------
+          # Count how many protocols contain each host.
+          #
+          # This helps preserve hosts that are available in
+          # only one protocol, preventing one protocol from
+          # consuming hosts needed by another protocol.
+          # -------------------------------------------------
 
-              available = len(
-                  pools[protocol]
+          host_protocols = {}
+
+          for protocol, items in pools.items():
+              for item in items:
+                  host = item["host"]
+
+                  if host not in host_protocols:
+                      host_protocols[host] = set()
+
+                  host_protocols[host].add(protocol)
+
+          # Prefer hosts that occur in fewer protocols first.
+          for protocol in pools:
+              pools[protocol].sort(
+                  key=lambda item: (
+                      len(
+                          host_protocols[
+                              item["host"]
+                          ]
+                      ),
+                      item["host"],
+                      item["countryCode"],
+                      item["config"],
+                  )
               )
 
-              if available < required:
-                  raise SystemExit(
-                      f"Not enough {protocol} servers: "
-                      f"{available}/{required}"
-                  )
+          # -------------------------------------------------
+          # GLOBAL HOST DEDUPLICATION
+          #
+          # One IP/hostname can only appear once across
+          # ALL four protocols.
+          # -------------------------------------------------
 
-          result = []
+          seen_hosts = set()
 
-          # Select exactly 20 from each protocol.
+          selected = {
+              "ss": [],
+              "hysteria2": [],
+              "trojan": [],
+              "vless": [],
+          }
+
+          duplicate_hosts = 0
+
+          # Select exactly 20 from every protocol.
           for protocol in (
               "ss",
               "hysteria2",
@@ -383,12 +551,82 @@ jobs:
               "vless",
           ):
 
-              selected = pools[protocol][:20]
+              for item in pools[protocol]:
 
-              # Number servers by country.
+                  if len(
+                      selected[protocol]
+                  ) >= TARGETS[protocol]:
+                      break
+
+                  host = item["host"]
+
+                  # GLOBAL duplicate check.
+                  if host in seen_hosts:
+                      duplicate_hosts += 1
+
+                      print(
+                          f"Skipping duplicate host "
+                          f"for {protocol}: {host}"
+                      )
+
+                      continue
+
+                  seen_hosts.add(host)
+
+                  selected[protocol].append(item)
+
+              count = len(
+                  selected[protocol]
+              )
+
+              if count < TARGETS[protocol]:
+                  raise SystemExit(
+                      f"Not enough unique {protocol} "
+                      f"servers after global host "
+                      f"deduplication: "
+                      f"{count}/{TARGETS[protocol]}"
+                  )
+
+          print("")
+          print("==============================")
+          print("Selected servers:")
+          print(
+              f"Shadowsocks : {len(selected['ss'])}"
+          )
+          print(
+              f"Hysteria2   : {len(selected['hysteria2'])}"
+          )
+          print(
+              f"Trojan      : {len(selected['trojan'])}"
+          )
+          print(
+              f"VLESS       : {len(selected['vless'])}"
+          )
+          print(
+              f"Duplicate hosts skipped: {duplicate_hosts}"
+          )
+          print(
+              f"Unique hosts selected: {len(seen_hosts)}"
+          )
+          print("==============================")
+          print("")
+
+          result = []
+
+          # -------------------------------------------------
+          # Build final JSON.
+          # -------------------------------------------------
+
+          for protocol in (
+              "ss",
+              "hysteria2",
+              "trojan",
+              "vless",
+          ):
+
               counters = {}
 
-              for item in selected:
+              for item in selected[protocol]:
 
                   country = item[
                       "countryCode"
@@ -405,9 +643,6 @@ jobs:
                       country.upper()
                   )
 
-                  # IMPORTANT:
-                  # Do NOT use the name from the URI.
-                  # Always create the name from countryCode.
                   server_name = (
                       f"{country_name} {number}"
                   )
@@ -418,12 +653,37 @@ jobs:
                       "countryCode": country,
                   })
 
+          # -------------------------------------------------
           # Final validation.
+          # -------------------------------------------------
+
           if len(result) != 80:
               raise SystemExit(
                   f"Expected 80 servers, "
                   f"got {len(result)}"
               )
+
+          # Verify there are absolutely no duplicate
+          # IPs/hostnames in the final result.
+          final_hosts = set()
+
+          for item in result:
+
+              host = get_server_host(
+                  item["config"]
+              )
+
+              if not host:
+                  raise SystemExit(
+                      "Final server has no valid host."
+                  )
+
+              if host in final_hosts:
+                  raise SystemExit(
+                      f"FINAL DUPLICATE HOST FOUND: {host}"
+                  )
+
+              final_hosts.add(host)
 
           protocol_counts = {
               "ss": 0,
@@ -433,6 +693,7 @@ jobs:
           }
 
           for item in result:
+
               protocol = get_protocol(
                   item["config"]
               )
@@ -450,7 +711,12 @@ jobs:
               )
           )
 
-          # Make sure it is exactly 20 each.
+          print(
+              f"Final unique hosts: "
+              f"{len(final_hosts)}"
+          )
+
+          # Exactly 20 each.
           for protocol in TARGETS:
 
               if (
@@ -462,7 +728,16 @@ jobs:
                       f"{protocol_counts[protocol]}"
                   )
 
+          if len(final_hosts) != 80:
+              raise SystemExit(
+                  f"Expected 80 unique hosts, "
+                  f"got {len(final_hosts)}"
+              )
+
+          # -------------------------------------------------
           # Write JSON.
+          # -------------------------------------------------
+
           with open(
               OUTPUT,
               "w",
@@ -484,6 +759,9 @@ jobs:
           )
           print(
               f"Total servers: {len(result)}"
+          )
+          print(
+              "All 80 servers have unique IP/host."
           )
           PY
 
