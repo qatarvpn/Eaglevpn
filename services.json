@@ -1,12 +1,12 @@
 [
   {
     "name": "BG 1",
-    "config": "ss://YWVzLTI1Ni1jZmI6UFJCZjRCUzJIdkpxdFd4WQ@213.183.63.60:9049#shadowsocks-819466430",
+    "config": "ss://YWVzLTI1Ni1jZmI6NFIzaFVmWjJGSGhEbU5jUA@213.183.63.60:9061#shadowsocks-812343868",
     "countryCode": "bg"
   },
   {
     "name": "Canada 1",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@149.22.95.183:443#shadowsocks-208",
+    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@137.184.174.93:8080#shadowsocks-166",
     "countryCode": "ca"
   },
   {
@@ -16,17 +16,32 @@
   },
   {
     "name": "Canada 3",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@137.184.174.93:8080#shadowsocks-166",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@149.22.95.183:443#shadowsocks-208",
     "countryCode": "ca"
   },
   {
     "name": "Canada 4",
-    "config": "ss://YWVzLTI1Ni1nY206ZXZlYWFUT2I4amk4eW50dzJaOXlXVUcwZDZJcjhMZDhtM3ltSDhUSGRDNWVnaVRIMW1YQ2lCYzBTa3I3RmliSA@yyz-ca-01.blncvpn4u.cc:9443#shadowsocks-1381800264",
+    "config": "ss://YWVzLTEyOC1nY206NGVmZTFhZjI3MmU3MjkyMTM5Yjg4OWY2YTYzZWUwNzE@64.74.163.69:18766#shadowsocks-1635221275",
     "countryCode": "ca"
   },
   {
     "name": "Canada 5",
-    "config": "ss://YWVzLTI1Ni1nY206ekROVmVkUkZQUWV4Rzl2@51.222.12.127:445#shadowsocks-496614106",
+    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@138.197.141.58:8080#shadowsocks-468218613",
+    "countryCode": "ca"
+  },
+  {
+    "name": "Canada 6",
+    "config": "ss://YWVzLTI1Ni1nY206ZXZlYWFUT2I4amk4eW50dzJaOXlXVUcwZDZJcjhMZDhtM3ltSDhUSGRDNWVnaVRIMW1YQ2lCYzBTa3I3RmliSA@185.156.47.97:9443#shadowsocks-1415925706",
+    "countryCode": "ca"
+  },
+  {
+    "name": "Canada 7",
+    "config": "ss://YWVzLTI1Ni1nY206WTZSOXBBdHZ4eHptR0M@51.222.200.165:5000#shadowsocks-1118951746",
+    "countryCode": "ca"
+  },
+  {
+    "name": "Canada 8",
+    "config": "ss://YWVzLTI1Ni1nY206ZXZlYWFUT2I4amk4eW50dzJaOXlXVUcwZDZJcjhMZDhtM3ltSDhUSGRDNWVnaVRIMW1YQ2lCYzBTa3I3RmliSA@yyz-ca-01.blncvpn4u.cc:9443#shadowsocks-1381800264",
     "countryCode": "ca"
   },
   {
@@ -41,22 +56,12 @@
   },
   {
     "name": "Germany 3",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@169.150.210.233:8080#shadowsocks-27307",
+    "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpQV3BqUG8zdHFoUE40eVJa@8.209.74.72:20001#shadowsocks-229",
     "countryCode": "de"
   },
   {
     "name": "Germany 4",
-    "config": "ss://YWVzLTI1Ni1nY206WEtGS2wyclVMaklwNzQ@185.226.172.8:8008#shadowsocks-11078",
-    "countryCode": "de"
-  },
-  {
-    "name": "Germany 5",
-    "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTppa3UvR2ZydDlZZUVVVWxlWHIyUHRmM3V2czBoc3pDUjBKSFBxR1NqcytjPQ@31.76.11.83:11650#shadowsocks-1646771377",
-    "countryCode": "de"
-  },
-  {
-    "name": "Germany 6",
-    "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpQV3BqUG8zdHFoUE40eVJa@8.209.74.72:20001#shadowsocks-229",
+    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@169.150.210.233:8080#shadowsocks-27307",
     "countryCode": "de"
   },
   {
@@ -65,18 +70,23 @@
     "countryCode": "es"
   },
   {
-    "name": "Spain 2",
-    "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpxSXRHOFN1ZVlRY1A@140.174.184.5:8388#shadowsocks-11052",
-    "countryCode": "es"
+    "name": "Finland 1",
+    "config": "ss://YWVzLTEyOC1nY206ZjkzMDBhOWJmMzlhZTAzNDdjM2EzYmZiYzRkZDc3NTQ@185.103.110.68:18283#shadowsocks-1653901314",
+    "countryCode": "fi"
   },
   {
     "name": "France 1",
-    "config": "ss://YWVzLTI1Ni1jZmI6YW1hem9uc2tyMDU@15.237.215.103:443#shadowsocks-1636559932",
+    "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpCcW5xVG9paDBQYlU@51.255.13.232:8388#shadowsocks-415242972",
+    "countryCode": "fr"
+  },
+  {
+    "name": "France 2",
+    "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpuN3Z1eGRzbWxxbnJieHFl@sth.free-outline.giize.com:1081#shadowsocks-1644333365",
     "countryCode": "fr"
   },
   {
     "name": "United Kingdom 1",
-    "config": "ss://YWVzLTI1Ni1nY206ZzVoNWpsZVRSU3lPM1JrNA@149.102.132.184:80#shadowsocks-717969008",
+    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@146.70.61.37:8080#shadowsocks-165",
     "countryCode": "gb"
   },
   {
@@ -86,18 +96,23 @@
   },
   {
     "name": "United Kingdom 3",
-    "config": "ss://YWVzLTI1Ni1nY206UmV4bkJnVTdFVjVBRHhH@94.156.250.148:7001#shadowsocks-240",
+    "config": "ss://MjAyMi1ibGFrZTMtYWVzLTI1Ni1nY206Y09pQyszSmhBWE13ZEdWNWV4bnJNU29ySlUwUmw1cWxMQ2JDQXVEbFdZND06MnRGcXlrR3FaMTAxWFcxMWY2aVJpRVJuUHljRkFqallxMHkyelVZaEtobz0@51.38.71.51:2083#shadowsocks-1203537773",
     "countryCode": "gb"
   },
   {
-    "name": "Hong Kong 1",
-    "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo1a29lcHI5azRyamFiYzF6@sth.free-outline.giize.com:1081#shadowsocks-1644333366",
-    "countryCode": "hk"
+    "name": "Switzerland 1",
+    "config": "hy2://we9_I1893UFj3149xbr1_k8qvJ8734ic_Mx82gH@82.38.64.237:8443?insecure=1&sni=hopp-swizland-new.mysynology.net#hysteria2-1502094721",
+    "countryCode": "ch"
   },
   {
-    "name": "Hong Kong 2",
-    "config": "ss://YWVzLTI1Ni1nY206Y2UyMjA1ZGYtZjMzMC00Nzc5LWE1ODQtMTNmNmJmYzZhZGI2@u5c9wb.5tencent.asia:22033#shadowsocks-1648320882",
-    "countryCode": "hk"
+    "name": "Switzerland 2",
+    "config": "hy2://84a506ca5aca505696a454d828420b3f@140.238.213.114:50160?insecure=1&sni=off#hysteria2-1601949347",
+    "countryCode": "ch"
+  },
+  {
+    "name": "Switzerland 3",
+    "config": "hy2://we9_I1893UFj3149xbr1_k8qvJ8734ic_Mx82gH@82.38.64.239:8443?insecure=1&sni=hopp-swizland-new.mysynology.net#hysteria2-1501696965",
+    "countryCode": "ch"
   },
   {
     "name": "Germany 1",
@@ -111,12 +126,27 @@
   },
   {
     "name": "Germany 3",
-    "config": "hy2://mkL3AfdSZIpTWRB9TcWPn9vywPGN89MRHg3ToRDj@64.188.98.171:443?insecure=1&sni=germany3.h2corp.local#hysteria2-648949654",
+    "config": "hy2://9Me_Jx935gnHx13_Nx45M_NYXe037js_Be4z@162.249.127.136:8443?insecure=1&sni=hop-germany-september.dynuddns.com#hysteria2-1564791358",
+    "countryCode": "de"
+  },
+  {
+    "name": "Germany 4",
+    "config": "hy2://9Me_Jx935gnHx13_Nx45M_NYXe037js_Be4z@162.249.127.146:8443?sni=hop-germany-september.dynuddns.com#hysteria2-1612536875",
+    "countryCode": "de"
+  },
+  {
+    "name": "Germany 5",
+    "config": "hy2://mkL3AfdSZIpTWRB9TcWPn9vywPGN89MRHg3ToRDj@de.1.23.h2corp.org:443?insecure=1&sni=germany3.h2corp.local#hysteria2-650314301",
+    "countryCode": "de"
+  },
+  {
+    "name": "Germany 6",
+    "config": "hy2://9Me_Jx935gnHx13_Nx45M_NYXe037js_Be4z@162.249.127.134:8443?insecure=1&sni=hop-germany-september.dynuddns.com#hysteria2-1555784016",
     "countryCode": "de"
   },
   {
     "name": "France 1",
-    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@35.181.166.40:443?insecure=1&sni=vpn-fr-002.fastervpn.world%23%F0%9F%AA%9033%40oneclickvpnkeys#hysteria2-1552246614",
+    "config": "hy2://github.com%2FAlvin9999-newpac%2Ffanqiang@62.210.7.139:60111?insecure=1&sni=62.210.7.139#hysteria2-650659597",
     "countryCode": "fr"
   },
   {
@@ -125,83 +155,53 @@
     "countryCode": "fr"
   },
   {
+    "name": "France 3",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@35.181.166.40:443?insecure=1&sni=vpn-fr-002.fastervpn.world%23%F0%9F%AA%9033%40oneclickvpnkeys#hysteria2-1552246614",
+    "countryCode": "fr"
+  },
+  {
+    "name": "France 4",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@35.181.166.40:443?insecure=1&sni=vpn-fr-002.fastervpn.world%23%F0%9F%AA%9033%40oneclickvpnkeysvless%3A%2F%2Ff495298f-2bdb-4fd8-9ac9-5dd33d1b482a%40185.171.202.106%3A443%3Fencryption%3Dnone#hysteria2-1507423268",
+    "countryCode": "fr"
+  },
+  {
+    "name": "France 5",
+    "config": "hy2://github.com%2FAlvin9999-newpac%2Ffanqiang@62.210.7.139:60111?insecure=1&sni=bing.com#hysteria2-200394203",
+    "countryCode": "fr"
+  },
+  {
     "name": "Hong Kong 1",
-    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.174:443?insecure=1&sni=t.me#hysteria2-721489368",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.29:443?insecure=1&sni=https%3A%2F%2Ft.me%2Fwangcai2%E2%81%BF%C3%9F%C2%AB%E2%81%BF%C3%9F#hysteria2-1589277560",
     "countryCode": "hk"
   },
   {
     "name": "Hong Kong 2",
-    "config": "hy2://2c01eae6-0b6a-11ee-a058-f23c91369f2d@12fbf518-tmm5c0-tzkd63-1jr1u.hk3.hyhuawei.com:443?insecure=1&sni=12fbf518-tmm5c0-tzkd63-1jr1u.hk3.hyhuawei.com#hysteria2-1623484390",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.89:443?insecure=1&sni=https%25253a%25252f%25252ft.me%25252fclashv8%2525f0%25259f%252587%2525a8%2525f0%25259f%252587%2525b3#hysteria2-864234258",
     "countryCode": "hk"
   },
   {
     "name": "Hong Kong 3",
-    "config": "hy2://1cce7df2-251c-11ee-9409-f23c9164ca5d@a30d91ee-tmm5c0-ttx5yr-1j0y6.nw4.hyhuawei.com:443?insecure=1&sni=a30d91ee-tmm5c0-ttx5yr-1j0y6.nw4.hyhuawei.com#hysteria2-1623484311",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.174:443?insecure=1&sni=https%3A%2F%2Ft.me%2Fwangcai2#hysteria2-920243845",
     "countryCode": "hk"
   },
   {
     "name": "Hong Kong 4",
-    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.89:443?insecure=1&sni=https%3A%2F%2Ft.me%2Fclashv8#hysteria2-589844071",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.89:443?insecure=1#hysteria2-540983040",
     "countryCode": "hk"
   },
   {
     "name": "Hong Kong 5",
-    "config": "hy2://5dc6fa05-a601-aba6-7761-ecde22d2b0fc@653c15ac-tmm5c0-tonrmx-8n27.hk3.hyhuawei.com:443?insecure=1&sni=653c15ac-tmm5c0-tonrmx-8n27.hk3.hyhuawei.com#hysteria2-1623484142",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.89:443?insecure=1&sni=https%3A%2F%2Ft.me%2Fclashv8%F0%9F%87%A8%F0%9F%87%B3#hysteria2-467980788",
     "countryCode": "hk"
   },
   {
     "name": "Hong Kong 6",
-    "config": "hy2://31676725-b0fd-fed2-c857-2da8ce5a6e4f@755802e4-tmm5c0-trnd2c-jjv2.hk3.hyhuawei.com:443?insecure=1&sni=755802e4-tmm5c0-trnd2c-jjv2.hk3.hyhuawei.com#hysteria2-1623483805",
-    "countryCode": "hk"
-  },
-  {
-    "name": "Hong Kong 7",
-    "config": "hy2://f13f964e-f06c-11ec-a858-f23c91cfbbc9@ef105858-tmm5c0-tt2yf5-1j61y.hk3.hyhuawei.com:443?insecure=1&sni=ef105858-tmm5c0-tt2yf5-1j61y.hk3.hyhuawei.com#hysteria2-1623652230",
-    "countryCode": "hk"
-  },
-  {
-    "name": "Hong Kong 8",
-    "config": "hy2://8d0ec7cc-eefa-11ee-9b59-f23c91cfbbc9@b0022937-tmm5c0-tvb36r-1qwom.hk3.hyhuawei.com:443?insecure=1&sni=b0022937-tmm5c0-tvb36r-1qwom.hk3.hyhuawei.com#hysteria2-1623483674",
-    "countryCode": "hk"
-  },
-  {
-    "name": "Hong Kong 9",
-    "config": "hy2://ae5338ae-9a70-58c9-3d47-7d54a5675715@bd452e87-tmm5c0-tv7dx2-py5w.hk3.hyhuawei.com:443?insecure=1&sni=bd452e87-tmm5c0-tv7dx2-py5w.hk3.hyhuawei.com#hysteria2-1623483693",
-    "countryCode": "hk"
-  },
-  {
-    "name": "Hong Kong 10",
-    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.29:443?insecure=1&sni=https%253a%252f%252ft.me%252fwangcai2%25d1%2580%25d2%25b9%25d2%25af#hysteria2-1456970890",
-    "countryCode": "hk"
-  },
-  {
-    "name": "Hong Kong 11",
-    "config": "hy2://51362ab6-b5e6-11ea-ad28-f23c913c8d2b@7108fdc9-tmm5c0-tnkuks-wujn.nw4.hyhuawei.com:443?insecure=1&sni=7108fdc9-tmm5c0-tnkuks-wujn.nw4.hyhuawei.com#hysteria2-1623483473",
-    "countryCode": "hk"
-  },
-  {
-    "name": "Hong Kong 12",
-    "config": "hy2://d18bcaf4-1323-11ec-a0fc-f23c913c8d2b@7cf51189-tmm5c0-tqrqo1-8rja.hk3.hyhuawei.com:443?insecure=1&sni=7cf51189-tmm5c0-tqrqo1-8rja.hk3.hyhuawei.com#hysteria2-1623652249",
-    "countryCode": "hk"
-  },
-  {
-    "name": "Hong Kong 13",
-    "config": "hy2://19dd9c70-e4a5-11ed-8347-f23c9164ca5d@24f1571a-tmm5c0-tug19l-1go3q.hk3.hyhuawei.com:443?insecure=1&sni=24f1571a-tmm5c0-tug19l-1go3q.hk3.hyhuawei.com#hysteria2-1623484235",
-    "countryCode": "hk"
-  },
-  {
-    "name": "Hong Kong 14",
-    "config": "hy2://f7d95364-607b-11ee-93af-f23c91369f2d@e49952e3-tmm5c0-tv7zgh-1ijh5.hk3.hyhuawei.com:443?insecure=1&sni=e49952e3-tmm5c0-tv7zgh-1ijh5.hk3.hyhuawei.com#hysteria2-1623483937",
-    "countryCode": "hk"
-  },
-  {
-    "name": "Hong Kong 15",
-    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.174:443?insecure=1&sni=https%253a%252f%252ft.me%252foneclickvpnkeys#hysteria2-892566711",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.89:443?insecure=1&sni=vk.com#hysteria2-985469468",
     "countryCode": "hk"
   },
   {
     "name": "Germany 1",
-    "config": "trojan://UX82473651@pleased-albacore.rooster465.autos:443?sni=pleased-albacore.rooster465.autos&type=tcp#trojan-1643587520",
+    "config": "trojan://MDYVt6HgSqB7d537GPQXjk6Rk0E4RxWo@31.77.168.33:443?sni=d3-de2.cloud-cdn.xyz&type=grpc#trojan-1642619626",
     "countryCode": "de"
   },
   {
@@ -211,12 +211,27 @@
   },
   {
     "name": "Germany 3",
-    "config": "trojan://UX82473651@pleased-albacore.rooster465.autos:443?sni=pleased-albacore.rooster465.autos&type=tcp#trojan-1648344548",
+    "config": "trojan://MDYVt6HgSqB7d537GPQXjk6Rk0E4RxWo@31.77.168.35:443?allowInsecure=1&sni=d3-de2.cloud-cdn.xyz&type=grpc#trojan-1656462371",
     "countryCode": "de"
   },
   {
     "name": "Germany 4",
-    "config": "trojan://UX82473651@actual-squid.rooster465.autos:443?allowInsecure=1&sni=actual-squid.rooster465.autos&type=tcp#trojan-1583440648",
+    "config": "trojan://UX82473651@pleased-albacore.rooster465.autos:443?sni=pleased-albacore.rooster465.autos&type=tcp#trojan-1649577319",
+    "countryCode": "de"
+  },
+  {
+    "name": "Germany 5",
+    "config": "trojan://UX82473651@pleased-albacore.rooster465.autos:443?sni=pleased-albacore.rooster465.autos&type=tcp#trojan-1652072052",
+    "countryCode": "de"
+  },
+  {
+    "name": "Germany 6",
+    "config": "trojan://UX82473651@meet-goshawk.rooster465.autos:443?allowInsecure=1&sni=meet-goshawk.rooster465.autos&type=tcp#trojan-1655225145",
+    "countryCode": "de"
+  },
+  {
+    "name": "Germany 7",
+    "config": "trojan://UX82473651@pleased-albacore.rooster465.autos:443?sni=pleased-albacore.rooster465.autos&type=tcp#trojan-1648344548",
     "countryCode": "de"
   },
   {
@@ -226,52 +241,52 @@
   },
   {
     "name": "Hong Kong 2",
-    "config": "trojan://UX82473651@strong-haddock.rooster465.autos:443?allowInsecure=1&sni=strong-haddock.rooster465.autos&type=tcp#trojan-1649202024",
+    "config": "trojan://UX82473651@strong-haddock.rooster465.autos:443?allowInsecure=1&sni=strong-haddock.rooster465.autos&type=tcp#trojan-1643520505",
     "countryCode": "hk"
   },
   {
     "name": "Hong Kong 3",
-    "config": "trojan://tFjD2X1F6i9FfWp2GDU5Vbi1conuaChDKIYbw9zMFrqvMoSz@47.240.80.220:2052?allowInsecure=1&sni=vpn.12169.top&type=tcp#trojan-1334107990",
+    "config": "trojan://UX82473651@185.244.208.69:443?sni=strong-haddock.rooster465.autos&type=tcp#trojan-1651715647",
     "countryCode": "hk"
   },
   {
     "name": "Hong Kong 4",
-    "config": "trojan://tFjD2X1F6i9FfWp2GDU5Vbi1conuaChDKIYbw9zMFrqvMoSz@47.240.80.220:2052?allowInsecure=1&sni=vpn.12169.top&type=tcp#trojan-1329054522",
-    "countryCode": "hk"
-  },
-  {
-    "name": "Hong Kong 5",
-    "config": "trojan://tFjD2X1F6i9FfWp2GDU5Vbi1conuaChDKIYbw9zMFrqvMoSz@47.240.80.220:2052?allowInsecure=1&sni=47.240.80.220&type=tcp#trojan-1534909953",
-    "countryCode": "hk"
-  },
-  {
-    "name": "Hong Kong 6",
-    "config": "trojan://62ae18560ab740e0@ihk135.zxom.eu.org:20016?sni=ihk135.zxom.eu.org&type=tcp#trojan-1651724643",
-    "countryCode": "hk"
-  },
-  {
-    "name": "Hong Kong 7",
     "config": "trojan://tFjD2X1F6i9FfWp2GDU5Vbi1conuaChDKIYbw9zMFrqvMoSz@47.240.80.220:2052?allowInsecure=1&sni=47.240.80.220&type=tcp#trojan-1539709782",
     "countryCode": "hk"
   },
   {
-    "name": "Hong Kong 8",
-    "config": "trojan://62ae18560ab740e0@ihk135.zxom.eu.org:20016?allowInsecure=1&sni=ihk135.zxom.eu.org&type=tcp#trojan-1650036405",
+    "name": "Hong Kong 5",
+    "config": "trojan://UX82473651@strong-haddock.rooster465.autos:443?allowInsecure=1&sni=strong-haddock.rooster465.autos&type=tcp#trojan-1649202024",
     "countryCode": "hk"
   },
   {
-    "name": "Hong Kong 9",
+    "name": "Hong Kong 6",
+    "config": "trojan://UX82473651@strong-haddock.rooster465.autos:443?sni=strong-haddock.rooster465.autos&type=tcp#trojan-1653446775",
+    "countryCode": "hk"
+  },
+  {
+    "name": "Hong Kong 7",
     "config": "trojan://62ae18560ab740e0@ihk135.zxom.eu.org:20016?allowInsecure=1&sni=ihk135.zxom.eu.org&type=tcp#trojan-1647930899",
     "countryCode": "hk"
   },
   {
+    "name": "Hong Kong 8",
+    "config": "trojan://XuMweB2PWs@2.27.109.179:45464?sni=2.27.109.179.sslip.io&type=tcp#trojan-1648792655",
+    "countryCode": "hk"
+  },
+  {
+    "name": "Hong Kong 9",
+    "config": "trojan://UX82473651@strong-haddock.rooster465.autos:443?sni=strong-haddock.rooster465.autos&type=tcp#trojan-1645310736",
+    "countryCode": "hk"
+  },
+  {
     "name": "Hong Kong 10",
-    "config": "trojan://XuMweB2PWs@2.27.109.179:45464?sni=2.27.109.179.sslip.io&type=tcp#trojan-1444683910",
+    "config": "trojan://UX82473651@strong-haddock.rooster465.autos:443?allowInsecure=1&sni=strong-haddock.rooster465.autos&type=tcp#trojan-1656587331",
     "countryCode": "hk"
   },
   {
     "name": "Hong Kong 11",
-    "config": "trojan://XuMweB2PWs@2.27.109.179:45464?sni=2.27.109.179.sslip.io&type=tcp#trojan-1442577451",
+    "config": "trojan://XuMweB2PWs@2.27.109.179:45464?sni=2.27.109.179.sslip.io&type=tcp#trojan-1509601993",
     "countryCode": "hk"
   },
   {
@@ -280,38 +295,23 @@
     "countryCode": "hk"
   },
   {
-    "name": "Ireland 1",
-    "config": "trojan://UX82473651@loved-shark.rooster465.autos:443?allowInsecure=1&sni=loved-shark.rooster465.autos&type=tcp#trojan-1643514782",
-    "countryCode": "ie"
-  },
-  {
-    "name": "Japan 1",
-    "config": "trojan://UX82473651@integral-rodent.rooster465.autos:443?sni=integral-rodent.rooster465.autos&type=tcp#trojan-1643587519",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 2",
-    "config": "trojan://UX82473651@intense-sole.rooster465.autos:443?sni=intense-sole.rooster465.autos&type=tcp#trojan-1643587525",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 3",
-    "config": "trojan://UX82473651@promoted-rattler.rooster465.autos:443?type=tcp#trojan-1645360476",
-    "countryCode": "jp"
+    "name": "Hong Kong 13",
+    "config": "trojan://tFjD2X1F6i9FfWp2GDU5Vbi1conuaChDKIYbw9zMFrqvMoSz@47.240.80.220:2052?allowInsecure=1&type=tcp#trojan-1533401275",
+    "countryCode": "hk"
   },
   {
     "name": "United Arab Emirates 1",
-    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?host=uae.unixzone.us&path=%2F&security=none&sni=uae.unixzone.us&type=ws#vless-89301153",
+    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?path=%2F&security=none&type=ws#vless-481483151",
     "countryCode": "ae"
   },
   {
     "name": "United Arab Emirates 2",
-    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?fp=firefox&host=uae.unixzone.us&path=%2F&security=none&type=ws#vless-274599317",
+    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?fp=unsafe&host=uae.unixzone.us&path=%2F&security=none&type=ws#vless-1078737127",
     "countryCode": "ae"
   },
   {
     "name": "United Arab Emirates 3",
-    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?path=%2F&security=none&sni=uae.unixzone.us&type=ws#vless-496076497",
+    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?security=none&sni=uae.unixzone.us&type=ws#vless-470981956",
     "countryCode": "ae"
   },
   {
@@ -321,82 +321,82 @@
   },
   {
     "name": "United Arab Emirates 5",
-    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?security=none&sni=uae.unixzone.us&type=ws#vless-470981956",
+    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@84.235.244.108:22573?host=uae.unixzone.us&path=%2F&security=none&type=ws#vless-81052",
     "countryCode": "ae"
   },
   {
     "name": "United Arab Emirates 6",
-    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@84.235.244.108:22573?fp=chrome&host=uae.unixzone.us&path=%2F&security=false&type=ws#vless-474914683",
+    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?fp=firefox&host=uae.unixzone.us&path=%2F&security=none&type=ws#vless-274599317",
     "countryCode": "ae"
   },
   {
     "name": "United Arab Emirates 7",
-    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@84.235.244.108:22573?host=uae.unixzone.us&path=%2F&security=none&sni=uae.unixzone.us&type=ws#vless-168481354",
-    "countryCode": "ae"
-  },
-  {
-    "name": "United Arab Emirates 8",
-    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?fp=edge&host=uae.unixzone.us&path=%2F&security=none&type=ws#vless-793135854",
-    "countryCode": "ae"
-  },
-  {
-    "name": "United Arab Emirates 9",
     "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?host=uae.unixzone.us&path=%2F&security=none&type=ws#vless-93598",
     "countryCode": "ae"
   },
   {
-    "name": "United Arab Emirates 10",
-    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?fp=unsafe&host=uae.unixzone.us&path=%2F&security=none&type=ws#vless-1078737127",
-    "countryCode": "ae"
-  },
-  {
     "name": "Australia 1",
-    "config": "vless://4f865f35-cf47-4e7f-a7e6-8882511a1b36@35.197.168.118:443?fp=chrome&pbk=OgTkmAQdLjipA9oLloxbU5BAX3hPjzbvkEGHF4aZ8z4&security=reality&sid=8a7d5e0248cdb1b1&sni=www.cloudflare.com&type=tcp#vless-1645364940",
+    "config": "vless://948df76f-505d-4608-9c76-a933ee3ccc76@46.250.240.80:2053?fp=firefox&pbk=CYFeysLf--_IVhxQOCd3ZxLrAVWFFOkJzvIGHOVXN3E&security=reality&sid=4cc9dc65f7770115&sni=www.cloudflare.com&type=tcp#vless-1258929861",
     "countryCode": "au"
   },
   {
     "name": "Canada 1",
-    "config": "vless://ca52e2b6-fb9f-4dac-b6dc-49da9923f251@209.200.246.148:443?flow=xtls-rprx-vision&fp=chrome&pbk=uTmb-ytXsx8p0fkBz7A76SHpWk7_oVutIA4LGTE8BQk&security=reality&sid=f98843107912e782&sni=www.cloudflare.com&type=tcp#vless-909039620",
-    "countryCode": "ca"
-  },
-  {
-    "name": "Canada 2",
-    "config": "vless://dc620cd6-a9d8-4a0f-8f18-006b895db77e@66.70.179.198:2053?pbk=k4l6TxwkBbx9DhZAFpByq5rfCWFSgyOex3f_eFe9CWU&security=reality&sid=83f8317a948bb769&sni=www.cloudflare.com&type=tcp#vless-1344116852",
-    "countryCode": "ca"
-  },
-  {
-    "name": "Canada 3",
     "config": "vless://dc620cd6-a9d8-4a0f-8f18-006b895db77e@66.70.179.198:2053?fp=firefox&pbk=k4l6TxwkBbx9DhZAFpByq5rfCWFSgyOex3f_eFe9CWU&security=reality&sid=83f8317a948bb769&sni=www.cloudflare.com&type=tcp#vless-1260285703",
     "countryCode": "ca"
   },
   {
-    "name": "Canada 4",
+    "name": "Canada 2",
+    "config": "vless://6bceb548-d9b6-461f-8e37-a5a7fbcdc2c8@milo.rubinaz.xyz:8080?security=none&type=raw#vless-1618560028",
+    "countryCode": "ca"
+  },
+  {
+    "name": "Canada 3",
     "config": "vless://dc620cd6-a9d8-4a0f-8f18-006b895db77e@66.70.179.198:2053?fp=random&pbk=k4l6TxwkBbx9DhZAFpByq5rfCWFSgyOex3f_eFe9CWU&security=reality&sid=83f8317a948bb769&sni=www.cloudflare.com&type=tcp#vless-1275300277",
     "countryCode": "ca"
   },
   {
-    "name": "Canada 5",
+    "name": "Canada 4",
     "config": "vless://dc620cd6-a9d8-4a0f-8f18-006b895db77e@66.70.179.198:2053?fp=firefox&pbk=k4l6TxwkBbx9DhZAFpByq5rfCWFSgyOex3f_eFe9CWU&security=reality&sid=83f8317a948bb769&sni=www.cloudflare.com&type=raw#vless-1293658703",
     "countryCode": "ca"
   },
   {
-    "name": "Canada 6",
-    "config": "vless://dc620cd6-a9d8-4a0f-8f18-006b895db77e@66.70.179.198:2053?pbk=k4l6TxwkBbx9DhZAFpByq5rfCWFSgyOex3f_eFe9CWU&security=reality&sid=83f8317a948bb769&sni=www.cloudflare.com&type=tcp#vless-1307824741",
-    "countryCode": "ca"
-  },
-  {
-    "name": "Canada 7",
-    "config": "vless://dc620cd6-a9d8-4a0f-8f18-006b895db77e@66.70.179.198:2053?fp=random&pbk=k4l6TxwkBbx9DhZAFpByq5rfCWFSgyOex3f_eFe9CWU&security=reality&sid=83f8317a948bb769&sni=www.cloudflare.com&type=tcp#vless-1274186383",
-    "countryCode": "ca"
-  },
-  {
     "name": "Switzerland 1",
-    "config": "vless://e0bd9dfa-0cf9-47c0-92ac-7dba08ebcff8@179.237.103.152:443?flow=xtls-rprx-vision&fp=firefox&host=%2F%3Ftelegram---planb_net---planb_net---planb_net---planb_net&pbk=8PZTYkhNhSgagVdaI-iqSCPXJwDhHU23IUwZIu08zH4&security=reality&sid=9de8ae53dabf1dc2&sni=www.google.com&type=tcp#vless-1604957108",
+    "config": "vless://e0bd9dfa-0cf9-47c0-92ac-7dba08ebcff8@179.237.103.152:443?flow=xtls-rprx-vision&fp=chrome&pbk=8PZTYkhNhSgagVdaI-iqSCPXJwDhHU23IUwZIu08zH4&security=reality&sid=9de8ae53dabf1dc2&sni=www.google.com&type=raw#vless-1615178279",
     "countryCode": "ch"
   },
   {
     "name": "Switzerland 2",
-    "config": "vless://c0dd6d59-1573-43af-8b70-1470b2632a6d@208.69.78.217:2053?fp=random&pbk=A49ue7zXSusJZdErPAewg3jqGdUFIO1a9xOunEKJfC0&security=reality&sid=ad86e2d52ff40ebd&sni=www.apple.com&type=tcp#vless-1571355288",
+    "config": "vless://e0bd9dfa-0cf9-47c0-92ac-7dba08ebcff8@179.237.103.152:443?flow=xtls-rprx-vision&pbk=8PZTYkhNhSgagVdaI-iqSCPXJwDhHU23IUwZIu08zH4&security=reality&sid=9de8ae53dabf1dc2&sni=www.google.com&type=tcp#vless-1611505197",
     "countryCode": "ch"
+  },
+  {
+    "name": "Chile 1",
+    "config": "vless://e13cf851-b4fd-413b-8d49-146e6eb8e5d4@64.176.16.32:80?host=platform113.halalkhor.info&path=%2Fplatform113&security=none&type=ws#vless-1649704955",
+    "countryCode": "cl"
+  },
+  {
+    "name": "Germany 1",
+    "config": "vless://e676c6c8-44a8-4a1d-82cc-821a1f70f0c0@31.76.11.83:26150?security=none&type=tcp#vless-1625674435",
+    "countryCode": "de"
+  },
+  {
+    "name": "EE 1",
+    "config": "vless://87fd990d-ca93-440a-bbd4-e8281c4a0910@163.245.52.91:443?flow=xtls-rprx-vision&fp=edge&pbk=g36Z7YIqJMJP-uv3DBr72X5jvfjyW1qIAxa8TkWmpmQ&security=reality&sid=ad6e08b22389abd2&sni=d3-ee1.cloud-cdn.xyz&spx=%2F+&type=tcp#vless-1651556331",
+    "countryCode": "ee"
+  },
+  {
+    "name": "United Kingdom 1",
+    "config": "vless://cd3bb7d9-7df3-4644-ac05-c260990ac277@66.90.104.42:2083?security=none&serviceName=vless&sni=%2Ftelegram_tm%28%40azarbayjab1%29%2Ctelegram_tm%28%40azarbayjab1%29%2Ctelegram_tm%28%40azarbayjab1%29%2Ctelegram_tm%28%40azarbayjab1%29%2Ctelegram_tm%28%40azarbayjab1%29%2Ctelegram_tm%28%40azarbayjab1%29%2Ctelegram_tm%28%40azarbayjab1%29&type=grpc#vless-1245422997",
+    "countryCode": "gb"
+  },
+  {
+    "name": "United Kingdom 2",
+    "config": "vless://cd3bb7d9-7df3-4644-ac05-c260990ac277@66.90.104.42:2083?security=none&serviceName=vless&sni=%2Ftelegram_tm%28%40azarbayjab1&type=grpc#vless-1254790076",
+    "countryCode": "gb"
+  },
+  {
+    "name": "United Kingdom 3",
+    "config": "vless://cd3bb7d9-7df3-4644-ac05-c260990ac277@66.90.105.211:2083?security=none&serviceName=vless&sni=66.90.105.211&type=grpc#vless-1608977584",
+    "countryCode": "gb"
   }
 ]
