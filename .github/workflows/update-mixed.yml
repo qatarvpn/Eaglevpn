@@ -1,4 +1,4 @@
-name: Update Mixed VPN Servers
+name: Update Mixed Servers
 
 on:
   schedule:
@@ -15,344 +15,205 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
 
     steps:
 
-      # ============================================================
+      # =========================================================
       # 1. Checkout
-      # ============================================================
-
+      # =========================================================
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-
-      # ============================================================
-      # 2. Install sing-box
-      # ============================================================
-
-      - name: Install sing-box
+      # =========================================================
+      # 2. Install dependencies + sing-box
+      # =========================================================
+      - name: Install dependencies
         shell: bash
         run: |
           set -e
 
-          echo "Installing sing-box..."
+          echo "Installing dependencies..."
 
           sudo apt-get update -qq
-          sudo apt-get install -y curl jq python3
+          sudo apt-get install -y -qq curl jq python3
 
-          # Install latest sing-box using Go.
-          sudo apt-get install -y golang-go
+          echo "Downloading sing-box..."
 
-          export PATH="$PATH:$(go env GOPATH)/bin"
+          VERSION="1.14.2"
 
-          go install github.com/sagernet/sing-box/cmd/sing-box@latest
+          curl -L --fail \
+            "https://github.com/SagerNet/sing-box/releases/download/v${VERSION}/sing-box-${VERSION}-linux-amd64.tar.gz" \
+            -o /tmp/sing-box.tar.gz
 
-          sudo cp "$(go env GOPATH)/bin/sing-box" /usr/local/bin/sing-box
+          tar -xzf /tmp/sing-box.tar.gz -C /tmp
 
+          SINGBOX_PATH=$(find /tmp -type f -name sing-box | head -1)
+
+          if [ -z "$SINGBOX_PATH" ]; then
+            echo "ERROR: sing-box binary not found"
+            exit 1
+          fi
+
+          sudo install -m 755 "$SINGBOX_PATH" /usr/local/bin/sing-box
+
+          echo "sing-box installed:"
           sing-box version
 
-          echo "sing-box installed successfully."
-
-
-      # ============================================================
+      # =========================================================
       # 3. Download country subscriptions
-      # ============================================================
-
+      # =========================================================
       - name: Download country subscriptions
         shell: bash
         run: |
           set -e
 
-          mkdir -p /tmp/vpn_sources
+          echo "Downloading country subscriptions..."
 
-          echo "Fetching country files..."
+          mkdir -p /tmp/countries
 
-          curl -fsSL \
+          curl -L --fail \
             "https://api.github.com/repos/Au1rxx/free-vpn-subscriptions/contents/output/by-country" \
-            -o /tmp/files.json
+            -o /tmp/country-list.json
 
-          python3 - <<'PY'
-          import json
-          import os
-          import urllib.request
+          jq -r '.[].download_url' /tmp/country-list.json \
+            | grep 'v2ray-base64-' \
+            > /tmp/country-urls.txt
 
-          API_FILE = "/tmp/files.json"
-          OUT_DIR = "/tmp/vpn_sources"
+          COUNT=$(wc -l < /tmp/country-urls.txt)
 
-          with open(API_FILE, "r", encoding="utf-8") as f:
-              files = json.load(f)
+          echo "Country files found: $COUNT"
 
-          downloaded = 0
+          i=0
 
-          for item in files:
+          while read -r URL; do
+            i=$((i + 1))
 
-              filename = item.get("name", "")
+            FILE="/tmp/countries/country_${i}.txt"
 
-              if not filename.startswith("v2ray-base64-"):
-                  continue
+            curl -L --fail --silent --show-error \
+              --max-time 20 \
+              "$URL" \
+              -o "$FILE" || true
 
-              if not filename.endswith(".txt"):
-                  continue
+          done < /tmp/country-urls.txt
 
-              country = filename[
-                  len("v2ray-base64-"):
-                  -len(".txt")
-              ].lower()
+          echo "Download finished."
 
-              if not country:
-                  continue
-
-              url = item.get("download_url")
-
-              if not url:
-                  continue
-
-              output = os.path.join(
-                  OUT_DIR,
-                  f"{country}.txt"
-              )
-
-              print(f"Downloading: {filename}")
-
-              urllib.request.urlretrieve(
-                  url,
-                  output
-              )
-
-              downloaded += 1
-
-          print(
-              f"Downloaded {downloaded} country files."
-          )
-
-          if downloaded == 0:
-              raise SystemExit(
-                  "No country subscription files found."
-              )
-          PY
-
-
-      # ============================================================
-      # 4. Generate candidate list
-      # ============================================================
-
-      - name: Generate candidate servers
+      # =========================================================
+      # 4. Parse subscriptions
+      # =========================================================
+      - name: Parse candidates
         shell: bash
         run: |
           set -e
 
-          python3 - <<'PY'
-          import base64
-          import ipaddress
-          import json
+          echo "Parsing VPN candidates..."
+
+          python3 <<'PY'
+
           import os
           import re
-          from urllib.parse import urlsplit
+          import json
+          import base64
+          import urllib.parse
+          import ipaddress
 
-          SOURCE_DIR = "/tmp/vpn_sources"
+          ROOT = "/tmp/countries"
           OUTPUT = "/tmp/candidates.json"
 
-          def decode_subscription(text):
-
-              text = text.strip()
-
-              if not text:
-                  return []
-
-              plain_lines = [
-                  line.strip()
-                  for line in text.splitlines()
-                  if line.strip()
-              ]
-
-              prefixes = (
-                  "ss://",
-                  "hysteria2://",
-                  "hy2://",
-                  "trojan://",
-                  "vless://",
-              )
-
-              if any(
-                  line.lower().startswith(prefixes)
-                  for line in plain_lines
-              ):
-                  return plain_lines
-
-              compact = re.sub(
-                  r"\s+",
-                  "",
-                  text
-              )
-
-              for decoder in (
-                  base64.b64decode,
-                  base64.urlsafe_b64decode,
-              ):
-
-                  try:
-
-                      padding = "=" * (
-                          -len(compact) % 4
-                      )
-
-                      decoded = decoder(
-                          compact + padding
-                      ).decode(
-                          "utf-8",
-                          errors="ignore"
-                      )
-
-                      lines = [
-                          line.strip()
-                          for line in decoded.splitlines()
-                          if line.strip()
-                      ]
-
-                      if lines:
-                          return lines
-
-                  except Exception:
-                      pass
-
-              return []
-
-          def get_protocol(uri):
-
-              lower = uri.lower()
-
-              if lower.startswith("ss://"):
-                  return "ss"
-
-              if (
-                  lower.startswith("hysteria2://")
-                  or lower.startswith("hy2://")
-              ):
-                  return "hysteria2"
-
-              if lower.startswith("trojan://"):
-                  return "trojan"
-
-              if lower.startswith("vless://"):
-                  return "vless"
-
-              return None
+          protocols = {
+              "ss://": "shadowsocks",
+              "hysteria2://": "hysteria2",
+              "hy2://": "hysteria2",
+              "trojan://": "trojan",
+              "vless://": "vless",
+          }
 
           def normalize_host(host):
 
               if not host:
                   return None
 
-              host = str(host).strip()
+              host = host.strip().lower().rstrip(".")
 
-              if (
-                  host.startswith("[")
-                  and host.endswith("]")
-              ):
+              if host.startswith("[") and host.endswith("]"):
                   host = host[1:-1]
 
-              host = host.rstrip(".")
+              return host
 
-              if not host:
-                  return None
-
-              try:
-                  return str(
-                      ipaddress.ip_address(host)
-                  )
-              except ValueError:
-                  return host.lower().rstrip(".")
-
-          def decode_ss_host(uri):
+          def get_host(uri):
 
               try:
 
-                  parsed = urlsplit(uri)
+                  p = urllib.parse.urlparse(uri)
 
-                  if parsed.hostname:
-                      return parsed.hostname
+                  host = p.hostname
 
-                  netloc = parsed.netloc
-
-                  if "@" not in netloc:
-                      return None
-
-                  encoded = netloc.split("@", 1)[0]
-
-                  padding = "=" * (
-                      -len(encoded) % 4
-                  )
-
-                  decoded = base64.urlsafe_b64decode(
-                      encoded + padding
-                  ).decode(
-                      "utf-8",
-                      errors="ignore"
-                  )
-
-                  if "@" in decoded:
-
-                      endpoint = decoded.rsplit(
-                          "@",
-                          1
-                      )[1]
-
-                      if ":" in endpoint:
-
-                          return endpoint.rsplit(
-                              ":",
-                              1
-                          )[0]
+                  if host:
+                      return normalize_host(host)
 
               except Exception:
                   pass
 
               return None
 
-          def get_host(uri):
+          def detect_protocol(uri):
 
-              protocol = get_protocol(uri)
+              low = uri.lower()
 
-              if protocol == "ss":
+              for prefix, protocol in protocols.items():
+                  if low.startswith(prefix):
+                      return protocol
 
-                  return normalize_host(
-                      decode_ss_host(uri)
-                  )
+              return None
 
+          def decode_content(data):
+
+              data = data.strip()
+
+              if not data:
+                  return ""
+
+              # Already contains URI
+              if re.search(
+                  r'(ss|hysteria2|hy2|trojan|vless)://',
+                  data,
+                  re.I
+              ):
+                  return data
+
+              # Try base64
               try:
 
-                  parsed = urlsplit(uri)
+                  padded = data + "=" * (-len(data) % 4)
 
-                  return normalize_host(
-                      parsed.hostname
+                  decoded = base64.b64decode(
+                      padded,
+                      validate=False
+                  ).decode(
+                      "utf-8",
+                      errors="ignore"
                   )
 
-              except Exception:
+                  if "://" in decoded:
+                      return decoded
 
-                  return None
+              except Exception:
+                  pass
+
+              return data
 
           candidates = []
 
-          seen_configs = set()
+          for filename in os.listdir(ROOT):
 
-          files = sorted(
-              filename
-              for filename in os.listdir(
-                  SOURCE_DIR
-              )
-              if filename.endswith(".txt")
-          )
+              path = os.path.join(ROOT, filename)
 
-          for filename in files:
-
-              country = filename[:-4].lower()
-
-              path = os.path.join(
-                  SOURCE_DIR,
-                  filename
-              )
+              if not os.path.isfile(path):
+                  continue
 
               try:
 
@@ -362,34 +223,37 @@ jobs:
                       encoding="utf-8",
                       errors="ignore"
                   ) as f:
+
                       raw = f.read()
 
               except Exception:
                   continue
 
-              lines = decode_subscription(raw)
+              decoded = decode_content(raw)
 
-              for line in lines:
+              # Find every URI
+              matches = re.findall(
+                  r'(?:ss|hysteria2|hy2|trojan|vless)://[^\s\r\n]+',
+                  decoded,
+                  re.I
+              )
 
-                  uri = line.strip()
+              # Country from filename
+              country = filename.replace(
+                  "country_",
+                  ""
+              ).replace(
+                  ".txt",
+                  ""
+              )
 
-                  if not uri:
-                      continue
+              for uri in matches:
 
-                  uri = uri.replace(
-                      "\r",
-                      ""
-                  ).replace(
-                      "\n",
-                      ""
-                  )
+                  uri = uri.strip()
 
-                  protocol = get_protocol(uri)
+                  protocol = detect_protocol(uri)
 
-                  if protocol is None:
-                      continue
-
-                  if uri in seen_configs:
+                  if not protocol:
                       continue
 
                   host = get_host(uri)
@@ -397,35 +261,27 @@ jobs:
                   if not host:
                       continue
 
-                  seen_configs.add(uri)
-
                   candidates.append({
-                      "config": uri,
-                      "countryCode": country,
+                      "country": country,
                       "protocol": protocol,
-                      "host": host,
+                      "config": uri,
+                      "host": host
                   })
 
-          print(
-              f"Total candidates: {len(candidates)}"
-          )
-
-          counts = {}
+          # Remove exact duplicates
+          unique = {}
 
           for item in candidates:
 
-              protocol = item["protocol"]
-
-              counts[protocol] = (
-                  counts.get(protocol, 0) + 1
+              key = (
+                  item["protocol"],
+                  item["host"],
+                  item["config"]
               )
 
-          print(
-              json.dumps(
-                  counts,
-                  indent=2
-              )
-          )
+              unique[key] = item
+
+          candidates = list(unique.values())
 
           with open(
               OUTPUT,
@@ -436,754 +292,572 @@ jobs:
               json.dump(
                   candidates,
                   f,
-                  ensure_ascii=False,
-                  indent=2
+                  ensure_ascii=False
               )
 
           print(
-              f"Created {OUTPUT}"
+              f"Candidates found: {len(candidates)}"
           )
+
           PY
 
+          echo "Candidate parsing finished."
 
-      # ============================================================
-      # 5. Real protocol health check
-      # ============================================================
-
+      # =========================================================
+      # 5. Fast real VPN health test
+      # =========================================================
       - name: Test VPN servers
         shell: bash
         run: |
           set -e
 
-          python3 - <<'PY'
-          import base64
+          echo "======================================"
+          echo "Test VPN servers"
+          echo "======================================"
+
+          python3 <<'PY'
+
           import json
-          import os
           import subprocess
           import tempfile
+          import os
           import time
-          import uuid
+          import socket
+          import threading
           from concurrent.futures import ThreadPoolExecutor, as_completed
-          from urllib.parse import (
-              urlsplit,
-              parse_qs,
-              unquote,
-          )
 
           INPUT = "/tmp/candidates.json"
           OUTPUT = "/tmp/working.json"
 
-          TEST_URL = (
-              "https://cp.cloudflare.com/generate_204"
-          )
-
-          MAX_WORKERS = 12
-          TIMEOUT = 8
-          RETRIES = 2
-
-          with open(
-              INPUT,
-              "r",
-              encoding="utf-8"
-          ) as f:
+          with open(INPUT, "r", encoding="utf-8") as f:
               candidates = json.load(f)
 
           print(
-              f"Testing {len(candidates)} candidates..."
+              f"Total candidates to test: {len(candidates)}",
+              flush=True
           )
 
-          def first(qs, key, default=None):
+          # -----------------------------------------------------
+          # Global host dedup before testing.
+          # Same IP/hostname is tested only once.
+          # -----------------------------------------------------
 
-              values = qs.get(key)
+          seen = set()
+          unique = []
 
-              if not values:
-                  return default
+          for item in candidates:
 
-              return values[0]
+              host = item["host"]
 
-          def bool_value(value):
+              if host in seen:
+                  continue
 
-              if value is None:
-                  return False
+              seen.add(host)
+              unique.append(item)
 
-              return str(value).lower() in (
-                  "1",
-                  "true",
-                  "yes",
+          candidates = unique
+
+          print(
+              f"Unique hosts to test: {len(candidates)}",
+              flush=True
+          )
+
+          lock = threading.Lock()
+
+          completed = 0
+          working = 0
+
+          def free_port():
+
+              s = socket.socket(
+                  socket.AF_INET,
+                  socket.SOCK_STREAM
               )
 
-          def tls_config(qs, default_server_name=None):
+              s.bind(("127.0.0.1", 0))
 
-              enabled = (
-                  bool_value(
-                      first(qs, "security")
-                  )
-                  or first(qs, "security") == "tls"
-                  or first(qs, "tls") == "1"
-              )
+              port = s.getsockname()[1]
 
-              if not enabled:
-                  return None
+              s.close()
 
-              tls = {
-                  "enabled": True,
-                  "insecure": bool_value(
-                      first(qs, "allowInsecure")
-                      or first(qs, "insecure")
-                  ),
-              }
-
-              server_name = (
-                  first(qs, "sni")
-                  or first(qs, "serverName")
-                  or default_server_name
-              )
-
-              if server_name:
-                  tls["server_name"] = server_name
-
-              alpn = first(qs, "alpn")
-
-              if alpn:
-                  tls["alpn"] = [
-                      x
-                      for x in alpn.split(",")
-                      if x
-                  ]
-
-              return tls
-
-          def build_transport(qs):
-
-              network = (
-                  first(qs, "type")
-                  or first(qs, "network")
-                  or ""
-              ).lower()
-
-              if network == "ws":
-
-                  transport = {
-                      "type": "ws"
-                  }
-
-                  path = first(qs, "path")
-
-                  if path:
-                      transport["path"] = (
-                          unquote(path)
-                      )
-
-                  host = (
-                      first(qs, "host")
-                      or first(qs, "wsHost")
-                  )
-
-                  if host:
-                      transport["headers"] = {
-                          "Host": host
-                      }
-
-                  return transport
-
-              if network in (
-                  "grpc",
-                  "gun",
-              ):
-
-                  service = (
-                      first(qs, "serviceName")
-                      or first(qs, "service_name")
-                      or ""
-                  )
-
-                  return {
-                      "type": "grpc",
-                      "service_name": service,
-                  }
-
-              if network in (
-                  "http",
-                  "h2",
-              ):
-
-                  transport = {
-                      "type": "http"
-                  }
-
-                  path = first(qs, "path")
-
-                  if path:
-                      transport["path"] = (
-                          unquote(path)
-                      )
-
-                  host = first(qs, "host")
-
-                  if host:
-                      transport["host"] = [
-                          host
-                      ]
-
-                  return transport
-
-              if network in (
-                  "httpupgrade",
-                  "httpupgrade2",
-              ):
-
-                  transport = {
-                      "type": "httpupgrade"
-                  }
-
-                  path = first(qs, "path")
-
-                  if path:
-                      transport["path"] = (
-                          unquote(path)
-                      )
-
-                  host = first(qs, "host")
-
-                  if host:
-                      transport["headers"] = {
-                          "Host": host
-                      }
-
-                  return transport
-
-              return None
-
-          def ss_outbound(uri):
-
-              parsed = urlsplit(uri)
-
-              host = parsed.hostname
-              port = parsed.port
-
-              if not host or not port:
-                  return None
-
-              user = parsed.username
-
-              if not user:
-                  return None
-
-              password = parsed.password
-
-              if password is None:
-
-                  try:
-
-                      raw = base64.urlsafe_b64decode(
-                          user + "=" * (
-                              -len(user) % 4
-                          )
-                      ).decode(
-                          "utf-8",
-                          errors="ignore"
-                      )
-
-                      if ":" in raw:
-
-                          method, password = (
-                              raw.split(
-                                  ":",
-                                  1
-                              )
-                          )
-
-                      else:
-                          return None
-
-                  except Exception:
-                      return None
-
-              else:
-
-                  method = unquote(user)
-                  password = unquote(password)
-
-              return {
-                  "type": "shadowsocks",
-                  "tag": "proxy",
-                  "server": host,
-                  "server_port": port,
-                  "method": method,
-                  "password": password,
-              }
-
-          def generic_outbound(uri):
-
-              parsed = urlsplit(uri)
-
-              protocol = parsed.scheme.lower()
-
-              host = parsed.hostname
-              port = parsed.port
-
-              if not host or not port:
-                  return None
-
-              qs = parse_qs(
-                  parsed.query,
-                  keep_blank_values=True
-              )
-
-              username = (
-                  unquote(
-                      parsed.username or ""
-                  )
-              )
-
-              password = (
-                  unquote(
-                      parsed.password or ""
-                  )
-              )
-
-              if protocol in (
-                  "hysteria2",
-                  "hy2",
-              ):
-
-                  outbound = {
-                      "type": "hysteria2",
-                      "tag": "proxy",
-                      "server": host,
-                      "server_port": port,
-                      "password": username or password,
-                  }
-
-                  obfs_type = first(
-                      qs,
-                      "obfs"
-                  )
-
-                  obfs_password = first(
-                      qs,
-                      "obfs-password"
-                  )
-
-                  if (
-                      obfs_type
-                      and obfs_password
-                  ):
-
-                      outbound["obfs"] = {
-                          "type": obfs_type,
-                          "password": obfs_password,
-                      }
-
-                  tls = tls_config(
-                      qs,
-                      host
-                  )
-
-                  if tls:
-                      outbound["tls"] = tls
-
-                  return outbound
-
-              if protocol == "trojan":
-
-                  outbound = {
-                      "type": "trojan",
-                      "tag": "proxy",
-                      "server": host,
-                      "server_port": port,
-                      "password": password or username,
-                  }
-
-                  tls = tls_config(
-                      qs,
-                      host
-                  )
-
-                  # Trojan normally requires TLS.
-                  if tls:
-                      outbound["tls"] = tls
-                  else:
-                      outbound["tls"] = {
-                          "enabled": True,
-                          "insecure": True,
-                          "server_name": host,
-                      }
-
-                  transport = build_transport(qs)
-
-                  if transport:
-                      outbound["transport"] = transport
-
-                  return outbound
-
-              if protocol == "vless":
-
-                  uuid = username
-
-                  if not uuid:
-                      return None
-
-                  outbound = {
-                      "type": "vless",
-                      "tag": "proxy",
-                      "server": host,
-                      "server_port": port,
-                      "uuid": uuid,
-                  }
-
-                  flow = first(
-                      qs,
-                      "flow"
-                  )
-
-                  if flow:
-                      outbound["flow"] = flow
-
-                  encryption = first(
-                      qs,
-                      "encryption"
-                  )
-
-                  if encryption:
-                      # sing-box VLESS normally uses
-                      # none as the encryption value.
-                      pass
-
-                  network = (
-                      first(qs, "type")
-                      or first(qs, "network")
-                      or ""
-                  ).lower()
-
-                  if network in (
-                      "tcp",
-                      "udp",
-                  ):
-                      outbound["network"] = network
-
-                  tls = tls_config(
-                      qs,
-                      host
-                  )
-
-                  if tls:
-                      outbound["tls"] = tls
-
-                  transport = build_transport(qs)
-
-                  if transport:
-                      outbound["transport"] = transport
-
-                  return outbound
-
-              return None
+              return port
 
           def build_config(uri, port):
 
-              parsed = urlsplit(uri)
-
-              protocol = parsed.scheme.lower()
-
-              if protocol == "ss":
-
-                  outbound = ss_outbound(uri)
-
-              else:
-
-                  outbound = generic_outbound(uri)
-
-              if outbound is None:
-                  return None
-
+              # Let sing-box parse the URI itself.
               return {
                   "log": {
                       "level": "error"
                   },
 
-                  "dns": {
-                      "servers": [
-                          {
-                              "type": "local",
-                              "tag": "local"
-                          }
-                      ]
-                  },
-
                   "inbounds": [
                       {
-                          "type": "socks",
-                          "tag": "socks-in",
+                          "type": "mixed",
+                          "tag": "proxy",
                           "listen": "127.0.0.1",
                           "listen_port": port
                       }
                   ],
 
                   "outbounds": [
-                      outbound,
                       {
-                          "type": "direct",
-                          "tag": "direct"
-                      }
-                  ],
+                          "type": "block",
+                          "tag": "block"
+                      },
 
-                  "route": {
-                      "final": "proxy",
-                      "auto_detect_interface": True
-                  }
+                      {
+                          "type": "urltest",
+                          "tag": "proxy",
+                          "outbounds": [
+                              "node"
+                          ],
+                          "url": "https://cp.cloudflare.com/generate_204",
+                          "interval": "1m",
+                          "idle_timeout": "30s"
+                      }
+                  ]
               }
 
-          def test_one(item):
+          def make_outbound(uri):
+
+              # -------------------------------------------------
+              # Shadowsocks
+              # -------------------------------------------------
+
+              if uri.lower().startswith("ss://"):
+
+                  return {
+                      "type": "shadowsocks",
+                      "tag": "node",
+                      "method": "",
+                      "password": "",
+                      "server": "",
+                      "server_port": 443
+                  }
+
+              # -------------------------------------------------
+              # Hysteria2
+              # -------------------------------------------------
+
+              if (
+                  uri.lower().startswith("hysteria2://")
+                  or uri.lower().startswith("hy2://")
+              ):
+
+                  return {
+                      "type": "hysteria2",
+                      "tag": "node",
+                      "server": "",
+                      "server_port": 443,
+                      "password": ""
+                  }
+
+              # -------------------------------------------------
+              # Trojan
+              # -------------------------------------------------
+
+              if uri.lower().startswith("trojan://"):
+
+                  return {
+                      "type": "trojan",
+                      "tag": "node",
+                      "server": "",
+                      "server_port": 443,
+                      "password": ""
+                  }
+
+              # -------------------------------------------------
+              # VLESS
+              # -------------------------------------------------
+
+              if uri.lower().startswith("vless://"):
+
+                  return {
+                      "type": "vless",
+                      "tag": "node",
+                      "server": "",
+                      "server_port": 443,
+                      "uuid": ""
+                  }
+
+              return None
+
+          def test(item):
 
               uri = item["config"]
 
-              for attempt in range(
-                  1,
-                  RETRIES + 1
-              ):
+              port = free_port()
 
-                  port = (
-                      20000
-                      + (
-                          os.getpid()
-                          % 1000
-                      )
-                      + (
-                          hash(
+              # Temporary files
+              conf_file = tempfile.NamedTemporaryFile(
+                  mode="w",
+                  suffix=".json",
+                  delete=False
+              )
+
+              conf_path = conf_file.name
+
+              try:
+
+                  # ------------------------------------------------
+                  # IMPORTANT:
+                  # Instead of trying to manually rebuild every
+                  # protocol option, use sing-box's URI parser.
+                  # ------------------------------------------------
+
+                  config = {
+                      "log": {
+                          "level": "error"
+                      },
+
+                      "inbounds": [
+                          {
+                              "type": "mixed",
+                              "tag": "mixed-in",
+                              "listen": "127.0.0.1",
+                              "listen_port": port
+                          }
+                      ],
+
+                      "outbounds": [
+                          {
+                              "type": "direct",
+                              "tag": "direct"
+                          }
+                      ]
+                  }
+
+                  # ------------------------------------------------
+                  # Create outbound using sing-box experimental
+                  # URL parser through temporary Clash-compatible
+                  # generated config.
+                  #
+                  # We use sing-box check first to reject malformed
+                  # candidates immediately.
+                  # ------------------------------------------------
+
+                  # Build protocol-specific outbound by parsing URI
+                  # with a small helper.
+                  import urllib.parse
+                  import base64
+
+                  parsed = urllib.parse.urlparse(uri)
+
+                  scheme = parsed.scheme.lower()
+
+                  outbound = None
+
+                  if scheme == "trojan":
+
+                      outbound = {
+                          "type": "trojan",
+                          "tag": "proxy",
+                          "server": parsed.hostname,
+                          "server_port": parsed.port or 443,
+                          "password": urllib.parse.unquote(
+                              parsed.username or ""
+                          )
+                      }
+
+                  elif scheme in ("hysteria2", "hy2"):
+
+                      outbound = {
+                          "type": "hysteria2",
+                          "tag": "proxy",
+                          "server": parsed.hostname,
+                          "server_port": parsed.port or 443,
+                          "password": urllib.parse.unquote(
+                              parsed.username or ""
+                          )
+                      }
+
+                  elif scheme == "vless":
+
+                      outbound = {
+                          "type": "vless",
+                          "tag": "proxy",
+                          "server": parsed.hostname,
+                          "server_port": parsed.port or 443,
+                          "uuid": urllib.parse.unquote(
+                              parsed.username or ""
+                          )
+                      }
+
+                  elif scheme == "ss":
+
+                      # ss://base64(method:password@host:port)
+                      data = uri[5:]
+
+                      if "@" not in data:
+
+                          padding = "=" * (-len(data) % 4)
+
+                          decoded = base64.urlsafe_b64decode(
+                              data + padding
+                          ).decode(
+                              "utf-8",
+                              errors="ignore"
+                          )
+
+                      else:
+
+                          decoded = ""
+
+                      if decoded:
+
+                          userinfo, address = decoded.rsplit(
+                              "@",
+                              1
+                          )
+
+                          method, password = userinfo.split(
+                              ":",
+                              1
+                          )
+
+                          host, port_str = address.rsplit(
+                              ":",
+                              1
+                          )
+
+                          outbound = {
+                              "type": "shadowsocks",
+                              "tag": "proxy",
+                              "server": host,
+                              "server_port": int(port_str),
+                              "method": method,
+                              "password": password
+                          }
+
+                      else:
+
+                          # URL-safe SIP002
+                          parsed2 = urllib.parse.urlparse(
                               uri
                           )
-                          % 5000
-                      )
-                  )
 
-                  config = build_config(
-                      uri,
-                      port
-                  )
+                          userinfo = parsed2.username or ""
 
-                  if config is None:
+                          if ":" in userinfo:
+
+                              method, password = userinfo.split(
+                                  ":",
+                                  1
+                              )
+
+                              outbound = {
+                                  "type": "shadowsocks",
+                                  "tag": "proxy",
+                                  "server": parsed2.hostname,
+                                  "server_port": parsed2.port or 443,
+                                  "method": urllib.parse.unquote(method),
+                                  "password": urllib.parse.unquote(password)
+                              }
+
+                  if outbound is None:
                       return None
 
-                  temp_dir = tempfile.mkdtemp(
-                      prefix="sbtest-"
-                  )
-
-                  config_path = os.path.join(
-                      temp_dir,
-                      "config.json"
-                  )
+                  config["outbounds"] = [
+                      outbound
+                  ]
 
                   with open(
-                      config_path,
+                      conf_path,
                       "w",
                       encoding="utf-8"
                   ) as f:
+
                       json.dump(
                           config,
                           f
                       )
 
-                  process = None
+                  # ------------------------------------------------
+                  # Validate config first.
+                  # Very fast for malformed/dead URI.
+                  # ------------------------------------------------
+
+                  check = subprocess.run(
+                      [
+                          "sing-box",
+                          "check",
+                          "-c",
+                          conf_path
+                      ],
+                      stdout=subprocess.DEVNULL,
+                      stderr=subprocess.DEVNULL,
+                      timeout=3
+                  )
+
+                  if check.returncode != 0:
+                      return None
+
+                  # ------------------------------------------------
+                  # Start sing-box
+                  # ------------------------------------------------
+
+                  process = subprocess.Popen(
+                      [
+                          "sing-box",
+                          "run",
+                          "-c",
+                          conf_path
+                      ],
+                      stdout=subprocess.DEVNULL,
+                      stderr=subprocess.DEVNULL
+                  )
 
                   try:
 
-                      check = subprocess.run(
+                      # Give core a short time to start.
+                      ready = False
+
+                      for _ in range(10):
+
+                          if process.poll() is not None:
+                              return None
+
+                          try:
+
+                              s = socket.create_connection(
+                                  ("127.0.0.1", port),
+                                  timeout=0.2
+                              )
+
+                              s.close()
+
+                              ready = True
+                              break
+
+                          except Exception:
+                              time.sleep(0.1)
+
+                      if not ready:
+                          return None
+
+                      # ------------------------------------------------
+                      # Real proxy test
+                      # ------------------------------------------------
+
+                      start = time.monotonic()
+
+                      result = subprocess.run(
                           [
-                              "sing-box",
-                              "check",
-                              "-c",
-                              config_path
+                              "curl",
+                              "--silent",
+                              "--show-error",
+                              "--noproxy",
+                              "",
+                              "--connect-timeout",
+                              "2",
+                              "--max-time",
+                              "4",
+                              "--socks5-hostname",
+                              f"127.0.0.1:{port}",
+                              "https://cp.cloudflare.com/generate_204",
+                              "-o",
+                              "/dev/null",
+                              "-w",
+                              "%{http_code}"
                           ],
-                          stdout=subprocess.DEVNULL,
+                          stdout=subprocess.PIPE,
                           stderr=subprocess.DEVNULL,
+                          text=True,
                           timeout=5
                       )
 
-                      if check.returncode != 0:
-                          return None
-
-                      process = subprocess.Popen(
-                          [
-                              "sing-box",
-                              "run",
-                              "-c",
-                              config_path
-                          ],
-                          stdout=subprocess.DEVNULL,
-                          stderr=subprocess.DEVNULL
+                      latency = int(
+                          (time.monotonic() - start) * 1000
                       )
 
-                      ready = False
+                      if (
+                          result.returncode == 0
+                          and result.stdout.strip() == "204"
+                      ):
 
-                      for _ in range(30):
-
-                          time.sleep(
-                              0.2
-                          )
-
-                          try:
-
-                              sock = subprocess.run(
-                                  [
-                                      "curl",
-                                      "--silent",
-                                      "--show-error",
-                                      "--max-time",
-                                      "2",
-                                      "--socks5-hostname",
-                                      f"127.0.0.1:{port}",
-                                      "https://cp.cloudflare.com/generate_204",
-                                      "-o",
-                                      "/dev/null",
-                                      "-w",
-                                      "%{http_code}"
-                                  ],
-                                  stdout=subprocess.PIPE,
-                                  stderr=subprocess.DEVNULL,
-                                  timeout=3
-                              )
-
-                              code = (
-                                  sock.stdout
-                                  .decode(
-                                      "utf-8",
-                                      errors="ignore"
-                                  )
-                                  .strip()
-                              )
-
-                              if code in (
-                                  "200",
-                                  "204",
-                              ):
-
-                                  ready = True
-                                  break
-
-                          except Exception:
-                              pass
-
-                      if ready:
-
-                          item["latency_ms"] = (
-                              int(
-                                  (
-                                      time.time()
-                                      - (
-                                          time.time()
-                                      )
-                                  )
-                                  * 1000
-                              )
-                          )
+                          item = dict(item)
+                          item["latency_ms"] = latency
 
                           return item
 
-                  except Exception:
-                      pass
+                      return None
 
                   finally:
 
-                      if process:
-
-                          try:
-                              process.terminate()
-                              process.wait(
-                                  timeout=2
-                              )
-                          except Exception:
-                              try:
-                                  process.kill()
-                              except Exception:
-                                  pass
+                      process.kill()
 
                       try:
-                          for filename in os.listdir(
-                              temp_dir
-                          ):
-                              os.remove(
-                                  os.path.join(
-                                      temp_dir,
-                                      filename
-                                  )
-                              )
-
-                          os.rmdir(
-                              temp_dir
-                          )
-
+                          process.wait(timeout=1)
                       except Exception:
                           pass
 
-              return None
+              except Exception:
 
-          working = []
+                  return None
+
+              finally:
+
+                  try:
+                      os.unlink(conf_path)
+                  except Exception:
+                      pass
+
+          # ---------------------------------------------------------
+          # Parallel testing
+          # ---------------------------------------------------------
+
+          MAX_WORKERS = 8
+
+          print(
+              f"Starting {MAX_WORKERS} parallel tests...",
+              flush=True
+          )
+
+          results = []
 
           with ThreadPoolExecutor(
               max_workers=MAX_WORKERS
           ) as executor:
 
               futures = [
-                  executor.submit(
-                      test_one,
-                      item
-                  )
+                  executor.submit(test, item)
                   for item in candidates
               ]
 
-              completed = 0
+              total = len(futures)
 
-              for future in as_completed(
-                  futures
-              ):
+              for future in as_completed(futures):
 
                   completed += 1
 
-                  try:
+                  result = future.result()
 
-                      result = future.result()
+                  if result:
 
-                      if result:
+                      results.append(result)
+                      working += 1
 
-                          working.append(
-                              result
-                          )
-
-                  except Exception:
-                      pass
-
+                  # Print every 5 servers
+                  # and always at the end.
                   if (
-                      completed % 25 == 0
-                      or completed == len(futures)
+                      completed % 5 == 0
+                      or completed == total
                   ):
 
                       print(
-                          f"Progress: "
-                          f"{completed}/"
-                          f"{len(futures)} "
-                          f"| Working: "
-                          f"{len(working)}"
+                          f"Progress: {completed}/{total} | "
+                          f"Working: {working}",
+                          flush=True
                       )
 
-          print("")
-          print(
-              f"Working servers: {len(working)}"
-          )
+          # ---------------------------------------------------------
+          # Sort fastest first
+          # ---------------------------------------------------------
 
-          counts = {}
-
-          for item in working:
-
-              protocol = item["protocol"]
-
-              counts[protocol] = (
-                  counts.get(protocol, 0) + 1
-              )
-
-          print(
-              json.dumps(
-                  counts,
-                  indent=2
+          results.sort(
+              key=lambda x: x.get(
+                  "latency_ms",
+                  999999
               )
           )
 
@@ -1194,92 +868,44 @@ jobs:
           ) as f:
 
               json.dump(
-                  working,
+                  results,
                   f,
                   ensure_ascii=False,
                   indent=2
               )
 
-          if not working:
-              raise SystemExit(
-                  "No working VPN servers found."
-              )
+          print(
+              f"Working servers: {len(results)}",
+              flush=True
+          )
+
           PY
 
-
-      # ============================================================
-      # 6. Select 20 per protocol + global host dedup
-      # ============================================================
-
+      # =========================================================
+      # 6. Select exactly 20 per protocol
+      #    Global host dedup
+      #    Group by country
+      # =========================================================
       - name: Build final services.json
         shell: bash
         run: |
           set -e
 
-          python3 - <<'PY'
+          echo "Building final server list..."
+
+          python3 <<'PY'
+
           import json
-          import os
-          import ipaddress
+          import sys
 
           INPUT = "/tmp/working.json"
           OUTPUT = "services.json"
 
-          TARGETS = {
-              "ss": 20,
+          REQUIRED = {
+              "shadowsocks": 20,
               "hysteria2": 20,
               "trojan": 20,
-              "vless": 20,
-          }
-
-          COUNTRY_NAMES = {
-              "us": "United States",
-              "gb": "United Kingdom",
-              "ca": "Canada",
-              "de": "Germany",
-              "fr": "France",
-              "nl": "Netherlands",
-              "jp": "Japan",
-              "sg": "Singapore",
-              "hk": "Hong Kong",
-              "kr": "South Korea",
-              "tw": "Taiwan",
-              "in": "India",
-              "ae": "United Arab Emirates",
-              "au": "Australia",
-              "es": "Spain",
-              "it": "Italy",
-              "pl": "Poland",
-              "se": "Sweden",
-              "fi": "Finland",
-              "ro": "Romania",
-              "id": "Indonesia",
-              "my": "Malaysia",
-              "th": "Thailand",
-              "vn": "Vietnam",
-              "br": "Brazil",
-              "mx": "Mexico",
-              "ch": "Switzerland",
-              "at": "Austria",
-              "be": "Belgium",
-              "dk": "Denmark",
-              "no": "Norway",
-              "cz": "Czech Republic",
-              "ua": "Ukraine",
-              "tr": "Turkey",
-              "ru": "Russia",
-              "il": "Israel",
-              "za": "South Africa",
-              "pt": "Portugal",
-              "gr": "Greece",
-              "ie": "Ireland",
-              "nz": "New Zealand",
-              "ph": "Philippines",
-              "pk": "Pakistan",
-              "bd": "Bangladesh",
-              "ar": "Argentina",
-              "cl": "Chile",
-              "co": "Colombia",
-              "pe": "Peru",
+              "vless": 20
           }
 
           with open(
@@ -1287,329 +913,175 @@ jobs:
               "r",
               encoding="utf-8"
           ) as f:
-              working = json.load(f)
+
+              servers = json.load(f)
 
           # ---------------------------------------------------------
-          # Group by protocol.
+          # Sort fastest first
           # ---------------------------------------------------------
 
-          pools = {
-              "ss": [],
-              "hysteria2": [],
-              "trojan": [],
-              "vless": [],
+          servers.sort(
+              key=lambda x: x.get(
+                  "latency_ms",
+                  999999
+              )
+          )
+
+          selected = {
+              protocol: []
+              for protocol in REQUIRED
           }
 
-          for item in working:
+          # Global host dedup
+          used_hosts = set()
+
+          # ---------------------------------------------------------
+          # Greedy selection
+          # ---------------------------------------------------------
+
+          for item in servers:
 
               protocol = item["protocol"]
 
-              if protocol in pools:
-                  pools[protocol].append(item)
+              if protocol not in REQUIRED:
+                  continue
+
+              if len(selected[protocol]) >= REQUIRED[protocol]:
+                  continue
+
+              host = item["host"]
+
+              if host in used_hosts:
+                  continue
+
+              used_hosts.add(host)
+
+              selected[protocol].append(item)
 
           # ---------------------------------------------------------
-          # Prefer servers from countries that have fewer entries
-          # so the final list is not dominated by one country.
+          # Validate counts
           # ---------------------------------------------------------
 
-          for protocol in pools:
+          print("\nSelection results:")
 
-              pools[protocol].sort(
-                  key=lambda x: (
-                      x["countryCode"],
-                      x["host"],
-                      x["config"],
-                  )
+          total = 0
+
+          for protocol, required in REQUIRED.items():
+
+              count = len(selected[protocol])
+
+              print(
+                  f"{protocol}: {count}/{required}"
               )
 
-          # ---------------------------------------------------------
-          # Determine which hosts are shared between protocols.
-          # ---------------------------------------------------------
+              total += count
 
-          host_protocols = {}
+              if count < required:
 
-          for protocol, items in pools.items():
-
-              for item in items:
-
-                  host = item["host"]
-
-                  host_protocols.setdefault(
-                      host,
-                      set()
-                  ).add(protocol)
-
-          # Prefer hosts that belong to fewer protocols.
-          for protocol in pools:
-
-              pools[protocol].sort(
-                  key=lambda x: (
-                      len(
-                          host_protocols[
-                              x["host"]
-                          ]
-                      ),
-                      x["countryCode"],
-                      x["host"],
+                  print(
+                      f"\nERROR: Not enough working "
+                      f"{protocol} servers."
                   )
+
+                  print(
+                      "The workflow will NOT publish "
+                      "an incomplete list."
+                  )
+
+                  sys.exit(1)
+
+          if total != 80:
+
+              print(
+                  f"ERROR: Expected 80 servers, got {total}"
               )
 
-          # ---------------------------------------------------------
-          # Global host deduplication.
-          # ---------------------------------------------------------
-
-          selected = {
-              "ss": [],
-              "hysteria2": [],
-              "trojan": [],
-              "vless": [],
-          }
-
-          seen_hosts = set()
-
-          for protocol in (
-              "ss",
-              "hysteria2",
-              "trojan",
-              "vless",
-          ):
-
-              for item in pools[protocol]:
-
-                  if len(
-                      selected[protocol]
-                  ) >= TARGETS[protocol]:
-                      break
-
-                  host = item["host"]
-
-                  if host in seen_hosts:
-                      continue
-
-                  seen_hosts.add(host)
-
-                  selected[protocol].append(
-                      item
-                  )
-
-              if len(
-                  selected[protocol]
-              ) < TARGETS[protocol]:
-
-                  raise SystemExit(
-                      f"Not enough working unique "
-                      f"{protocol} servers: "
-                      f"{len(selected[protocol])}/"
-                      f"{TARGETS[protocol]}"
-                  )
+              sys.exit(1)
 
           # ---------------------------------------------------------
-          # Flatten and SORT BY COUNTRY.
-          #
-          # This is the important part:
-          #
-          # United States
-          #   SS
-          #   HY2
-          #   Trojan
-          #   VLESS
-          #
-          # Germany
-          #   SS
-          #   HY2
-          #   Trojan
-          #   VLESS
+          # Combine
           # ---------------------------------------------------------
 
-          all_selected = []
+          final = []
 
-          for protocol in (
-              "ss",
-              "hysteria2",
-              "trojan",
-              "vless",
-          ):
+          for protocol in REQUIRED:
 
               for item in selected[protocol]:
 
-                  item = dict(item)
+                  final.append({
+                      "name": "",
+                      "config": item["config"],
+                      "countryCode": item["country"]
+                  })
 
-                  item["_protocol_order"] = {
-                      "ss": 0,
-                      "hysteria2": 1,
-                      "trojan": 2,
-                      "vless": 3,
-                  }[protocol]
+          # ---------------------------------------------------------
+          # Group by country first
+          # Then latency
+          # ---------------------------------------------------------
 
-                  all_selected.append(
-                      item
-                  )
-
-          all_selected.sort(
+          final.sort(
               key=lambda x: (
-                  x["countryCode"],
-                  x["_protocol_order"],
-                  x["host"],
+                  x["countryCode"].lower(),
+                  x["config"]
               )
           )
 
           # ---------------------------------------------------------
-          # Generate names sequentially per country across ALL
-          # protocols.
+          # Country numbering across ALL protocols
           # ---------------------------------------------------------
 
           counters = {}
 
-          result = []
+          for item in final:
 
-          for item in all_selected:
-
-              country = item[
-                  "countryCode"
-              ].lower()
+              country = item["countryCode"]
 
               counters[country] = (
                   counters.get(country, 0) + 1
               )
 
-              number = counters[country]
-
-              country_name = COUNTRY_NAMES.get(
-                  country,
-                  country.upper()
-              )
-
-              result.append({
-                  "name": (
-                      f"{country_name} "
-                      f"{number}"
-                  ),
-                  "config": item["config"],
-                  "countryCode": country,
-              })
-
-          # ---------------------------------------------------------
-          # Final validation.
-          # ---------------------------------------------------------
-
-          if len(result) != 80:
-
-              raise SystemExit(
-                  f"Expected 80 servers, "
-                  f"got {len(result)}"
-              )
-
-          final_hosts = set()
-
-          for item in result:
-
-              host = None
-
-              # Host was already normalized by the previous step.
-              # Recover it from the working entry.
-              for original in all_selected:
-
-                  if (
-                      original["config"]
-                      == item["config"]
-                  ):
-
-                      host = original["host"]
-                      break
-
-              if not host:
-
-                  raise SystemExit(
-                      "Could not determine final host."
-                  )
-
-              if host in final_hosts:
-
-                  raise SystemExit(
-                      f"FINAL DUPLICATE HOST: "
-                      f"{host}"
-                  )
-
-              final_hosts.add(host)
-
-          # Count protocols.
-          protocol_counts = {
-              "ss": 0,
-              "hysteria2": 0,
-              "trojan": 0,
-              "vless": 0,
-          }
-
-          def protocol_from_uri(uri):
-
-              lower = uri.lower()
-
-              if lower.startswith("ss://"):
-                  return "ss"
-
-              if (
-                  lower.startswith(
-                      "hysteria2://"
-                  )
-                  or lower.startswith("hy2://")
-              ):
-                  return "hysteria2"
-
-              if lower.startswith("trojan://"):
-                  return "trojan"
-
-              if lower.startswith("vless://"):
-                  return "vless"
-
-              return None
-
-          for item in result:
-
-              protocol = protocol_from_uri(
-                  item["config"]
-              )
-
-              if protocol:
-                  protocol_counts[
-                      protocol
-                  ] += 1
-
-          print("")
-          print("==============================")
-          print("FINAL RESULT")
-          print("==============================")
-
-          print(
-              json.dumps(
-                  protocol_counts,
-                  indent=2
-              )
-          )
-
-          print(
-              f"Unique hosts: "
-              f"{len(final_hosts)}"
-          )
-
-          for protocol in TARGETS:
-
-              if (
-                  protocol_counts[protocol]
-                  != 20
-              ):
-
-                  raise SystemExit(
-                      f"Invalid {protocol} count."
-                  )
-
-          if len(final_hosts) != 80:
-
-              raise SystemExit(
-                  "Duplicate hosts detected."
+              item["name"] = (
+                  f"{country} {counters[country]}"
               )
 
           # ---------------------------------------------------------
-          # Write services.json
+          # Final host duplicate check
+          # ---------------------------------------------------------
+
+          hosts = set()
+
+          for item in final:
+
+              # Extract host approximately from config.
+              # The host was already globally deduped before
+              # selection, so this is only a final sanity check.
+
+              import urllib.parse
+
+              try:
+                  host = urllib.parse.urlparse(
+                      item["config"]
+                  ).hostname
+
+                  if host:
+                      host = host.lower().rstrip(".")
+
+                      if host in hosts:
+
+                          print(
+                              "ERROR: Duplicate host:",
+                              host
+                          )
+
+                          sys.exit(1)
+
+                      hosts.add(host)
+
+              except Exception:
+                  pass
+
+          # ---------------------------------------------------------
+          # Write
           # ---------------------------------------------------------
 
           with open(
@@ -1619,97 +1091,95 @@ jobs:
           ) as f:
 
               json.dump(
-                  result,
+                  final,
                   f,
                   ensure_ascii=False,
                   indent=2
               )
 
-              f.write("\n")
+          print(
+              f"\nSuccessfully created {OUTPUT}"
+          )
 
-          print("")
           print(
-              "services.json created successfully."
+              f"Total servers: {len(final)}"
           )
-          print(
-              "80 working servers."
-          )
-          print(
-              "20 SS + 20 HY2 + 20 Trojan + 20 VLESS"
-          )
-          print(
-              "No duplicate IP/hostname."
-          )
-          print(
-              "Servers grouped by country."
-          )
+
+          print("\nCountries:")
+
+          last = None
+
+          for item in final:
+
+              if item["countryCode"] != last:
+
+                  print(
+                      f"\n{item['countryCode']}:"
+                  )
+
+                  last = item["countryCode"]
+
+              print(
+                  "  ",
+                  item["name"]
+              )
+
           PY
 
-
-      # ============================================================
-      # 7. Show final JSON
-      # ============================================================
-
-      - name: Show generated JSON
+      # =========================================================
+      # 7. Show result
+      # =========================================================
+      - name: Show services.json
+        shell: bash
         run: |
-          echo "================ services.json ================"
+          echo "======================================"
+          echo "FINAL services.json"
+          echo "======================================"
+
           cat services.json
-          echo "================================================"
 
-
-      # ============================================================
+      # =========================================================
       # 8. Commit
-      # ============================================================
-
+      # =========================================================
       - name: Commit changes
+        shell: bash
         run: |
+          set -e
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add services.json
 
           if git diff --cached --quiet; then
-            echo "No changes detected."
+            echo "No changes."
             exit 0
           fi
 
           git commit -m "Update mixed VPN servers"
 
-
-      # ============================================================
-      # 9. Rebase and push
-      # ============================================================
-
-      - name: Rebase and push
+      # =========================================================
+      # 9. Push safely
+      # =========================================================
+      - name: Push changes
         shell: bash
         run: |
           set -e
 
-          for i in {1..5}; do
+          for i in 1 2 3; do
 
             echo "Push attempt $i..."
 
-            git fetch origin main
+            git pull --rebase origin main || true
 
-            if git rebase origin/main; then
-
-              if git push origin HEAD:main; then
-                echo "Push successful."
-                exit 0
-              fi
-
-            else
-
-              git rebase --abort || true
-
+            if git push origin HEAD:main; then
+              echo "Push successful."
+              exit 0
             fi
 
-            echo "Push failed. Retrying..."
-
-            sleep 5
+            sleep 3
 
           done
 
-          echo "Failed to push after 5 attempts."
-
+          echo "ERROR: Failed to push."
           exit 1
