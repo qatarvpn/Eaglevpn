@@ -1,208 +1,228 @@
 [
   {
-    "name": "United States 1",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@107.151.182.197:8080#shadowsocks-468218514",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 2",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.170:443#shadowsocks-159",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 3",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.169:443#shadowsocks-194",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 4",
-    "config": "ss://YWVzLTEyOC1nY206NTIxMmJmZWY0Y2YyYTZhYWVkYTc1NWQ4NWMxYWE3NDQ@64.110.25.2:14989#shadowsocks-1771134357",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 5",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@173.244.56.9:443#shadowsocks-156",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 6",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@23.251.121.242:8080#shadowsocks-27276",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 7",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.168:443#shadowsocks-163",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 8",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.167:443#shadowsocks-158",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 9",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@37.19.198.243:443#shadowsocks-195",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 10",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@173.244.56.6:443#shadowsocks-155",
-    "countryCode": "us"
-  },
-  {
     "name": "Canada 1",
-    "config": "ss://YWVzLTEyOC1nY206NGVmZTFhZjI3MmU3MjkyMTM5Yjg4OWY2YTYzZWUwNzE@64.74.163.67:18764#shadowsocks-1738888948",
+    "config": "ss://YWVzLTEyOC1nY206NGVmZTFhZjI3MmU3MjkyMTM5Yjg4OWY2YTYzZWUwNzE@64.74.163.69:18766#shadowsocks-1635221275",
     "countryCode": "ca"
   },
   {
-    "name": "United States 11",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@107.155.57.11:8080#shadowsocks-27275",
-    "countryCode": "us"
+    "name": "Canada 2",
+    "config": "ss://YWVzLTI1Ni1jZmI6YW1hem9uc2tyMDU@35.183.81.9:443#shadowsocks-1779328750",
+    "countryCode": "ca"
   },
   {
-    "name": "United States 12",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@37.19.198.160:443#shadowsocks-193",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 13",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@79.110.53.169:8080#shadowsocks-27291",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 14",
-    "config": "ss://YWVzLTEyOC1nY206YmRkMzViNjVhNWI3MTZlYjdhOTExNTBjMDY3NjQ5NTY@66.23.205.83:17529#shadowsocks-1746935301",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 15",
+    "name": "United States 1",
     "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@138.199.42.68:8080#shadowsocks-27269",
     "countryCode": "us"
   },
   {
-    "name": "United States 16",
-    "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpab1p0ZlBPeVZ2bUtBUlVO@140.82.63.79:8388#shadowsocks-860758286",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 17",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@107.155.57.51:8080#shadowsocks-27271",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 18",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@37.19.198.244:443#shadowsocks-196",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 19",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@138.199.43.159:8080#shadowsocks-468218487",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 1",
-    "config": "hy2://099830134df5ac3a04a4b21d39b8c395@163.192.14.135:50160?insecure=1&sni=vk.com#hysteria2-918221088",
-    "countryCode": "us"
-  },
-  {
     "name": "United States 2",
-    "config": "hy2://bce6c821-200d-421f-bf3d-7159e5246ea0@155.248.209.237:33333?insecure=1&sni=155.248.209.237#hysteria2-180178213",
+    "config": "ss://YWVzLTEyOC1nY206YmRkMzViNjVhNWI3MTZlYjdhOTExNTBjMDY3NjQ5NTY@66.23.205.83:17529#shadowsocks-1746935301",
     "countryCode": "us"
   },
   {
     "name": "United States 3",
-    "config": "hy2://bce6c821-200d-421f-bf3d-7159e5246ea0@hy2.123266.xyz:33333?insecure=1#hysteria2-674602384",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.170:443#shadowsocks-159",
     "countryCode": "us"
   },
   {
     "name": "United States 4",
-    "config": "hy2://pbgLTkd5276SN1sZ@144.24.46.175:8443?insecure=1&sni=off#hysteria2-1601949350",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.169:443#shadowsocks-194",
     "countryCode": "us"
   },
   {
     "name": "United States 5",
-    "config": "hy2://488b2611852407f03a681927cb91804b@107.149.159.190:8443?insecure=1&sni=107.149.159.190#hysteria2-1756083793",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.167:443#shadowsocks-158",
     "countryCode": "us"
+  },
+  {
+    "name": "Canada 3",
+    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@138.197.141.58:8080#shadowsocks-468218613",
+    "countryCode": "ca"
   },
   {
     "name": "United States 6",
-    "config": "hy2://dongtaiwang.com@hy2.561891.xyz:44356?insecure=1#hysteria2-561697888",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@37.19.198.160:443#shadowsocks-193",
     "countryCode": "us"
   },
   {
+    "name": "Canada 4",
+    "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTplNWM2NXBo@ca225.vpnbook.com:443#shadowsocks-1762352562",
+    "countryCode": "ca"
+  },
+  {
     "name": "United States 7",
-    "config": "hy2://4291c983-c520-46ac-82cc-48f14bef573f@129.213.91.185:35013?insecure=1&sni=129.213.91.185#hysteria2-1672410084",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@37.19.198.244:443#shadowsocks-196",
     "countryCode": "us"
   },
   {
     "name": "United States 8",
-    "config": "hy2://dongtaiwang.com@142.249.37.90:44356?sni=hy2.561891.xyz#hysteria2-212133054",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.168:443#shadowsocks-163",
     "countryCode": "us"
   },
   {
-    "name": "Japan 1",
-    "config": "hy2://my_super_password_123@open.2ml.bid:443?sni=open.2ml.bid#hysteria2-1515688053",
-    "countryCode": "jp"
+    "name": "United Kingdom 1",
+    "config": "ss://YWVzLTI1Ni1nY206ZzVoNWpsZVRSU3lPM1JrNA@149.102.132.184:443#shadowsocks-696780678",
+    "countryCode": "gb"
   },
   {
-    "name": "Japan 2",
-    "config": "hy2://my_super_password_123@138.2.21.246:5443?insecure=1&sni=138.2.21.246#hysteria2-1709198732",
-    "countryCode": "jp"
+    "name": "Netherlands 1",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@158.173.20.208:443#shadowsocks-45641610",
+    "countryCode": "nl"
   },
   {
-    "name": "Japan 3",
-    "config": "hy2://my_super_password_123@open.2ml.cc.cd:5443?insecure=1&sni=127.0.0.1#hysteria2-1495885491",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 4",
-    "config": "hy2://my_super_password_123@158.101.148.79:5443?insecure=1#hysteria2-1745294702",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Spain 1",
-    "config": "hy2://e9dc02d400b67c727aca1620@185.174.137.172:8446?insecure=1&sni=185.174.137.172#hysteria2-1544869951",
-    "countryCode": "es"
-  },
-  {
-    "name": "Japan 5",
-    "config": "hy2://96ab5cd282733fd4c312a61f972f330a@vp3.yysyy.online:443?#hysteria2-1546237825",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 6",
-    "config": "hy2://96ab5cd282733fd4c312a61f972f330a@45.32.10.7:443?insecure=1&sni=vp3.yysyy.online#hysteria2-1671853509",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Taiwan 1",
-    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@103.115.109.49:443?insecure=1&sni=103.115.109.49#hysteria2-650314288",
-    "countryCode": "tw"
+    "name": "Germany 1",
+    "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphZHpwcTBsdFZIZEN4TzJsc1c1TjlDOEg1QjloWG5EN1l5WFpmUDVhdWx3PQ@31.76.11.83:42700#shadowsocks-1779749933",
+    "countryCode": "de"
   },
   {
     "name": "United States 9",
-    "config": "hy2://b8949dae-cb53-4b5a-ad9c-50f58c4656fb@23.170.40.39:19512?insecure=1&sni=us1.xiaoliyu.us#hysteria2-1671852516",
+    "config": "ss://YWVzLTEyOC1nY206MjYwNzAwOGFjODk2YjM0NDNiZTk0MTlkNzNkNTQ0ZDk@66.23.206.124:16619#shadowsocks-1765524008",
     "countryCode": "us"
   },
   {
-    "name": "Taiwan 2",
-    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@160.187.100.109:443?insecure=1&sni=160.187.100.109#hysteria2-500716426",
-    "countryCode": "tw"
+    "name": "United States 10",
+    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@107.151.182.197:8080#shadowsocks-468218514",
+    "countryCode": "us"
   },
   {
-    "name": "Taiwan 3",
-    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@vpn-tw-002.fastervpn.world:443?insecure=1&sni=www.bing.com#hysteria2-1163840992",
-    "countryCode": "tw"
+    "name": "Netherlands 2",
+    "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpvWklvQTY5UTh5aGNRVjhrYTNQYTNB@193.29.139.188:8080#shadowsocks-127255",
+    "countryCode": "nl"
   },
   {
-    "name": "South Korea 1",
-    "config": "hy2://3d7634af8cb2c6cb4bac1c0efad8b43d@152.67.200.82:50160?insecure=1&sni=whatsapp.com#hysteria2-1111846126",
-    "countryCode": "kr"
+    "name": "Netherlands 3",
+    "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpvWklvQTY5UTh5aGNRVjhrYTNQYTNB@82.38.31.66:8080#shadowsocks-98145598",
+    "countryCode": "nl"
+  },
+  {
+    "name": "Netherlands 4",
+    "config": "ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpvWklvQTY5UTh5aGNRVjhrYTNQYTNB@193.29.139.179:8080#shadowsocks-713934491",
+    "countryCode": "nl"
+  },
+  {
+    "name": "United States 1",
+    "config": "hy2://4291c983-c520-46ac-82cc-48f14bef573f@129.213.91.185:35013?insecure=1&sni=www.bing.com#hysteria2-1604107043",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 2",
+    "config": "hy2://dongtaiwang.com@hy2.561891.xyz:44356?insecure=1#hysteria2-561697888",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 3",
+    "config": "hy2://099830134df5ac3a04a4b21d39b8c395@163.192.14.135:50160?insecure=1#hysteria2-1531622830",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 4",
+    "config": "hy2://bce6c821-200d-421f-bf3d-7159e5246ea0@155.248.209.237:33333?insecure=1#hysteria2-106798541",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 5",
+    "config": "hy2://bce6c821-200d-421f-bf3d-7159e5246ea0@hy2.123266.xyz:33333?#hysteria2-652726871",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 6",
+    "config": "hy2://pbgLTkd5276SN1sZ@144.24.46.175:8443?insecure=1&sni=www.bing.com#hysteria2-1507123858",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 7",
+    "config": "hy2://dongtaiwang.com@142.249.37.90:44356?insecure=1&sni=hy2.561891.xyz#hysteria2-474576783",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 8",
+    "config": "hy2://488b2611852407f03a681927cb91804b@107.149.159.190:8443?insecure=1#hysteria2-1735764219",
+    "countryCode": "us"
+  },
+  {
+    "name": "France 1",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@13.36.234.11:443?insecure=1&sni=13.36.234.11#hysteria2-1742802008",
+    "countryCode": "fr"
+  },
+  {
+    "name": "Germany 1",
+    "config": "hy2://a2c74ce7-5daa-4bee-a1eb-52863873b3c3@194.48.250.233:443?insecure=1&sni=mol.ultimagamest.com#hysteria2-1348802435",
+    "countryCode": "de"
+  },
+  {
+    "name": "Netherlands 1",
+    "config": "hy2://s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z@77.74.123.99:8443?insecure=1&sni=grape-test-italy.dynuddns.net#hysteria2-1502094720",
+    "countryCode": "nl"
+  },
+  {
+    "name": "Netherlands 2",
+    "config": "hy2://s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z@77.74.123.105:8443?sni=grape-test-italy.dynuddns.net#hysteria2-1655741635",
+    "countryCode": "nl"
+  },
+  {
+    "name": "Netherlands 3",
+    "config": "hy2://s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z@77.74.123.100:8443?insecure=1&sni=grape-test-italy.dynuddns.net#hysteria2-1517930487",
+    "countryCode": "nl"
+  },
+  {
+    "name": "Switzerland 1",
+    "config": "hy2://we9_I1893UFj3149xbr1_k8qvJ8734ic_Mx82gH@82.38.64.235:8443?sni=hopp-swizland-new.mysynology.net#hysteria2-1507088268",
+    "countryCode": "ch"
+  },
+  {
+    "name": "Poland 1",
+    "config": "hy2://43212c32-01f2-4356-b216-67dc1c178262@87.76.134.44:3231?insecure=1&sni=pl2-bkjbu.vpvr4ib84nuv6hdkt.ru#hysteria2-1785653457",
+    "countryCode": "pl"
+  },
+  {
+    "name": "Switzerland 2",
+    "config": "hy2://we9_I1893UFj3149xbr1_k8qvJ8734ic_Mx82gH@82.38.64.229:8443?sni=hopp-swizland-new.mysynology.net#hysteria2-1391610043",
+    "countryCode": "ch"
+  },
+  {
+    "name": "United States 9",
+    "config": "hy2://gf1%3Agfhysteria2024@66.94.121.46:443?insecure=1&sni=66.94.121.46#hysteria2-650667501",
+    "countryCode": "us"
+  },
+  {
+    "name": "Netherlands 4",
+    "config": "hy2://s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z@77.74.123.102:8443?sni=grape-test-italy.dynuddns.net#hysteria2-1576216028",
+    "countryCode": "nl"
+  },
+  {
+    "name": "Netherlands 5",
+    "config": "hy2://529f1911-04d5-4427-94b9-c851fd459a27@109.235.49.234:443?sni=tcp-reset-club.net#hysteria2-1663837611",
+    "countryCode": "nl"
+  },
+  {
+    "name": "Netherlands 6",
+    "config": "hy2://s0_sdK93x9wer_D02Lz9cvK3_Sa014Oakl_C2z@77.74.123.106:8443?insecure=1&sni=grape-test-italy.dynuddns.net#hysteria2-1670786124",
+    "countryCode": "nl"
+  },
+  {
+    "name": "United States 1",
+    "config": "trojan://UX82473651@pro-mako.rooster465.autos:443?allowInsecure=1&sni=pro-mako.rooster465.autos&type=tcp#trojan-1737442109",
+    "countryCode": "us"
   },
   {
     "name": "Japan 1",
-    "config": "trojan://UX82473651@pro-mako.rooster465.autos:443?allowInsecure=1&sni=pro-mako.rooster465.autos&type=tcp#trojan-1737442109",
+    "config": "trojan://UX82473651@sacred-anemone.rooster465.autos:443?type=tcp#trojan-1696987896",
     "countryCode": "jp"
+  },
+  {
+    "name": "United States 2",
+    "config": "trojan://UX82473651@34.220.15.24:443?sni=guided-ferret.rooster465.autos&type=tcp#trojan-1666452631",
+    "countryCode": "us"
+  },
+  {
+    "name": "Germany 1",
+    "config": "trojan://UX82473651@cuddly-sheepdog.rooster465.autos:443?allowInsecure=1&type=tcp#trojan-1756414361",
+    "countryCode": "de"
+  },
+  {
+    "name": "United States 3",
+    "config": "trojan://UX82473651@guided-ferret.rooster465.autos:443?allowInsecure=1&type=tcp#trojan-1663160501",
+    "countryCode": "us"
   },
   {
     "name": "Japan 2",
@@ -211,192 +231,172 @@
   },
   {
     "name": "Japan 3",
-    "config": "trojan://UX82473651@43.206.225.188:443?allowInsecure=1&sni=warm-krill.rooster465.autos&type=tcp#trojan-1745236351",
+    "config": "trojan://c8b9c7ca-c022-4ee4-9690-2d615c784b14@45.76.218.34:32676?allowInsecure=1&sni=lazeno.vip&type=tcp#trojan-1785653458",
     "countryCode": "jp"
   },
   {
     "name": "Japan 4",
-    "config": "trojan://UX82473651@52.192.45.137:443?allowInsecure=1&sni=promoted-rattler.rooster465.autos&type=tcp#trojan-1660423740",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 5",
     "config": "trojan://UX82473651@13.193.213.184:443?allowInsecure=1&sni=stable-python.rooster465.autos&type=tcp#trojan-1765605051",
     "countryCode": "jp"
   },
   {
+    "name": "Japan 5",
+    "config": "trojan://UX82473651@52.194.251.232:443?allowInsecure=1&sni=optimal-penguin.rooster465.autos&type=tcp#trojan-1746322860",
+    "countryCode": "jp"
+  },
+  {
     "name": "Japan 6",
-    "config": "trojan://UX82473651@18.183.167.216:443?allowInsecure=1&sni=amazed-mako.rooster465.autos&type=tcp#trojan-1745236341",
+    "config": "trojan://UX82473651@3.112.188.176:443?allowInsecure=1&sni=live-stallion.rooster465.autos&type=tcp#trojan-1771649675",
     "countryCode": "jp"
   },
   {
     "name": "Japan 7",
-    "config": "trojan://UX82473651@13.230.76.132:443?allowInsecure=1&sni=equipped-stingray.rooster465.autos&type=tcp#trojan-1745236350",
+    "config": "trojan://UX82473651@amazed-mako.rooster465.autos:443?allowInsecure=1&type=tcp#trojan-1737429071",
     "countryCode": "jp"
   },
   {
     "name": "Japan 8",
-    "config": "trojan://UX82473651@18.176.52.171:443?allowInsecure=1&sni=legible-ram.rooster465.autos&type=tcp#trojan-1771649680",
+    "config": "trojan://UX82473651@brief-glider.rooster465.autos:443?allowInsecure=1&sni=brief-glider.rooster465.autos&type=tcp#trojan-1643514776",
     "countryCode": "jp"
   },
   {
     "name": "Japan 9",
-    "config": "trojan://UX82473651@stable-python.rooster465.autos:443?sni=stable-python.rooster465.autos&type=tcp#trojan-1738567389",
+    "config": "trojan://UX82473651@optimal-penguin.rooster465.autos:443?type=tcp#trojan-1749759439",
     "countryCode": "jp"
   },
   {
     "name": "Japan 10",
-    "config": "trojan://UX82473651@legible-ram.rooster465.autos:443?allowInsecure=1&sni=legible-ram.rooster465.autos&type=tcp#trojan-1742281120",
+    "config": "trojan://UX82473651@equipped-stingray.rooster465.autos:443?allowInsecure=1&sni=equipped-stingray.rooster465.autos&type=tcp#trojan-1735023419",
     "countryCode": "jp"
   },
   {
     "name": "Japan 11",
-    "config": "trojan://UX82473651@promoted-rattler.rooster465.autos:443?allowInsecure=1&sni=promoted-rattler.rooster465.autos&type=tcp#trojan-1720682562",
+    "config": "trojan://UX82473651@live-stallion.rooster465.autos:443?allowInsecure=1&sni=live-stallion.rooster465.autos&type=tcp#trojan-1737442029",
     "countryCode": "jp"
   },
   {
     "name": "Japan 12",
-    "config": "trojan://c8b9c7ca-c022-4ee4-9690-2d615c784b14@45.76.218.34:32676?sni=lazeno.vip&type=tcp#trojan-1775580733",
+    "config": "trojan://UX82473651@43.206.225.188:443?sni=warm-krill.rooster465.autos&type=tcp#trojan-1755588922",
     "countryCode": "jp"
   },
   {
     "name": "Japan 13",
-    "config": "trojan://UX82473651@18.183.212.83:443?sni=normal-macaque.rooster465.autos&type=tcp#trojan-1746591295",
+    "config": "trojan://UX82473651@legible-ram.rooster465.autos:443?sni=legible-ram.rooster465.autos&type=tcp#trojan-1750146725",
     "countryCode": "jp"
   },
   {
     "name": "Japan 14",
-    "config": "trojan://UX82473651@allowed-poodle.rooster465.autos:443?allowInsecure=1&sni=allowed-poodle.rooster465.autos&type=tcp#trojan-1759616101",
+    "config": "trojan://UX82473651@accurate-frog.rooster465.autos:443?allowInsecure=1&type=tcp#trojan-1667974187",
     "countryCode": "jp"
   },
   {
     "name": "Japan 15",
-    "config": "trojan://UX82473651@equipped-stingray.rooster465.autos:443?allowInsecure=1&type=tcp#trojan-1735763275",
+    "config": "trojan://UX82473651@warm-krill.rooster465.autos:443?sni=warm-krill.rooster465.autos&type=tcp#trojan-1735131212",
     "countryCode": "jp"
   },
   {
     "name": "Japan 16",
-    "config": "trojan://UX82473651@prime-corgi.rooster465.autos:443?allowInsecure=1&type=tcp#trojan-1671790067",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 17",
-    "config": "trojan://UX82473651@evident-ant.rooster465.autos:443?sni=evident-ant.rooster465.autos&type=tcp#trojan-1772537083",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 18",
-    "config": "trojan://UX82473651@live-stallion.rooster465.autos:443?allowInsecure=1&sni=live-stallion.rooster465.autos&type=tcp#trojan-1739093818",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 19",
-    "config": "trojan://UX82473651@optimal-penguin.rooster465.autos:443?allowInsecure=1&sni=optimal-penguin.rooster465.autos&type=tcp#trojan-1734784380",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 20",
-    "config": "trojan://UX82473651@warm-krill.rooster465.autos:443?allowInsecure=1&sni=warm-krill.rooster465.autos&type=tcp#trojan-1735023414",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 1",
-    "config": "vless://e6df2095-a73c-4043-8693-8d5a03686870@188.114.97.6:443?alpn=http%2F1.1&fp=chrome&host=lucasjow.us.ci&path=%2F%3FTELEGRAM--MARAMBASHI--MARAMBASHI--MARAMBASHI--MARAMBASHI%3Fed%3D2560&security=tls&sni=lucasjow.us.ci&type=ws#vless-1768194309",
+    "config": "trojan://UX82473651@54.249.55.154:443?allowInsecure=1&sni=prime-corgi.rooster465.autos&type=tcp#trojan-1694945390",
     "countryCode": "jp"
   },
   {
     "name": "United States 1",
-    "config": "vless://ce18d0eb-5c71-41f9-96e5-1632e22456e4@195.123.240.65:443?flow=xtls-rprx-vision&fp=random&pbk=StPbcmBuzpuYUfa4oZ5SI3Bq1OSF_-oU1vp2AcyvQVE&security=reality&sid=19296c9f1bf9c7b1&sni=www.cloudflare.com&type=tcp#vless-1419568352",
+    "config": "vless://c9fd0fb1-8251-4106-b09a-f4b426736f67@137.184.218.169:36925?flow=xtls-rprx-vision&fp=qq&pbk=lJ9INPpO4rdnm2Tek_yg0PGFyUrBB6MoKyvqt_Mfqm0&security=reality&sni=www.cloudflare.com&type=tcp#vless-827293125",
     "countryCode": "us"
   },
   {
     "name": "United States 2",
-    "config": "vless://949d278e-6d98-4014-84e9-59f1c6c93e0e@137.175.82.40:30556?flow=xtls-rprx-vision&fp=safari&pbk=EcmNQqZxyW4GCEQF-7nH54w3qgBkLzsfqFSgafGjB0E&security=reality&sid=d082f567&sni=www.lovelive-anime.jp&type=tcp#vless-1525938363",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.163:443?flow=xtls-rprx-vision&fp=random&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1016882856",
     "countryCode": "us"
   },
   {
-    "name": "Japan 2",
-    "config": "vless://e6df2095-a73c-4043-8693-8d5a03686870@172.64.144.82:443?fp=qq&host=lucasjow.us.ci&path=%2F&security=tls&sni=lucasjow.us.ci&type=ws#vless-1756443619",
-    "countryCode": "jp"
-  },
-  {
     "name": "United States 3",
-    "config": "vless://48ff2b70-e180-582f-8866-d9a2edeed5f5@15.204.97.216:23576?flow=xtls-rprx-vision&fp=random&pbk=1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s&security=reality&sni=fuck.rkn&type=tcp#vless-700289124",
+    "config": "vless://d6d58f01-b5ce-4d47-bce0-b8a806155852@136.107.170.196:443?fp=random&pbk=L1S0DpFtHPBeyENZUvJPcrFZIct6kcHUPxuzNaGXIFY&security=reality&sid=4c69c4b51c580d60&sni=www.cloudflare.com&type=tcp#vless-1775576610",
     "countryCode": "us"
   },
   {
     "name": "United States 4",
-    "config": "vless://f55e9aba-7b14-4f6f-b59a-d5b3d45c9309@147.45.60.160:8444?fp=chrome&pbk=FWitre1jinQR7qz5HQ0q2Q4Gg9xA9B0SyizCziN7Ch0&security=reality&serviceName=GunService&sni=github.com&type=grpc#vless-1769017723",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.168:443?alpn=networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-&flow=xtls-rprx-vision&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1522789695",
     "countryCode": "us"
   },
   {
     "name": "United States 5",
-    "config": "vless://48ff2b70-e180-582f-8866-d9a2edeed5f5@15.204.97.206:23576?flow=xtls-rprx-vision&fp=random&pbk=1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s&security=reality&sni=fuck.rkn&type=tcp#vless-700289120",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.104:443?flow=xtls-rprx-vision&fp=chrome&host=%2F%3Ftelegram--marambashi--marambashi--marambashi--marambashi&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1634902960",
     "countryCode": "us"
   },
   {
     "name": "United States 6",
-    "config": "vless://48ff2b70-e180-582f-8866-d9a2edeed5f5@15.204.97.195:23576?flow=xtls-rprx-vision&fp=random&pbk=1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s&security=reality&sni=fuck.rkn&type=tcp#vless-700289117",
+    "config": "vless://14c80e0e-f7ce-4991-94fc-99a1db4a9b1e@159.89.87.21:28190?flow=xtls-rprx-vision&fp=chrome&host=join---i10vpn---join---i10vpn---join---i10vpn---join---i10vpn&pbk=ZJRnFU-1s1JOnO8E9uZ7b00l1fPEh63fGRbdBANFRno&security=reality&sni=aws.amazon.com&type=tcp#vless-700173532",
     "countryCode": "us"
   },
   {
+    "name": "Canada 1",
+    "config": "vless://dc620cd6-a9d8-4a0f-8f18-006b895db77e@66.70.179.198:2053?pbk=k4l6TxwkBbx9DhZAFpByq5rfCWFSgyOex3f_eFe9CWU&security=reality&sid=83f8317a948bb769&sni=www.cloudflare.com&type=tcp#vless-1307824741",
+    "countryCode": "ca"
+  },
+  {
     "name": "United States 7",
-    "config": "vless://48ff2b70-e180-582f-8866-d9a2edeed5f5@15.204.97.198:23576?flow=xtls-rprx-vision&fp=random&pbk=1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s&security=reality&sni=fuck.rkn&type=tcp#vless-700289119",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.90:443?flow=xtls-rprx-vision&fp=random&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-720888825",
     "countryCode": "us"
   },
   {
     "name": "United States 8",
-    "config": "vless://352ff568-f971-4613-bf48-92997a5d44ed@23.95.222.127:8443?flow=xtls-rprx-vision&fp=firefox&pbk=ribQDOlZ69PzvZ1EDF0EcmMvbq_T5RQrVRBSGUU2riU&security=reality&sid=35cd899f8de04801&sni=www.apple.com&type=tcp#vless-1532587898",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.229:443?flow=xtls-rprx-vision&fp=firefox&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-659125559",
     "countryCode": "us"
   },
   {
     "name": "United States 9",
-    "config": "vless://cb2dbb6a-a1ea-4023-9ace-6466cee57241@51.81.203.63:443?flow=xtls-rprx-vision&fp=chrome&path=%2F&pbk=nqwCf6oW49tEtmQ0EzxigZ0uu1pg0E30CS54G40Iti0&security=reality&sid=4477382ff6d3d41c&sni=www.icloud.com&type=tcp#vless-1222260554",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.15:443?flow=xtls-rprx-vision&fp=random&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-652375329",
     "countryCode": "us"
   },
   {
     "name": "United States 10",
-    "config": "vless://9d0395c0-016f-453e-b0be-fc66f1ee1d80@136.67.16.72:443?fp=safari&pbk=aGm3egxU7SVqVw-oxqXbJ0u4ctldnmTjwaDh4Mao2EE&security=reality&sid=bd4aa541e5306ba2&sni=www.cloudflare.com&type=tcp#vless-1757243519",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.232:443?flow=xtls-rprx-vision&fp=random&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-720888947",
     "countryCode": "us"
   },
   {
     "name": "United States 11",
-    "config": "vless://1d39f715-2740-4d99-bc3b-197cc48dcee7@107.173.237.146:8443?fp=firefox&pbk=D3ojIs3AUKP_tV0E4TEjh90HBVJp24Nq3qMfdxD30kc&security=reality&sid=df8611c07d&sni=updates.cdn-apple.com&type=tcp#vless-468882956",
+    "config": "vless://c9fd0fb1-8251-4106-b09a-f4b426736f67@ww9.levikogjgfdd.ir:36925?alpn=networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-&flow=xtls-rprx-vision&fp=chrome&pbk=lJ9INPpO4rdnm2Tek_yg0PGFyUrBB6MoKyvqt_Mfqm0&security=reality&sni=www.cloudflare.com&type=tcp#vless-1531019484",
     "countryCode": "us"
   },
   {
     "name": "United States 12",
-    "config": "vless://57beeeb0-03fc-4fc9-94da-7604488a7134@154.29.149.140:41705?flow=xtls-rprx-vision&fp=firefox&pbk=KfOrtENkHAXDFlsCluw6fv62Q-WuJXCKI98XZihtemA&security=reality&sid=e51285e3&sni=us1p1.xn--ghq880n3na965a.com&type=tcp#vless-1760781330",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.184:443?flow=xtls-rprx-vision&fp=random&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-669787265",
     "countryCode": "us"
   },
   {
     "name": "United States 13",
-    "config": "vless://d6d58f01-b5ce-4d47-bce0-b8a806155852@136.107.170.196:443?fp=ios&pbk=L1S0DpFtHPBeyENZUvJPcrFZIct6kcHUPxuzNaGXIFY&security=reality&sid=4c69c4b51c580d60&sni=www.cloudflare.com&type=tcp#vless-1757243501",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.225:443?flow=xtls-rprx-vision&fp=ios&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&spx=%2F&type=tcp#vless-1446915559",
     "countryCode": "us"
   },
   {
     "name": "United States 14",
-    "config": "vless://b67422ff-101b-433b-8f66-4ab282960b36@172.245.253.16:443?flow=xtls-rprx-vision&fp=chrome&pbk=Vh8dv6ENmfFd4JlPgj9-R1Fbet2m6JyRFukcVvDq5A8&security=reality&sid=e7dc2c820ba8bbd4&sni=www.apple.com&type=tcp#vless-1735035316",
+    "config": "vless://b67422ff-101b-433b-8f66-4ab282960b36@172.245.253.16:443?flow=xtls-rprx-vision&fp=random&pbk=Vh8dv6ENmfFd4JlPgj9-R1Fbet2m6JyRFukcVvDq5A8&security=reality&sid=e7dc2c820ba8bbd4&sni=www.apple.com&type=tcp#vless-1743407623",
     "countryCode": "us"
   },
   {
     "name": "United States 15",
-    "config": "vless://c9fd0fb1-8251-4106-b09a-f4b426736f67@137.184.218.169:36925?flow=xtls-rprx-vision&host=telegram-leviko_v2ray&pbk=lJ9INPpO4rdnm2Tek_yg0PGFyUrBB6MoKyvqt_Mfqm0&security=reality&sni=www.cloudflare.com&type=tcp#vless-1060914094",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.231:443?flow=xtls-rprx-vision&fp=chrome&host=%2F&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1664519192",
     "countryCode": "us"
   },
   {
     "name": "United States 16",
-    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.179:443?flow=xtls-rprx-vision&fp=ios&host=v2raynplus--v2raynplus--v2raynplus&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-472526256",
+    "config": "vless://8d36dcef-c008-47f1-b8a0-4f63193697f8@104.16.100.215:8880?host=tiny-union-8d4d.32-c76.workers.dev&path=%2Fpyip%3Dte93%C7%AA&security=none&type=ws#vless-812209852",
     "countryCode": "us"
   },
   {
+    "name": "Japan 1",
+    "config": "vless://e6df2095-a73c-4043-8693-8d5a03686870@188.114.97.6:443?alpn=http%2F1.1&host=lucasjow.us.ci&security=tls&sni=lucasjow.us.ci&type=ws#vless-1755709098",
+    "countryCode": "jp"
+  },
+  {
     "name": "United States 17",
-    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.16:443?flow=xtls-rprx-vision&fp=firefox&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-470978180",
+    "config": "vless://c423cc1b-f88e-421c-9a16-c480d84da20f@198.251.78.29:2053?fp=firefox&host=www.cloudflare.com&path=%2F&pbk=Uk5b-Wh_uxeCc7R8NS9iWE40xc0h9wWC04rSB9yhgAw&security=reality&sid=b5d625695ec82c7e&sni=www.cloudflare.com&type=tcp#vless-1269465712",
     "countryCode": "us"
   },
   {
     "name": "United States 18",
-    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.15:443?flow=xtls-rprx-vision&fp=ios&host=yahoo.com&path=%2F+&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-661025509",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.35:443?flow=xtls-rprx-vision&fp=random&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-720888843",
     "countryCode": "us"
   }
 ]
