@@ -1,27 +1,22 @@
 [
   {
-    "name": "Canada 1",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@149.22.95.183:443#shadowsocks-1827146224",
-    "countryCode": "ca"
-  },
-  {
     "name": "United States 1",
     "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@23.251.121.242:8080#shadowsocks-1827969041",
     "countryCode": "us"
   },
   {
     "name": "United States 2",
-    "config": "ss://YWVzLTI1Ni1nY206WlJwZ2FCZUd4dEVOSVhndmhwa1pCS3o5R25XUlMyZFljeDlPK2EyaXdOND0@95.215.201.18:19999#shadowsocks-1875129452",
+    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@79.110.54.250:8080#shadowsocks-1870576345",
     "countryCode": "us"
   },
   {
     "name": "United States 3",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@138.199.43.159:8080#shadowsocks-1827963904",
+    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@107.155.57.11:8080#shadowsocks-1827963705",
     "countryCode": "us"
   },
   {
     "name": "United States 4",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@107.155.57.51:8080#shadowsocks-1827963676",
+    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@107.151.182.197:8080#shadowsocks-1827962976",
     "countryCode": "us"
   },
   {
@@ -31,97 +26,102 @@
   },
   {
     "name": "United States 6",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.167:443#shadowsocks-1827146556",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 7",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.169:443#shadowsocks-1827146131",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 8",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.170:443#shadowsocks-1827146549",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 9",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@79.110.53.169:8080#shadowsocks-1828227588",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 10",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@107.151.182.253:8080#shadowsocks-1827963043",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 11",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.168:443#shadowsocks-1827146815",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 12",
     "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@173.244.56.6:443#shadowsocks-1827146375",
     "countryCode": "us"
   },
   {
+    "name": "United States 7",
+    "config": "ss://YWVzLTI1Ni1nY206WlJwZ2FCZUd4dEVOSVhndmhwa1pCS3o5R25XUlMyZFljeDlPK2EyaXdOND0@95.215.201.18:19999#shadowsocks-1875129452",
+    "countryCode": "us"
+  },
+  {
+    "name": "Canada 1",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@149.22.95.183:443#shadowsocks-1827146224",
+    "countryCode": "ca"
+  },
+  {
+    "name": "United States 8",
+    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@79.110.53.169:8080#shadowsocks-1828227588",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 9",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.170:443#shadowsocks-1827146549",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 10",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.168:443#shadowsocks-1827146815",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 11",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.169:443#shadowsocks-1827146131",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 12",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@156.146.38.167:443#shadowsocks-1827146556",
+    "countryCode": "us"
+  },
+  {
     "name": "United States 13",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@107.155.57.11:8080#shadowsocks-1827963705",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 14",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@37.19.198.160:443#shadowsocks-1827146248",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 15",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@37.19.198.244:443#shadowsocks-1827146742",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 16",
     "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@37.19.198.243:443#shadowsocks-1827146051",
     "countryCode": "us"
   },
   {
-    "name": "United States 17",
-    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@37.19.198.236:443#shadowsocks-1827146122",
+    "name": "United States 14",
+    "config": "ss://YWVzLTI1Ni1nY206WlJwZ2FCZUd4dEVOSVhndmhwa1pCS3o5R25XUlMyZFljeDlPK2EyaXdOND0@193.151.160.9:19999#shadowsocks-1875022941",
     "countryCode": "us"
   },
   {
-    "name": "United States 18",
+    "name": "United States 15",
+    "config": "ss://YWVzLTI1Ni1nY206WlJwZ2FCZUd4dEVOSVhndmhwa1pCS3o5R25XUlMyZFljeDlPK2EyaXdOND0@193.151.160.18:19999#shadowsocks-1875129451",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 16",
+    "config": "ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M@37.19.198.244:443#shadowsocks-1827146742",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 17",
     "config": "ss://YWVzLTI1Ni1nY206WlJwZ2FCZUd4dEVOSVhndmhwa1pCS3o5R25XUlMyZFljeDlPK2EyaXdOND0@185.230.230.18:19999#shadowsocks-1875023016",
     "countryCode": "us"
   },
   {
+    "name": "United States 18",
+    "config": "ss://YWVzLTI1Ni1nY206WlJwZ2FCZUd4dEVOSVhndmhwa1pCS3o5R25XUlMyZFljeDlPK2EyaXdOND0@193.151.163.18:19999#shadowsocks-1875023024",
+    "countryCode": "us"
+  },
+  {
     "name": "United States 19",
-    "config": "ss://cmM0LW1kNToxNGZGUHJiZXpFM0hEWnpzTU9yNg@107.151.182.197:8080#shadowsocks-1827962976",
+    "config": "ss://YWVzLTI1Ni1nY206WlJwZ2FCZUd4dEVOSVhndmhwa1pCS3o5R25XUlMyZFljeDlPK2EyaXdOND0@45.86.51.18:19999#shadowsocks-1875022945",
     "countryCode": "us"
   },
   {
     "name": "United States 1",
-    "config": "hy2://gf1%3Agfhysteria2024@66.94.121.46:443?insecure=1#hysteria2-1853503215",
+    "config": "hy2://bce6c821-200d-421f-bf3d-7159e5246ea0@155.248.209.237:33333?insecure=1&sni=155.248.209.2#hysteria2-1828372350",
     "countryCode": "us"
   },
   {
     "name": "United States 2",
-    "config": "hy2://bce6c821-200d-421f-bf3d-7159e5246ea0@155.248.209.237:33333?insecure=1&sni=hy2.123266.xyz#hysteria2-1853974956",
+    "config": "hy2://bce6c821-200d-421f-bf3d-7159e5246ea0@hy2.123266.xyz:33333?insecure=1&sni=hy2.123266.xyz#hysteria2-1827187993",
     "countryCode": "us"
   },
   {
     "name": "United States 3",
-    "config": "hy2://bce6c821-200d-421f-bf3d-7159e5246ea0@hy2.123266.xyz:33333?insecure=1#hysteria2-1832863515",
+    "config": "hy2://gf1%3Agfhysteria2024@66.94.121.46:443?insecure=1#hysteria2-1853503215",
     "countryCode": "us"
   },
   {
     "name": "Japan 1",
-    "config": "hy2://usqmqUKJFIlCmvkCNSY64L3k@8.209.247.109:443?insecure=1&sni=bing.com#hysteria2-1827145159",
+    "config": "hy2://u63SxILNwtrQZ7Y1ZrFaZfsA@8.211.175.236:8443?insecure=1&sni=bing.com#hysteria2-1853341683",
     "countryCode": "jp"
   },
   {
     "name": "Japan 2",
-    "config": "hy2://184cdec28da5a09450803c8debcd2cc9@138.3.208.26:50160?insecure=1&sni=1#hysteria2-1868110673",
+    "config": "hy2://usqmqUKJFIlCmvkCNSY64L3k@8.209.247.109:443?insecure=1&sni=bing.com#hysteria2-1827145159",
     "countryCode": "jp"
   },
   {
@@ -131,7 +131,7 @@
   },
   {
     "name": "Japan 4",
-    "config": "hy2://96ab5cd282733fd4c312a61f972f330a@vp3.yysyy.online:443?insecure=1#hysteria2-1880873612",
+    "config": "hy2://96ab5cd282733fd4c312a61f972f330a@vp3.yysyy.online:443?#hysteria2-1854003030",
     "countryCode": "jp"
   },
   {
@@ -140,59 +140,54 @@
     "countryCode": "jp"
   },
   {
+    "name": "Japan 6",
+    "config": "hy2://184cdec28da5a09450803c8debcd2cc9@138.3.208.26:50160?insecure=1&sni=off#hysteria2-1854030145",
+    "countryCode": "jp"
+  },
+  {
+    "name": "South Korea 1",
+    "config": "hy2://1671a252e2a97dc2bda4e515475931da@132.226.226.189:50160?insecure=1&sni=132.226.226.189#hysteria2-1853488242",
+    "countryCode": "kr"
+  },
+  {
     "name": "Taiwan 1",
-    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@103.115.109.49:443?insecure=1&sni=https%253a%252f%252ft.me%252fwangcai2#hysteria2-1830467063",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@103.115.109.49:443?insecure=1#hysteria2-1832765000",
     "countryCode": "tw"
   },
   {
     "name": "France 1",
-    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@13.36.234.11:443?insecure=1&sni=13.36.234.11#hysteria2-1853488260",
-    "countryCode": "fr"
-  },
-  {
-    "name": "South Korea 1",
-    "config": "hy2://maintell@152.70.237.123:2053?insecure=1&sni=152.70.237.123#hysteria2-1828529345",
-    "countryCode": "kr"
-  },
-  {
-    "name": "South Korea 2",
-    "config": "hy2://1671a252e2a97dc2bda4e515475931da@132.226.226.189:50160?insecure=1#hysteria2-1828529280",
-    "countryCode": "kr"
-  },
-  {
-    "name": "Taiwan 2",
-    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@vpn-tw-002.fastervpn.world:443?insecure=1&sni=www.bing.com#hysteria2-1854059937",
-    "countryCode": "tw"
-  },
-  {
-    "name": "Taiwan 3",
-    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@160.187.100.109:443?insecure=1#hysteria2-1853331609",
-    "countryCode": "tw"
-  },
-  {
-    "name": "Japan 6",
-    "config": "hy2://u63SxILNwtrQZ7Y1ZrFaZfsA@8.211.175.236:8443?insecure=1#hysteria2-1827145136",
-    "countryCode": "jp"
-  },
-  {
-    "name": "France 2",
     "config": "hy2://github.com%2FAlvin9999-newpac%2Ffanqiang@62.210.7.139:60111?insecure=1&sni=google.com#hysteria2-1853488318",
     "countryCode": "fr"
   },
   {
+    "name": "France 2",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@13.36.234.11:443?insecure=1&sni=13.36.234.11#hysteria2-1853488260",
+    "countryCode": "fr"
+  },
+  {
+    "name": "South Korea 2",
+    "config": "hy2://maintell@152.70.237.123:2053?insecure=1#hysteria2-1853341738",
+    "countryCode": "kr"
+  },
+  {
     "name": "South Korea 3",
-    "config": "hy2://3d7634af8cb2c6cb4bac1c0efad8b43d@152.67.200.82:50160?insecure=1&sni=vk.com#hysteria2-1828374270",
+    "config": "hy2://3d7634af8cb2c6cb4bac1c0efad8b43d@152.67.200.82:50160?insecure=1&sni=off#hysteria2-1854030047",
     "countryCode": "kr"
   },
   {
     "name": "Hong Kong 1",
-    "config": "hy2://b0917015b656b3dd2286b5633af0c5c1@31.57.248.176:50160?insecure=1&sni=www.bing.com%2523%25e9%25a6%2583%25e5%259a%259f%25e9%25a6%2583%25e5%259a%25a2%257chk%257c%2540wxgqlfx%257c147#hysteria2-1832766149",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.29:443?insecure=1&sni=https%3A%2F%2Ft.me%2Fwangcai2%E2%89%A1%C6%92%C3%A7%C2%BF%E2%89%A1%C6%92%C3%A7%E2%94%82#hysteria2-1853331424",
     "countryCode": "hk"
   },
   {
-    "name": "Germany 1",
-    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@3.69.232.199:443?insecure=1&sni=127.0.0.1#hysteria2-1917575832",
-    "countryCode": "de"
+    "name": "Hong Kong 2",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.89:443?insecure=1&sni=https%3A%2F%2Ft.me%2Fclashv8#hysteria2-1832765391",
+    "countryCode": "hk"
+  },
+  {
+    "name": "Hong Kong 3",
+    "config": "hy2://H7mP2xY9kJ4nQ8wR5tF6vB3z@202.146.222.174:443?insecure=1#hysteria2-1854131187",
+    "countryCode": "hk"
   },
   {
     "name": "South Korea 4",
@@ -200,108 +195,113 @@
     "countryCode": "kr"
   },
   {
+    "name": "Switzerland 1",
+    "config": "hy2://84a506ca5aca505696a454d828420b3f@140.238.213.114:50160?insecure=1&sni=www.bing.com#hysteria2-1828373530",
+    "countryCode": "ch"
+  },
+  {
     "name": "United States 1",
-    "config": "trojan://dba20dcb635e430fa4d3bfc303a149d2@216.106.186.32:443?allowInsecure=1&sni=blog.findlocaljobnetworkandbuildcommunityconnections.com&type=tcp#trojan-1875022971",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.112.142:443?allowInsecure=1&sni=cdn.unlockyourfuturefindyourperfectcareer.com&type=tcp#trojan-1930077586",
     "countryCode": "us"
   },
   {
     "name": "United States 2",
-    "config": "trojan://242a3d8eee5e4ed1a6bfa4141d549a25@www.findlocaljobnetworkandbuildcommunityconnections.com:443?allowInsecure=1&type=tcp#trojan-1924748552",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.112.13:443?allowInsecure=1&sni=66.163.112.13&type=tcp#trojan-1940485908",
     "countryCode": "us"
   },
   {
     "name": "United States 3",
-    "config": "trojan://f0eb8c92ce8946aaba856569cff1a16b@216.106.186.33:443?sni=resources.findlocaljobnetworkandbuildcommunityconnections.com&type=tcp#trojan-1874155882",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.112.76:443?allowInsecure=1&sni=66.163.112.76&type=tcp#trojan-1946218290",
     "countryCode": "us"
   },
   {
     "name": "United States 4",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@167.88.61.175:443?sni=blog.browseseniorrolesandenhanceyourcareertoday.com&type=tcp#trojan-1944436557",
+    "config": "trojan://242a3d8eee5e4ed1a6bfa4141d549a25@www.findlocaljobnetworkandbuildcommunityconnections.com:443?type=tcp#trojan-1939194009",
     "countryCode": "us"
   },
   {
     "name": "United States 5",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@167.88.61.198:443?sni=cdn.browseseniorrolesandenhanceyourcareertoday.com&type=tcp#trojan-1941512533",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.112.31:443?allowInsecure=1&sni=unlockyourfuturefindyourperfectcareer.com&type=tcp#trojan-1937002873",
     "countryCode": "us"
   },
   {
     "name": "United States 6",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.114.132:443?allowInsecure=1&sni=66.163.114.132&type=tcp#trojan-1940485917",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.112.242:443?allowInsecure=1&sni=api.nextjobopportunityandclaimyouridealrole.com&type=tcp#trojan-1935612269",
     "countryCode": "us"
   },
   {
     "name": "United States 7",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.114.114:443?allowInsecure=1&sni=66.163.114.114&type=tcp#trojan-1938560222",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.112.147:443?sni=courses.unlockyourfuturefindyourperfectcareer.com&type=tcp#trojan-1934958570",
     "countryCode": "us"
   },
   {
     "name": "United States 8",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.114.45:443?sni=cdn.findconnectwithemployersandbuildprofessionalnetwork.com&type=tcp#trojan-1935805072",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.114.45:443?sni=cdn.findconnectwithemployersandbuildprofessionalnetwork.com&type=tcp#trojan-1929965354",
     "countryCode": "us"
   },
   {
     "name": "United States 9",
-    "config": "trojan://f0eb8c92ce8946aaba856569cff1a16b@resources.findlocaljobnetworkandbuildcommunityconnections.com:443?allowInsecure=1&sni=resources.findlocaljobnetworkandbuildcommunityconnections.com&type=tcp#trojan-1874119362",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.114.106:443?allowInsecure=1&sni=www.findconnectwithemployersandbuildprofessionalnetwork.com&type=tcp#trojan-1930077596",
     "countryCode": "us"
   },
   {
     "name": "United States 10",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@167.88.61.85:443?sni=resources.browseseniorrolesandenhanceyourcareertoday.com&type=tcp#trojan-1943481639",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 11",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.114.245:443?allowInsecure=1&type=tcp#trojan-1943754336",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 12",
     "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.114.126:443?allowInsecure=1&sni=resources.findconnectwithemployersandbuildprofessionalnetwork.com&type=tcp#trojan-1935007681",
     "countryCode": "us"
   },
   {
+    "name": "United States 11",
+    "config": "trojan://ae7eb4dwyaz25pxwgq59@66.23.203.21:59689?allowInsecure=1&sni=66.23.203.21&type=tcp#trojan-1832868058",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 12",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.114.114:443?allowInsecure=1&type=tcp#trojan-1932477922",
+    "countryCode": "us"
+  },
+  {
     "name": "United States 13",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.112.76:443?allowInsecure=1&sni=66.163.112.76&type=tcp#trojan-1946215899",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.152.155.176:443?allowInsecure=1&sni=blog.nextjobopportunityandclaimyouridealrole.com&type=tcp#trojan-1931858183",
     "countryCode": "us"
   },
   {
     "name": "United States 14",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.114.166:443?sni=blog.findconnectwithemployersandbuildprofessionalnetwork.com&type=tcp#trojan-1929965362",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.152.155.23:443?allowInsecure=1&sni=courses.nextjobopportunityandclaimyouridealrole.com&type=tcp#trojan-1931858184",
     "countryCode": "us"
   },
   {
     "name": "United States 15",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.114.106:443?sni=www.findconnectwithemployersandbuildprofessionalnetwork.com&type=tcp#trojan-1931768145",
+    "config": "trojan://f0eb8c92ce8946aaba856569cff1a16b@resources.findlocaljobnetworkandbuildcommunityconnections.com:443?type=tcp#trojan-1873918577",
     "countryCode": "us"
   },
   {
+    "name": "Mexico 1",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.238.80.100:443?allowInsecure=1&sni=connectwithtopemployersandfindidealjobs.com&type=tcp#trojan-1935007687",
+    "countryCode": "mx"
+  },
+  {
     "name": "United States 16",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@167.88.61.193:443?sni=browseseniorrolesandenhanceyourcareertoday.com&type=tcp#trojan-1942154539",
+    "config": "trojan://nwilryafgkyvuxauc8pz@69.164.240.85:50875?allowInsecure=1&sni=69.164.240.85&type=tcp#trojan-1827955817",
     "countryCode": "us"
   },
   {
     "name": "United States 17",
-    "config": "trojan://ae7eb4dwyaz25pxwgq59@66.23.203.21:59689?allowInsecure=1&sni=66.23.203.21&type=tcp#trojan-1854305534",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@216.152.156.81:443?allowInsecure=1&sni=216.152.156.81&type=tcp#trojan-1940485919",
     "countryCode": "us"
   },
   {
     "name": "United States 18",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.112.13:443?allowInsecure=1&sni=api.nextjobopportunityandclaimyouridealrole.com&type=tcp#trojan-1938557363",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@169.197.140.224:443?sni=resources.discoverfreshgraduatejobsstartyourprofessionaljourney.com&type=tcp#trojan-1942154535",
     "countryCode": "us"
   },
   {
     "name": "United States 19",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.112.121:443?allowInsecure=1&sni=66.163.112.121&type=tcp#trojan-1946215896",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 20",
-    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@66.163.112.147:443?allowInsecure=1&sni=courses.unlockyourfuturefindyourperfectcareer.com&type=tcp#trojan-1935007690",
+    "config": "trojan://0ab6c98dae3b48e8b9c4a776b6c9c19a@169.197.140.214:443?allowInsecure=1&sni=courses.discoverfreshgraduatejobsstartyourprofessionaljourney.com&type=tcp#trojan-1935007698",
     "countryCode": "us"
   },
   {
     "name": "United States 1",
-    "config": "vless://c512dcbd-1847-40a2-9c99-989c8bfe4717@45.63.53.81:443?host=itunes.apple.com&path=%2Fws&pbk=6nTROV2ELz-3vNUl0A00hp378QngpYABrPgjCpUknD0&security=reality&sid=f436f707&sni=itunes.apple.com&type=ws#vless-1854018912",
+    "config": "vless://48ff2b70-e180-582f-8866-d9a2edeed5f5@15.204.97.214:23576?flow=xtls-rprx-vision&fp=chrome&pbk=1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s&security=reality&sid=01&sni=fuck.rkn&type=tcp#vless-1853340740",
     "countryCode": "us"
   },
   {
@@ -311,92 +311,92 @@
   },
   {
     "name": "United States 3",
-    "config": "vless://ce18d0eb-5c71-41f9-96e5-1632e22456e4@195.123.240.65:443?flow=xtls-rprx-vision&fp=chrome&path=%2F&pbk=StPbcmBuzpuYUfa4oZ5SI3Bq1OSF_-oU1vp2AcyvQVE&security=reality&sid=19296c9f1bf9c7b1&sni=www.cloudflare.com&type=tcp#vless-1927724275",
+    "config": "vless://c83f15bf-1817-4ec8-a19f-6393d226434c@fast.145779.xyz:2053?path=%2Fws-tesla&security=tls&sni=fast.145779.xyz&type=ws#vless-1947302187",
     "countryCode": "us"
   },
   {
     "name": "United States 4",
-    "config": "vless://ae908ff5-f749-402c-af25-e6e9aef4d6bb@45.138.100.248:10443?path=%2F&security=none&sni=45.138.100.248&type=tcp#vless-1828656714",
+    "config": "vless://c83f15bf-1817-4ec8-a19f-6393d226434c@172.67.199.126:2053?fp=chrome&host=fast.145779.xyz&path=%2Fws-tesla&security=tls&sni=fast.145779.xyz&type=ws#vless-1946224541",
     "countryCode": "us"
   },
   {
     "name": "United States 5",
-    "config": "vless://1f8cf47a-b66a-4916-979f-26edfcf44eea@185.95.231.156:443?flow=xtls-rprx-vision&fp=chrome&path=%2F&pbk=8eXftARun6KH38UZhuqIfPR1VF2DLS9RMBZEnF5k6To&security=reality&sid=a3a578ab&sni=www.apple.com&type=tcp#vless-1927185336",
+    "config": "vless://14c80e0e-f7ce-4991-94fc-99a1db4a9b1e@159.89.87.21:28190?alpn=http%2F1.1&flow=xtls-rprx-vision&fp=chrome&pbk=ZJRnFU-1s1JOnO8E9uZ7b00l1fPEh63fGRbdBANFRno&security=reality&sni=aws.amazon.com&type=tcp#vless-1854345715",
     "countryCode": "us"
   },
   {
     "name": "United States 6",
-    "config": "vless://c14ec728-3eca-4750-87fc-fd1e6aeb81d5@195.123.235.183:443?flow=xtls-rprx-vision&pbk=H3R3BUAl7thrIZsznTbb-eRREIjQOH2f3WO0oTN7OGY&security=reality&sid=a0e2a6074c6456b0&sni=gateway.icloud.com&type=tcp#vless-1867109440",
+    "config": "vless://c14ec728-3eca-4750-87fc-fd1e6aeb81d5@195.123.235.183:443?alpn=h2%2Chttp%2F1.1&flow=xtls-rprx-vision&fp=chrome&pbk=H3R3BUAl7thrIZsznTbb-eRREIjQOH2f3WO0oTN7OGY&security=reality&sid=a0e2a6074c6456b0&sni=gateway.icloud.com&type=tcp#vless-1883549617",
     "countryCode": "us"
   },
   {
     "name": "United States 7",
-    "config": "vless://00144519-7e0d-476b-8d28-435576af9262@167.17.69.171:443?flow=xtls-rprx-vision&fp=firefox&pbk=ALT8hIGeZEhi0sQFbXP_ntBg8Xo-v7i0YCLrqTnBxRk&security=reality&sid=0990d22f&sni=www.cloudflare.com&type=tcp#vless-1855694357",
+    "config": "vless://00144519-7e0d-476b-8d28-435576af9262@167.17.69.171:443?alpn=channel%40networld_vpn-channel%40networld_vpn-channel%40networld_vpn-channel%40networld_vpn-channel%40networld_vpn-channel%40networld_vpn-channel%40networld_vpn-channel%40networld_vpn%E2%95%A8%E2%8C%90%E2%95%A5%C3%BB&flow=xtls-rprx-vision&pbk=ALT8hIGeZEhi0sQFbXP_ntBg8Xo-v7i0YCLrqTnBxRk&security=reality&sid=0990d22f&sni=www.cloudflare.com&type=tcp#vless-1854334913",
     "countryCode": "us"
   },
   {
     "name": "United States 8",
-    "config": "vless://14c80e0e-f7ce-4991-94fc-99a1db4a9b1e@159.89.87.21:28190?flow=xtls-rprx-vision&fp=chrome&pbk=ZJRnFU-1s1JOnO8E9uZ7b00l1fPEh63fGRbdBANFRno&security=reality&sni=aws.amazon.com&type=tcp#vless-1853475441",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 9",
-    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.168:443?flow=xtls-rprx-vision&host=cdn8848.776676.xyz&path=%2Fchannels%2Fact&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1854346713",
+    "config": "vless://1f8cf47a-b66a-4916-979f-26edfcf44eea@185.95.231.156:443?flow=xtls-rprx-vision&pbk=8eXftARun6KH38UZhuqIfPR1VF2DLS9RMBZEnF5k6To&security=reality&sid=a3a578ab&sni=www.apple.com&type=tcp#vless-1853501628",
     "countryCode": "us"
   },
   {
     "name": "Canada 1",
-    "config": "vless://dc620cd6-a9d8-4a0f-8f18-006b895db77e@66.70.179.198:2053?fp=firefox&pbk=k4l6TxwkBbx9DhZAFpByq5rfCWFSgyOex3f_eFe9CWU&security=reality&sid=83f8317a948bb769&sni=www.cloudflare.com&type=tcp#vless-1827162767",
+    "config": "vless://dc620cd6-a9d8-4a0f-8f18-006b895db77e@66.70.179.198:2053?pbk=k4l6TxwkBbx9DhZAFpByq5rfCWFSgyOex3f_eFe9CWU&security=reality&sid=83f8317a948bb769&sni=www.cloudflare.com&type=tcp#vless-1853998083",
     "countryCode": "ca"
   },
   {
+    "name": "United States 9",
+    "config": "vless://719b9354-45e2-4718-8709-d965b64554db@2.24.124.64:443?flow=xtls-rprx-vision&fp=firefox&pbk=zpXR6Y36C8qUCIVk2p_j8C9KGeBk5xisLw66j3WFOls&security=reality&sid=9f1fc5a631ef3126&sni=www.cloudflare.com&type=tcp#vless-1832691517",
+    "countryCode": "us"
+  },
+  {
     "name": "United States 10",
-    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.202:443?flow=xtls-rprx-vision&fp=ios&host=yahoo.com&path=%2F&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1854332944",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.168:443?flow=xtls-rprx-vision&fp=ios&host=%2F%3Ftelegram--marambashi--marambashi--marambashi--marambashi&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1855690829",
     "countryCode": "us"
   },
   {
     "name": "United States 11",
-    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.89:443?alpn=networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-channel%40.networld_vpn-&flow=xtls-rprx-vision&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1854332952",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.90:443?flow=xtls-rprx-vision&fp=chrome&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1827146925",
     "countryCode": "us"
   },
   {
     "name": "United States 12",
-    "config": "vless://719b9354-45e2-4718-8709-d965b64554db@2.24.124.64:443?flow=xtls-rprx-vision&fp=chrome&path=%2F&pbk=zpXR6Y36C8qUCIVk2p_j8C9KGeBk5xisLw66j3WFOls&security=reality&sid=9f1fc5a631ef3126&sni=www.cloudflare.com&type=tcp#vless-1831115760",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.89:443?flow=xtls-rprx-vision&fp=ios&host=yahoo.com&path=%2F&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1854345720",
     "countryCode": "us"
   },
   {
     "name": "United States 13",
-    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.163:443?flow=xtls-rprx-vision&fp=chrome&host=%2F%3Ftelegram---marambashi---marambashi---marambashi---marambashi&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1946897392",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.35:443?flow=xtls-rprx-vision&fp=random&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1853341418",
     "countryCode": "us"
   },
   {
-    "name": "Canada 2",
-    "config": "vless://ca52e2b6-fb9f-4dac-b6dc-49da9923f251@209.200.246.148:443?flow=xtls-rprx-vision&pbk=uTmb-ytXsx8p0fkBz7A76SHpWk7_oVutIA4LGTE8BQk&security=reality&sid=f98843107912e782&sni=www.cloudflare.com&type=tcp#vless-1855706382",
-    "countryCode": "ca"
-  },
-  {
     "name": "United States 14",
-    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.229:443?flow=xtls-rprx-vision&fp=random&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1828149299",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.229:443?flow=xtls-rprx-vision&fp=random&host=yahoo.com&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1891839080",
     "countryCode": "us"
   },
   {
     "name": "United States 15",
-    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.74:443?flow=xtls-rprx-vision&fp=random&host=yahoo.com&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1891839087",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.202:443?flow=xtls-rprx-vision&fp=ios&host=yahoo.com&path=%2F&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1854332944",
     "countryCode": "us"
   },
   {
     "name": "United States 16",
-    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.231:443?flow=xtls-rprx-vision&fp=random&host=yahoo.com&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1886324036",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.231:443?flow=xtls-rprx-vision&fp=ios&host=yahoo.com&path=%2F&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1854344744",
     "countryCode": "us"
   },
   {
     "name": "United States 17",
-    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.35:443?flow=xtls-rprx-vision&fp=qq&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1855707135",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.74:443?flow=xtls-rprx-vision&fp=ios&host=host%3D---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir---%2540spiddy_ir&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1854333923",
     "countryCode": "us"
   },
   {
     "name": "United States 18",
-    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.90:443?flow=xtls-rprx-vision&fp=chrome&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1853439675",
+    "config": "vless://d65cc14c-f53f-4fe2-b262-97856601319c@169.40.42.163:443?flow=xtls-rprx-vision&fp=chrome&host=%2F%3Ftelegram---marambashi---marambashi---marambashi---marambashi&pbk=e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg&security=reality&sid=c39cc7310a&sni=yahoo.com&type=tcp#vless-1946897392",
     "countryCode": "us"
+  },
+  {
+    "name": "United Kingdom 1",
+    "config": "vless://8e790f25-1d71-4601-9fb0-d503931dcfca@51.89.194.151:2053?fp=chrome&host=%2F%40net2ray&path=%2F&pbk=xPEBx4wUmwAAv4ikUALNBf5wH6TRhyeQ0Q2pcNELsV0&security=reality&sid=d051f678212f9d54&sni=www.apple.com&type=tcp#vless-1935806322",
+    "countryCode": "gb"
   }
 ]
