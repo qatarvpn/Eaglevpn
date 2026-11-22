@@ -3,11 +3,10 @@ name: Update Mixed VPN Servers
 on:
   schedule:
     - cron: "45 * * * *"
-  workflow_dispatch:
 
 concurrency:
   group: update-mixed
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -23,7 +22,44 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Runs the expensive update only when 48 hours have passed
+      # since the last successfully pushed update.
+      - name: Check 48-hour interval
+        id: interval
+        shell: bash
+        run: |
+          python - <<'PY'
+          from datetime import datetime, timezone, timedelta
+          from pathlib import Path
+
+          stamp = Path(".github/server-update-last-success.txt")
+          now = datetime.now(timezone.utc)
+
+          if not stamp.exists():
+              print("No previous successful update timestamp. Starting update.")
+              run_update = True
+          else:
+              raw = stamp.read_text(encoding="utf-8").strip()
+              try:
+                  previous = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+                  if previous.tzinfo is None:
+                      previous = previous.replace(tzinfo=timezone.utc)
+                  elapsed = now - previous.astimezone(timezone.utc)
+                  run_update = elapsed >= timedelta(hours=48)
+                  print(f"Last successful update: {previous.isoformat()}")
+                  print(f"Elapsed: {elapsed}")
+                  print("48 hours passed. Starting update." if run_update
+                        else "Less than 48 hours. Skipping update.")
+              except ValueError:
+                  print("Invalid timestamp. Running update and replacing timestamp.")
+                  run_update = True
+
+          with open(__import__("os").environ["GITHUB_OUTPUT"], "a") as output:
+              output.write(f"should_run={'true' if run_update else 'false'}\n")
+          PY
+
       - name: Download country subscriptions
+        if: steps.interval.outputs.should_run == 'true'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -84,6 +120,7 @@ jobs:
           PY
 
       - name: Install sing-box (real proxy client used for testing)
+        if: steps.interval.outputs.should_run == 'true'
         shell: bash
         run: |
           set -e
@@ -103,6 +140,7 @@ jobs:
           sing-box version
 
       - name: Collect candidate servers
+        if: steps.interval.outputs.should_run == 'true'
         shell: bash
         run: |
           set -e
@@ -296,6 +334,7 @@ jobs:
           PY
 
       - name: Test servers with a real proxy connection and generate services.json
+        if: steps.interval.outputs.should_run == 'true'
         shell: bash
         run: |
           set -e
@@ -840,17 +879,25 @@ jobs:
           PY
 
       - name: Show generated JSON
+        if: steps.interval.outputs.should_run == 'true'
         run: |
           echo "================ services.json ================"
           cat services.json
           echo "================================================"
 
+      - name: Record successful update time
+        if: steps.interval.outputs.should_run == 'true'
+        shell: bash
+        run: |
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > .github/server-update-last-success.txt
+
       - name: Commit changes
+        if: steps.interval.outputs.should_run == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add services.json
+          git add services.json .github/server-update-last-success.txt
 
           if git diff --cached --quiet; then
             echo "No changes detected."
@@ -860,6 +907,7 @@ jobs:
           git commit -m "Update mixed VPN servers"
 
       - name: Rebase and push
+        if: steps.interval.outputs.should_run == 'true'
         shell: bash
         run: |
           set -e
