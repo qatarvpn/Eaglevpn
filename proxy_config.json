@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "enabled": false,
+  "proxy_type": "http",
+  "ip": "1.2.3.4",
+  "port": 8080,
+  "payload": "CONNECT [host_port] [protocol][crlf]Host: youtube.com[crlf]Service: SSH[crlf]Mode: Messaab [crlf][crlf]",
+  "protocol": "HTTP/1.1",
+  "allow_direct_fallback": false,
+  "connect_timeout_ms": 8000,
+  "response_timeout_ms": 8000,
+  "split_delay_ms": 150
+}
