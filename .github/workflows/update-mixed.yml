@@ -178,7 +178,7 @@ jobs:
           # transport (see vless_is_ws). To bring other protocols back, add their
           # names here and in the PROTOCOLS tuple of the next step
           # ("ss", "hysteria2" and "trojan" are still handled by the code).
-          PROTOCOLS = ("vless",)
+          PROTOCOLS = ("vless", "trojan", "hysteria2", "ss")
 
           # Trojan servers are kept ONLY if they use plain TCP transport,
           # and their SNI is replaced with this value.
@@ -476,8 +476,8 @@ jobs:
 
           # VLESS (WebSocket) is the only protocol now, so the target is raised
           # from 20 to 80 to keep roughly the same number of servers in total.
-          TARGET_PER_PROTOCOL = 80
-          PROTOCOLS = ("vless",)
+          TARGET_PER_PROTOCOL = 20
+          PROTOCOLS = ("vless", "trojan", "hysteria2", "ss")
 
           WORKERS = 40
           BASE_PORT = 20000
