@@ -152,7 +152,7 @@ jobs:
           import os
           import random
           import re
-          from urllib.parse import urlsplit
+          from urllib.parse import urlsplit, parse_qsl, urlencode
 
           SOURCE_DIR = "/tmp/vpn_sources"
           OUTPUT = "/tmp/candidates.json"
@@ -163,6 +163,10 @@ jobs:
           MAX_CANDIDATES = 200
 
           PROTOCOLS = ("ss", "hysteria2", "trojan", "vless")
+
+          # Trojan servers are kept ONLY if they use plain TCP transport,
+          # and their SNI is replaced with this value.
+          TROJAN_SNI = "link.snapchat.com"
 
           def decode_subscription(text):
               text = text.strip()
@@ -277,8 +281,52 @@ jobs:
 
               return None
 
+          def trojan_is_tcp(uri):
+              """True only for trojan configs using plain TCP + TLS."""
+              try:
+                  query = uri.split("#", 1)[0].partition("?")[2]
+                  q = {k.lower(): v for k, v in parse_qsl(query, keep_blank_values=True)}
+              except Exception:
+                  return False
+
+              if (q.get("type") or "tcp").lower() != "tcp":
+                  return False
+
+              if (q.get("headertype") or "none").lower() not in ("none", ""):
+                  return False
+
+              if (q.get("security") or "tls").lower() != "tls":
+                  return False
+
+              return True
+
+          def rewrite_trojan(uri):
+              """Force TCP transport and set SNI to TROJAN_SNI."""
+              base, hash_sep, frag = uri.partition("#")
+              main, _, query = base.partition("?")
+
+              params = [
+                  (k, v) for k, v in parse_qsl(query, keep_blank_values=True)
+                  if k.lower() not in (
+                      "type", "path", "host", "servicename", "headertype",
+                      "mode", "authority", "sni", "peer", "security",
+                      "allowinsecure", "insecure",
+                  )
+              ]
+
+              params += [
+                  ("security", "tls"),
+                  ("sni", TROJAN_SNI),
+                  ("type", "tcp"),
+                  # The real server certificate does not match the new SNI.
+                  ("allowInsecure", "1"),
+              ]
+
+              return main + "?" + urlencode(params) + (hash_sep + frag if hash_sep else "")
+
           pools = {p: [] for p in PROTOCOLS}
           seen_configs = {p: set() for p in PROTOCOLS}
+          skipped_trojan_non_tcp = 0
 
           files = sorted(f for f in os.listdir(SOURCE_DIR) if f.endswith(".txt"))
           print(f"Found {len(files)} country files.")
@@ -305,6 +353,11 @@ jobs:
                   if protocol is None or uri in seen_configs[protocol]:
                       continue
 
+                  # Trojan: TCP only.
+                  if protocol == "trojan" and not trojan_is_tcp(uri):
+                      skipped_trojan_non_tcp += 1
+                      continue
+
                   host = get_server_host(uri)
 
                   if not host:
@@ -312,12 +365,18 @@ jobs:
 
                   seen_configs[protocol].add(uri)
 
+                  # Trojan: change SNI (and make sure transport is tcp).
+                  if protocol == "trojan":
+                      uri = rewrite_trojan(uri)
+
                   pools[protocol].append({
                       "protocol": protocol,
                       "config": uri,
                       "countryCode": country,
                       "host": host,
                   })
+
+          print(f"Skipped non-TCP trojan configs: {skipped_trojan_non_tcp}")
 
           candidates = []
 
