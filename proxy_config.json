@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "enabled": false,
+  "enabled": true,
   "proxy_type": "http",
   "ip": "34.43.46.91",
   "port": 80,
