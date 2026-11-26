@@ -3,6 +3,12 @@ name: Update Mixed VPN Servers
 on:
   schedule:
     - cron: "45 * * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Ignore the 48-hour interval"
+        type: boolean
+        default: true
 
 concurrency:
   group: update-mixed
@@ -27,6 +33,8 @@ jobs:
       - name: Check 48-hour interval
         id: interval
         shell: bash
+        env:
+          FORCE: ${{ github.event_name == 'workflow_dispatch' && inputs.force }}
         run: |
           python - <<'PY'
           from datetime import datetime, timezone, timedelta
@@ -53,6 +61,10 @@ jobs:
               except ValueError:
                   print("Invalid timestamp. Running update and replacing timestamp.")
                   run_update = True
+
+          if __import__("os").environ.get("FORCE") == "true":
+              print("Manual run with force. Starting update.")
+              run_update = True
 
           with open(__import__("os").environ["GITHUB_OUTPUT"], "a") as output:
               output.write(f"should_run={'true' if run_update else 'false'}\n")
