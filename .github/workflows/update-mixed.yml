@@ -170,11 +170,15 @@ jobs:
           OUTPUT = "/tmp/candidates.json"
 
           # How many candidates per protocol are tested for real.
-          # Only 20 per protocol are finally kept, so we test more
+          # Only TARGET_PER_PROTOCOL are finally kept, so we test more
           # than needed to compensate for dead servers.
-          MAX_CANDIDATES = 200
+          MAX_CANDIDATES = 600
 
-          PROTOCOLS = ("ss", "hysteria2", "trojan", "vless")
+          # Only VLESS servers are collected, and only those using the WebSocket
+          # transport (see vless_is_ws). To bring other protocols back, add their
+          # names here and in the PROTOCOLS tuple of the next step
+          # ("ss", "hysteria2" and "trojan" are still handled by the code).
+          PROTOCOLS = ("vless",)
 
           # Trojan servers are kept ONLY if they use plain TCP transport,
           # and their SNI is replaced with this value.
@@ -312,6 +316,16 @@ jobs:
 
               return True
 
+          def vless_is_ws(uri):
+              """True only for VLESS links whose transport is WebSocket (type=ws)."""
+              try:
+                  query = uri.split("#", 1)[0].partition("?")[2]
+                  q = {k.lower(): v for k, v in parse_qsl(query, keep_blank_values=True)}
+              except Exception:
+                  return False
+
+              return (q.get("type") or "").strip().lower() in ("ws", "websocket")
+
           def rewrite_trojan(uri):
               """Force TCP transport and set SNI to TROJAN_SNI."""
               base, hash_sep, frag = uri.partition("#")
@@ -339,6 +353,7 @@ jobs:
           pools = {p: [] for p in PROTOCOLS}
           seen_configs = {p: set() for p in PROTOCOLS}
           skipped_trojan_non_tcp = 0
+          skipped_vless_non_ws = 0
 
           files = sorted(f for f in os.listdir(SOURCE_DIR) if f.endswith(".txt"))
           print(f"Found {len(files)} country files.")
@@ -362,12 +377,20 @@ jobs:
 
                   protocol = get_protocol(uri)
 
-                  if protocol is None or uri in seen_configs[protocol]:
+                  if protocol is None or protocol not in PROTOCOLS:
+                      continue
+
+                  if uri in seen_configs[protocol]:
                       continue
 
                   # Trojan: TCP only.
                   if protocol == "trojan" and not trojan_is_tcp(uri):
                       skipped_trojan_non_tcp += 1
+                      continue
+
+                  # VLESS: WebSocket only.
+                  if protocol == "vless" and not vless_is_ws(uri):
+                      skipped_vless_non_ws += 1
                       continue
 
                   host = get_server_host(uri)
@@ -389,6 +412,7 @@ jobs:
                   })
 
           print(f"Skipped non-TCP trojan configs: {skipped_trojan_non_tcp}")
+          print(f"Skipped non-WebSocket vless configs: {skipped_vless_non_ws}")
 
           candidates = []
 
@@ -427,8 +451,10 @@ jobs:
           OUTPUT = "services.json"
           SING_BOX = "/usr/local/bin/sing-box"
 
-          TARGET_PER_PROTOCOL = 20
-          PROTOCOLS = ("ss", "hysteria2", "trojan", "vless")
+          # VLESS (WebSocket) is the only protocol now, so the target is raised
+          # from 20 to 80 to keep roughly the same number of servers in total.
+          TARGET_PER_PROTOCOL = 80
+          PROTOCOLS = ("vless",)
 
           WORKERS = 40
           BASE_PORT = 20000
