@@ -1,47 +1,42 @@
 [
   {
-    "name": "United States 1",
-    "config": "vless://ae908ff5-f749-402c-af25-e6e9aef4d6bb@45.138.100.248:14430?fp=unsafe&host=45.138.100.248&path=%2Fvless&security=none&sni=45.138.100.248&type=ws#vless-1853353002",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 2",
-    "config": "vless://03dc60cb-a8d4-4226-93fe-0e6cbf77fe5a@uspanel.unixzone.us:30016?host=uspanel.unixzone.us&path=%2Fusserver&security=none&sni=uspanel.unixzone.us&type=ws#vless-1827148936",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 3",
-    "config": "vless://b256c867-a020-48e0-be80-1b079f2613a2@45.76.172.197:443?fp=chrome&path=%2Fws&pbk=Ag8SQ5QdqfHO9pKWA93kqGmH5EQo7Xm5Z4RbPnwPBBE&security=reality&sid=ff3597db&sni=itunes.apple.com&type=ws#vless-1880433481",
-    "countryCode": "us"
-  },
-  {
-    "name": "United States 4",
-    "config": "vless://c512dcbd-1847-40a2-9c99-989c8bfe4717@45.63.53.81:443?host=itunes.apple.com&path=%2Fws&pbk=6nTROV2ELz-3vNUl0A00hp378QngpYABrPgjCpUknD0&security=reality&sid=f436f707&sni=itunes.apple.com&type=ws#vless-1854018912",
-    "countryCode": "us"
-  },
-  {
     "name": "France 1",
     "config": "vless://6cc745e3-4eb9-46c8-a4a1-85dee7b87edc@138.124.70.41:14430?fp=unsafe&host=138.124.70.41&path=%2Fvless&security=none&sni=138.124.70.41&type=ws#vless-1853352733",
     "countryCode": "fr"
   },
   {
-    "name": "BY 1",
-    "config": "vless://1af36694-b548-4b18-89a0-bc076eab4ed7@178.172.227.124:14430?fp=firefox&host=178.172.227.124&path=%2Fvless&security=none&sni=178.172.227.124&type=ws#vless-1832691494",
-    "countryCode": "by"
+    "name": "United States 1",
+    "config": "vless://c512dcbd-1847-40a2-9c99-989c8bfe4717@45.63.53.81:443?host=itunes.apple.com&path=%2Fws&pbk=6nTROV2ELz-3vNUl0A00hp378QngpYABrPgjCpUknD0&security=reality&sid=f436f707&sni=itunes.apple.com&type=ws#vless-1854018912",
+    "countryCode": "us"
   },
   {
-    "name": "United Arab Emirates 1",
-    "config": "vless://965ffbbe-c6b6-4d5f-8dea-6d8abc55d9c0@95.174.68.188:14430?fp=unsafe&host=95.174.68.188&path=%2Fvless&security=none&sni=95.174.68.188&type=ws#vless-1853352837",
-    "countryCode": "ae"
+    "name": "United States 2",
+    "config": "vless://b256c867-a020-48e0-be80-1b079f2613a2@45.76.172.197:443?path=%2Fws&pbk=Ag8SQ5QdqfHO9pKWA93kqGmH5EQo7Xm5Z4RbPnwPBBE&security=reality&sid=ff3597db&sni=itunes.apple.com&type=ws#vless-1888152403",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 3",
+    "config": "vless://03dc60cb-a8d4-4226-93fe-0e6cbf77fe5a@uspanel.unixzone.us:30016?host=uspanel.unixzone.us&path=%2Fusserver&security=none&sni=uspanel.unixzone.us&type=ws#vless-1827148936",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 4",
+    "config": "vless://03dc60cb-a8d4-4226-93fe-0e6cbf77fe5a@69.48.201.136:30016?host=zoom.us&path=%2Fusserver&security=none&sni=zoom.us&type=ws#vless-1863754037",
+    "countryCode": "us"
+  },
+  {
+    "name": "United States 5",
+    "config": "vless://ae908ff5-f749-402c-af25-e6e9aef4d6bb@45.138.100.248:14430?fp=unsafe&host=45.138.100.248&path=%2Fvless&security=none&sni=45.138.100.248&type=ws#vless-1853353002",
+    "countryCode": "us"
   },
   {
     "name": "South Korea 1",
-    "config": "vless://27c5483f-17f4-48ae-9a04-def53d88440d@152.69.226.63:25555?path=%2F&security=none&type=ws#vless-1936326087",
+    "config": "vless://27c5483f-17f4-48ae-9a04-def53d88440d@152.69.226.63:25555?security=none&type=ws#vless-1936418362",
     "countryCode": "kr"
   },
   {
     "name": "Singapore 1",
-    "config": "vless://990bf436-f1b9-4e7f-857d-14378acc4ae5@support.zoom.us:8080?host=free.nadun.store&path=%2F&security=none&type=ws#vless-1929068625",
+    "config": "vless://990bf436-f1b9-4e7f-857d-14378acc4ae5@support.zoom.us:8080?host=free.nadun.store&path=%2F&security=none&sni=support.zoom.us&type=ws#vless-1937259329",
     "countryCode": "sg"
   },
   {
@@ -50,188 +45,28 @@
     "countryCode": "sg"
   },
   {
-    "name": "India 1",
-    "config": "vless://68512eac-cd53-4de3-8d1e-08f6e04af1a9@13.140.56.100:14430?fp=chrome&host=13.140.56.100&path=%2Fvless&security=none&sni=13.140.56.100&type=ws#vless-1828654996",
-    "countryCode": "in"
-  },
-  {
     "name": "Singapore 3",
-    "config": "vless://990bf436-f1b9-4e7f-857d-14378acc4ae5@170.114.45.6:8080?host=free.nadun.store&security=none&type=ws#vless-1939846033",
-    "countryCode": "sg"
-  },
-  {
-    "name": "Singapore 4",
     "config": "vless://990bf436-f1b9-4e7f-857d-14378acc4ae5@170.114.46.6:8080?host=free.nadun.store&path=%2F&security=none&type=ws#vless-1930539293",
     "countryCode": "sg"
   },
   {
-    "name": "United States 5",
-    "config": "vless://03dc60cb-a8d4-4226-93fe-0e6cbf77fe5a@69.48.201.136:30016?host=zoom.us&path=%2Fusserver&security=none&sni=zoom.us&type=ws#vless-1863754037",
-    "countryCode": "us"
+    "name": "Singapore 4",
+    "config": "vless://990bf436-f1b9-4e7f-857d-14378acc4ae5@170.114.45.6:8080?host=free.nadun.store&security=none&type=ws#vless-1939846033",
+    "countryCode": "sg"
   },
   {
-    "name": "Japan 1",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.17.210.74:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1832764138",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 2",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.21.0.87:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1882983900",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 3",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@43.170.8.95:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1841360022",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 4",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.24.0.1:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1921748885",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 5",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.16.10.135:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1832764134",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 6",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.17.50.227:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1831071997",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 7",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.16.0.1:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1925075170",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 8",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@154.31.114.162:8443?fp=firefox&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1856517123",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 9",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.16.10.22:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1832764144",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 10",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.16.10.2:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1863440028",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 11",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@172.67.217.240:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1853476062",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 12",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.16.111.195:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1827962637",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 13",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.24.31.89:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1828654071",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 14",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@188.114.98.0:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1884771865",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 15",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.19.48.107:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1867102735",
-    "countryCode": "jp"
-  },
-  {
-    "name": "United Arab Emirates 2",
-    "config": "vless://39947382-3212-41c9-bc3a-589574ac8b23@uae.unixzone.us:22573?fp=random&security=none&type=ws#vless-1856611531",
+    "name": "United Arab Emirates 1",
+    "config": "vless://965ffbbe-c6b6-4d5f-8dea-6d8abc55d9c0@95.174.68.188:14430?path=%2Fvless&security=none&type=ws#vless-1853499825",
     "countryCode": "ae"
   },
   {
-    "name": "Japan 16",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.21.34.106:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1863474247",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 17",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.19.164.155:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1875467606",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 18",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.27.46.35:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1831081766",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 19",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.16.10.185:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1853476976",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 20",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.17.50.53:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1831072390",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 21",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@188.114.97.6:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1828374447",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 22",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.16.111.102:443?fp=ios&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1856199614",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 23",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.21.6.186:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1863476159",
-    "countryCode": "jp"
+    "name": "BY 1",
+    "config": "vless://1af36694-b548-4b18-89a0-bc076eab4ed7@178.172.227.124:14430?fp=firefox&host=178.172.227.124&path=%2Fvless&security=none&sni=178.172.227.124&type=ws#vless-1832691494",
+    "countryCode": "by"
   },
   {
     "name": "BY 2",
     "config": "vless://b6e5dc56-836f-48c1-9163-b0b0b43b647d@178.172.227.228:14430?fp=chrome&host=178.172.227.228&path=%2Fvless&security=none&sni=178.172.227.228&type=ws#vless-1828140795",
     "countryCode": "by"
-  },
-  {
-    "name": "Japan 24",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.19.33.25:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1863468525",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 25",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@152.69.200.216:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1853489197",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 26",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.21.70.228:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1828654076",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 27",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.16.10.72:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1843512959",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 28",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.16.10.56:443?host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1831066899",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 29",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@162.159.254.3:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1827152273",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 30",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.21.33.59:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1828374596",
-    "countryCode": "jp"
-  },
-  {
-    "name": "Japan 31",
-    "config": "vless://4e4f1f70-5e56-4a76-bb9d-db087f4690c4@104.18.42.98:443?fp=chrome&host=jp3.yohototo.top&path=%2Ftyxyws&security=tls&sni=jp3.yohototo.top&type=ws#vless-1853969359",
-    "countryCode": "jp"
   }
 ]
