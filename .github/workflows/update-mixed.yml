@@ -184,6 +184,16 @@ jobs:
           # and their SNI is replaced with this value.
           TROJAN_SNI = "link.snapchat.com"
 
+          # European countries get priority in the candidate list.
+          EUROPE_COUNTRIES = {
+              "gb", "uk", "de", "fr", "nl", "se", "fi", "no", "dk", "is", "ie",
+              "es", "pt", "it", "ch", "at", "be", "lu", "pl", "cz", "sk", "hu",
+              "ro", "bg", "gr", "hr", "si", "rs", "ba", "mk", "al", "me", "ua",
+              "md", "lt", "lv", "ee", "cy", "mt", "tr",
+          }
+          # Share of the tested candidates that should be European.
+          EUROPE_SHARE = 0.7
+
           def decode_subscription(text):
               text = text.strip()
 
@@ -419,8 +429,21 @@ jobs:
           for protocol in PROTOCOLS:
               items = pools[protocol]
               random.shuffle(items)
-              print(f"{protocol:10s}: {len(items)} available, testing {min(len(items), MAX_CANDIDATES)}")
-              candidates.extend(items[:MAX_CANDIDATES])
+
+              europe_items = [i for i in items if i["countryCode"] in EUROPE_COUNTRIES]
+              other_items = [i for i in items if i["countryCode"] not in EUROPE_COUNTRIES]
+
+              europe_quota = int(MAX_CANDIDATES * EUROPE_SHARE)
+              chosen = europe_items[:europe_quota]
+              chosen += other_items[:MAX_CANDIDATES - len(chosen)]
+
+              # If there are not enough non-European servers, fill with more European ones.
+              if len(chosen) < MAX_CANDIDATES:
+                  chosen += europe_items[europe_quota:europe_quota + MAX_CANDIDATES - len(chosen)]
+
+              print(f"{protocol:10s}: {len(items)} available "
+                    f"({len(europe_items)} European), testing {len(chosen)}")
+              candidates.extend(chosen)
 
           with open(OUTPUT, "w", encoding="utf-8") as f:
               json.dump(candidates, f, ensure_ascii=False)
@@ -460,6 +483,14 @@ jobs:
           BASE_PORT = 20000
           CURL_TIMEOUT = 10
 
+          EUROPE_COUNTRIES = {
+              "gb", "uk", "de", "fr", "nl", "se", "fi", "no", "dk", "is", "ie",
+              "es", "pt", "it", "ch", "at", "be", "lu", "pl", "cz", "sk", "hu",
+              "ro", "bg", "gr", "hr", "si", "rs", "ba", "mk", "al", "me", "ua",
+              "md", "lt", "lv", "ee", "cy", "mt", "tr",
+          }
+          EUROPE_SHARE = 0.7
+
           # A server is "working" only if real traffic passes through it:
           #  1) HTTPS request through the proxy returns 204 on two
           #     independent endpoints.
@@ -491,6 +522,12 @@ jobs:
               "nz": "New Zealand", "ph": "Philippines", "pk": "Pakistan",
               "bd": "Bangladesh", "ar": "Argentina", "cl": "Chile",
               "co": "Colombia", "pe": "Peru",
+              "uk": "United Kingdom", "lu": "Luxembourg", "is": "Iceland",
+              "sk": "Slovakia", "hu": "Hungary", "bg": "Bulgaria", "hr": "Croatia",
+              "si": "Slovenia", "rs": "Serbia", "lt": "Lithuania", "lv": "Latvia",
+              "ee": "Estonia", "md": "Moldova", "cy": "Cyprus", "mt": "Malta",
+              "al": "Albania", "ba": "Bosnia and Herzegovina", "mk": "North Macedonia",
+              "me": "Montenegro",
           }
 
           IP_RE = re.compile(r"^(\d{1,3}(\.\d{1,3}){3}|[0-9a-fA-F:]{3,45})$")
@@ -904,6 +941,7 @@ jobs:
 
           # ------------------------------------------------------------
           # Selection: only WORKING servers, one host used once globally.
+          # European servers are picked first (up to EUROPE_SHARE).
           # ------------------------------------------------------------
 
           host_protocols = {}
@@ -926,6 +964,23 @@ jobs:
 
           # Scarcest protocol picks first so it is not starved.
           for p in sorted(PROTOCOLS, key=lambda x: len(working[x])):
+              europe_quota = int(TARGET_PER_PROTOCOL * EUROPE_SHARE)
+
+              # Pass 1: European servers first, up to the quota.
+              for item in working[p]:
+                  if len(selected[p]) >= europe_quota:
+                      break
+
+                  if item["countryCode"].lower() not in EUROPE_COUNTRIES:
+                      continue
+
+                  if item["host"] in seen_hosts:
+                      continue
+
+                  seen_hosts.add(item["host"])
+                  selected[p].append(item)
+
+              # Pass 2: fill the rest with the best remaining servers.
               for item in working[p]:
                   if len(selected[p]) >= TARGET_PER_PROTOCOL:
                       break
